@@ -8,7 +8,7 @@ const openFeed = (feedName) => {
   console.log('I am here', feedName);
   const currLoc = $(location).attr('href');
   const url = new URL(currLoc);
-  const site = url.host === 'solacecommunity.github.io' ? 'solacecommunity.github.io' : '';
+  const site = url.host === 'solacecommunity.github.io' ? 'solacecommunity.github.io/' : '';
   console.log('URL', `http://${url.host}/${site}feed.html?feed=${feedName}`);
   window.open(`http://${url.host}/${site}feed.html?feed=${feedName}`, '_blank')
 }
