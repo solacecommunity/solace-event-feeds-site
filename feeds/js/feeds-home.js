@@ -8,8 +8,9 @@ const openFeed = (feedName) => {
   console.log('I am here', feedName);
   const currLoc = $(location).attr('href');
   const url = new URL(currLoc);
-  console.log('URL', `http://${url.host}/feed.html?feed=${feedName}`);
-  window.open(`http://${url.host}/feed.html?feed=${feedName}`, '_blank')
+  const site = url.host === 'solacecommunity.github.io/' ? 'solacecommunity.github.io/' : '';
+  console.log('URL', `http://${url.host}/${site}feed.html?feed=${feedName}`);
+  window.open(`http://${url.host}/${site}feed.html?feed=${feedName}`, '_blank')
 }
 
 const getUser = async (url) => {
@@ -94,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
             <div class="ps-3">
               <h6><a href="${data[i].github}" target="_blank">${data[i].name}</a> </h6>
-              <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].contributor}" target="_blank">${contributor.name}</a></div> 
+              <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
             </div>
           </div>
           <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
@@ -138,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!ids.includes(feeds.documents[i].github))
         continue;
 
-      var contributor = await getUser(`https://api.github.com/users/${data[i].contributor}`);
+      var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
   
       var feed = `
       <div class="col-xl-6">
@@ -152,7 +153,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               </div>
               <div class="ps-3">
                 <h6><a href="${data[i].github}" target="_blank">${data[i].name}</a> </h6>
-                <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].contributor}" target="_blank">${contributor.name}</a></div> 
+                <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
               </div>
             </div>
             <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
@@ -240,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!ids.includes(data[i].github))
         continue;
 
-      var contributor = await getUser(`https://api.github.com/users/${data[i].contributor}`);
+      var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
   
       var feed = `
       <div class="col-xl-6">
@@ -254,7 +255,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               </div>
               <div class="ps-3">
                 <h6><a href="${data[i].github}" target="_blank">${data[i].name}</a> </h6>
-                <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].contributor}" target="_blank">${contributor.name}</a></div> 
+                <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
               </div>
             </div>
             <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
@@ -268,7 +269,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }</div>
               </div>
               <div class="ps-3 d-flex align-right">
-                <button type="button" class="btn btn-outline-primary" onclick="openFeed('${data[i].github}')">Open</button>
+                <button type="button" class="btn btn-outline-primary" onclick="openFeed('${data[i].name}')">Open</button>
               </div>
             </div>
   
