@@ -84,13 +84,14 @@ class Feed extends IFeed {
         message: "Feed name missing!"
       })
     }
-    var info = await getGitFile(communityUserName, communityRepoName, `${feedName}/feedinfo.json`);
+
+    var info = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedinfo.json`);
     this.setFeedParam("info", info);
-    var rules = await getGitFile(communityUserName, communityRepoName, `${feedName}/feedrules.json`);
+    var rules = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedrules.json`);
     this.setFeedParam("rules", rules);
-    var schemas = await getGitFile(communityUserName, communityRepoName, `${feedName}/feedschemas.json`);
+    var schemas = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedschemas.json`);
     this.setFeedParam("schemas", schemas);
-    var analysis = await getGitFile(communityUserName, communityRepoName, `${feedName}/analysis.json`);
+    var analysis = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/analysis.json`);
     this.setFeedParam("analysis", analysis);
   }
 
@@ -180,7 +181,7 @@ async function readFile (path) {
   }
 }
 
-async function getGitFile (owner, repo, path) { 
+async function getCommunityFeed (owner, repo, path) { 
   let data = await fetch (
     `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
   )
@@ -194,19 +195,4 @@ async function getGitFile (owner, repo, path) {
     .then (d => JSON.parse (atob (d.content)));
 
   return data;
-}
-
-const getLocalFeeds = () => {
-  const feedPath = processPlainPath(`${defaultStmFeedsHome}`);
-  var localFeeds = [];
-  const files = fs.readdirSync(`${feedPath}`);
-  files.forEach((fileName) => {
-    var filePath = `${feedPath}/${fileName}`
-    var stat = fs.lstatSync(filePath);
-    if (stat.isDirectory() && fs.existsSync(`${filePath}/${defaultFeedInfoFile}`)) {
-      localFeeds.push(fileName)
-    }
-  })
-
-  return localFeeds;
 }

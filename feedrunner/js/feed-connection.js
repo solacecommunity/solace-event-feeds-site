@@ -452,7 +452,7 @@ function connectButtonClicked(callback = null) {
       headers.set('Content-Type', 'text/plain');
       headers.set('Solace-Delivery-Mode', 'direct');
 
-      var postUrl = generateUrl() + '/default/test';
+      var postUrl = generateUrl() + `/${currentConnSettings.username}/test`;
       console.log(postUrl);
       fetch(postUrl, {
         method: 'POST',

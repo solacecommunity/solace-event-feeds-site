@@ -398,11 +398,14 @@ Tiles - Event Feeds
 }
 
 .text-description {
-  min-height: 120px;
+  height: 120px;
   max-height: 120px;
   overflow: scroll;
 }
 
+.info-card .feed-tile {
+  font-size: 20px !important;
+}
 .cart-tile {
   height: 320px !important;
 }
