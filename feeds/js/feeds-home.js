@@ -45,6 +45,7 @@ const buildLunrIndex = async (data) => {
     this.field('description')
     this.field('contributor')
     this.field('name')
+    this.field('source')
     this.field('description')
     this.field('domain')
     this.field('tags')
@@ -86,8 +87,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     var feed = `
     <div class="col-xl-6">
       <div class="card info-card customers-card">
-        <div class="card-body">
-          <h5 class="card-title">${data[i].type}</h5>
+        <div class="card-body cart-tile">
+          <h5 class="card-title">
+            <div class="d-flex align-center space-between">
+              <span>${data[i].type}</span>
+              <span>Source: Community</span>
+            </div>
+          </h5>
 
           <div class="d-flex align-items-center">
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -98,7 +104,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
             </div>
           </div>
-          <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
+          <div class="text-muted text-description small pt-2 ps-1">${data[i].description}</div>
           <div class="d-flex align-center space-between">
             <div class="ps-3">
               <div class="text-muted small pt-2 ps-1 fw-bold">Domain: ${
@@ -120,6 +126,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     parent.append( feed);
 
+  }
+
+  const currLoc = $(location).attr('href');
+  const url = new URL(currLoc);
+  if (url.hostname === 'localhost') {
+    var localData = await getLocalFeeds();
+    console.log(localData);
   }
 
   await buildLunrIndex(data);
@@ -144,8 +157,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       var feed = `
       <div class="col-xl-6">
         <div class="card info-card customers-card">
-          <div class="card-body">
-            <h5 class="card-title">${data[i].type}</h5>
+          <div class="card-body cart-tile">
+            <h5 class="card-title">
+              <div class="d-flex align-center space-between">
+                <span>${data[i].type}</span>
+                <span>Source: Community</span>
+              </div>
+            </h5>
   
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -156,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
               </div>
             </div>
-            <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
+            <div class="text-muted text-description small pt-2 ps-1">${data[i].description}</div>
             <div class="d-flex align-center space-between">
               <div class="ps-3">
                 <div class="text-muted small pt-2 ps-1 fw-bold">Domain: ${
@@ -246,7 +264,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       var feed = `
       <div class="col-xl-6">
         <div class="card info-card customers-card">
-          <div class="card-body">
+          <div class="card-body cart-tile">
             <h5 class="card-title">${data[i].name}</h5>
   
             <div class="d-flex align-items-center">
@@ -258,7 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="text-danger small pt-1 fw-bold">Contributor: <a href="https://github.com/${data[i].github}" target="_blank">${contributor.name}</a></div> 
               </div>
             </div>
-            <div class="text-muted small pt-2 ps-1">${data[i].description}</div>
+            <div class="text-muted text-description small pt-2 ps-1">${data[i].description}</div>
             <div class="d-flex align-center space-between">
               <div class="ps-3">
                 <div class="text-muted small pt-2 ps-1 fw-bold">Domain: ${

@@ -397,6 +397,15 @@ Tiles - Event Feeds
   color: #fff !important;
 }
 
+.text-description {
+  min-height: 120px;
+  overflow: scroll;
+}
+
+.cart-tile {
+  height: 320px !important;
+}
+
 .wrap-text {
   word-break: break-all;
 }

@@ -4,8 +4,8 @@ var currentConnSettings = {
   transport: "non",
   host: "localhost",
   vpn: 'default',
-  username: "aaron",
-  password: "",
+  username: "default",
+  password: "default",
   // do these two belong here?  Maybe outside of connection params
   qos: 'direct',    // SMF, REST: 0 == direct, 1 == persistent/guaranteed
   msgType: 'text'    // SMF only: either 'text' or 'bytes'
@@ -452,7 +452,7 @@ function connectButtonClicked(callback = null) {
       headers.set('Content-Type', 'text/plain');
       headers.set('Solace-Delivery-Mode', 'direct');
 
-      var postUrl = generateUrl() + '/aaron/test';
+      var postUrl = generateUrl() + '/default/test';
       console.log(postUrl);
       fetch(postUrl, {
         method: 'POST',
@@ -460,7 +460,6 @@ function connectButtonClicked(callback = null) {
         // cache: 'no-cache',
         mode: "no-cors",
         // headers: headers
-        // headers: { "Authorization": 'Basic ' + btoa('aaron:aaron') } //currentConnSettings.username + ":" + currentConnSettings.password) }
         headers: { "Authorization": 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password) }
       })
         .then(response => {

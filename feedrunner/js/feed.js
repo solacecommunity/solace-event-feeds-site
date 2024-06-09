@@ -195,3 +195,18 @@ async function getGitFile (owner, repo, path) {
 
   return data;
 }
+
+export const getLocalFeeds = () => {
+  const feedPath = processPlainPath(`${defaultStmFeedsHome}`);
+  var localFeeds = [];
+  const files = fs.readdirSync(`${feedPath}`);
+  files.forEach((fileName) => {
+    var filePath = `${feedPath}/${fileName}`
+    var stat = fs.lstatSync(filePath);
+    if (stat.isDirectory() && fs.existsSync(`${filePath}/${defaultFeedInfoFile}`)) {
+      localFeeds.push(fileName)
+    }
+  })
+
+  return localFeeds;
+}
