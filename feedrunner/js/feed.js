@@ -1,5 +1,6 @@
 class IFeed {
   feedName = undefined;
+  source = 'community'
   feed = {};
 
   // CONSTRUCTOR
@@ -7,8 +8,9 @@ class IFeed {
   /**
    * @param {string} feedName - event feed name
    */
-  constructor (feedName) {
+  constructor (feedName, source) {
     this.feedName = feedName;
+    this.source = source;
   }
 
   /**
@@ -73,8 +75,8 @@ class IFeed {
 
 
 class Feed extends IFeed {
-  constructor(gitUrl) {
-    super(gitUrl);
+  constructor(gitUrl, source) {
+    super(gitUrl, source);
   }
 
   async initialize () {
@@ -85,14 +87,35 @@ class Feed extends IFeed {
       })
     }
 
-    var info = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedinfo.json`);
-    this.setFeedParam("info", info);
-    var rules = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedrules.json`);
-    this.setFeedParam("rules", rules);
-    var schemas = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedschemas.json`);
-    this.setFeedParam("schemas", schemas);
-    var analysis = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/analysis.json`);
-    this.setFeedParam("analysis", analysis);
+    if (source === 'community') {
+      var info = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedinfo.json`);
+      this.setFeedParam("info", info);
+      var rules = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedrules.json`);
+      this.setFeedParam("rules", rules);
+      if (info.type === 'asyncapi_feed') {
+        var schemas = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedschemas.json`);
+        this.setFeedParam("schemas", schemas);
+        var analysis = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/analysis.json`);
+        this.setFeedParam("analysis", analysis);
+      } else if (info.type === 'restapi_feed') {
+        var api = await getCommunityFeed(communityUserName, communityRepoName, `${feedName}/feedapi.json`);
+        this.setFeedParam("api", api);
+      }
+    } else {
+      var info = await getLocalFeed(feedName, 'feedinfo.json');
+      this.setFeedParam("info", info);
+      var rules = await getLocalFeed(feedName, 'feedrules.json');
+      this.setFeedParam("rules", rules);
+      if (info.type === 'asyncapi_feed') {
+        var schemas = await getLocalFeed(feedName, 'feedschemas.json');
+        this.setFeedParam("schemas", schemas);
+        var analysis = await getLocalFeed(feedName, 'analysis.json');
+        this.setFeedParam("analysis", analysis);
+      } else if (info.type === 'restapi_feed') {
+        var api = await getLocalFeed(feedName, 'feedapi.json');
+        this.setFeedParam("api", api);
+      }
+    }
   }
 
   getInfo () {
@@ -102,7 +125,7 @@ class Feed extends IFeed {
     console.log(info);
     
     var analysis = this.getFeedParam("analysis");
-    if (!analysis) {
+    if (info.type === 'asyncapi_feed' && !analysis) {
       return ({
         status: false,
         message: "Feed not initialized!"
@@ -110,6 +133,7 @@ class Feed extends IFeed {
     }
 
     info = {
+      type: info.type,
       version: analysis.info.version,
       asyncApiFile: analysis.fileName,
       asyncApiVersion: analysis.version,
@@ -122,34 +146,53 @@ class Feed extends IFeed {
     return info;
   }
 
-  getReceiveMessages() {
+  getSendMessages() {
     var messages = [];
-    let rules = this.getFeedParam('rules');
-    let analysis = this.getFeedParam('analysis');
-    if (analysis && analysis.messages) {
-      var msgNames = Object.keys(analysis.messages);
-      msgNames.forEach(msg => {
-        if (analysis.messages[msg].send?.length) {
-          for (var i=0; i<analysis.messages[msg].send.length; i++) {
-            var data = {
-              messageName: msg,
-              description: analysis.messages[msg].send[i].message.description,
-              topicName: analysis.messages[msg].send[i].topicName,
-              hasPayload: analysis.messages[msg].hasPayload,
-              schema: analysis.messages[msg].schema,
-            };
+    var info = this.getFeedParam('info');
+    if (info.type === 'asyncapi_feed') {
+      let rules = this.getFeedParam('rules');
+      let analysis = this.getFeedParam('analysis');
+      if (analysis && analysis.messages) {
+        var msgNames = Object.keys(analysis.messages);
+        msgNames.forEach(msg => {
+          if (analysis.messages[msg].send?.length) {
+            for (var i=0; i<analysis.messages[msg].send.length; i++) {
+              var data = {
+                messageName: msg,
+                description: analysis.messages[msg].send[i].message.description,
+                topicName: analysis.messages[msg].send[i].topicName,
+                hasPayload: analysis.messages[msg].hasPayload,
+                schema: analysis.messages[msg].schema,
+              };
 
-            if (rules) {
-              var rule = rules.find(el => el.messageName === msg);
-              data.count = rule ? rule.publishSettings.count : 20;
-              data.interval = rule ? rule.publishSettings.interval : 1;
-              data.delay = rule ? rule.publishSettings.delay : 0;
+              if (rules) {
+                var rule = rules.find(el => el.messageName === msg);
+                data.count = rule ? rule.publishSettings.count : 20;
+                data.interval = rule ? rule.publishSettings.interval : 1;
+                data.delay = rule ? rule.publishSettings.delay : 0;
+              }
+              
+              messages.push(data);
             }
-            
-            messages.push(data);
           }
-        }
-      })      
+        })
+      }  
+    } else if (info.type === 'restapi_feed') {
+      var api = this.getFeedParam('api');
+      var data = {
+        messageName: info.name,
+        simplifiedName: info.name.replaceAll(' ', '').toLowerCase(),
+        description: info.description,
+        topicName: api.topic,
+        apiUrl: api.apiUrl,
+      };
+
+      let rules = this.getFeedParam('rules');
+      data.count = rules ? rules.publishSettings.count : 20;
+      data.interval = rules ? rules.publishSettings.interval : 1;
+      data.delay = rules ? rules.publishSettings.delay : 0;
+      
+      messages.push(data);
     }
 
     return messages;
@@ -160,8 +203,8 @@ function printHello(str) {
   console.log('Hello', str);
 }
 
-async function getFeed(feedName) {
-  var feed = new Feed(feedName);
+async function getFeed(feedName, source) {
+  var feed = new Feed(feedName, source);
   await feed.initialize();
   return feed;
 }
@@ -180,8 +223,15 @@ async function readFile (path) {
     }
   }
 }
-
 async function getCommunityFeed (owner, repo, path) { 
+  let data = await fetch (
+    `https://raw.githubusercontent.com/${owner}/${repo}/main/${path}`
+  )
+  .then (d => d.json ())
+  return data;
+}
+
+async function getCommunityFeedUsingAPI (owner, repo, path) { 
   let data = await fetch (
     `https://api.github.com/repos/${owner}/${repo}/contents/${path}`
   )
@@ -195,4 +245,24 @@ async function getCommunityFeed (owner, repo, path) {
     .then (d => JSON.parse (atob (d.content)));
 
   return data;
+}
+
+async function getLocalFeed(feedName, fileName) {
+  const path = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+  try {
+    var feed = await fetch(path + `/localfeed`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body: JSON.stringify({
+        feedName: feedName,
+        fileName: fileName
+      }),
+    })
+    .then (d => d.json ());
+    return feed.content;
+  } catch (error) {
+    console.log(error);
+  }
 }
