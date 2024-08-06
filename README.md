@@ -19,7 +19,8 @@ This is not an officially supported Solace product.
 For more information try these resources:
 - Ask the [Solace Community](https://solace.community)
 - The Solace Developer Portal website at: https://solace.dev
-
+## Github Pages
+https://solacecommunity.github.io/solace-event-feeds-site/
 
 ## Contributing
 Contributions are encouraged! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
