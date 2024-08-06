@@ -1,4 +1,5 @@
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d856a3bf-86d1-4192-90b6-f348832f231e/deploy-status)](https://app.netlify.com/sites/solace-feeds/deploys)
 
 # Project Title
 
