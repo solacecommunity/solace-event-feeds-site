@@ -66,8 +66,8 @@ const filterByType = (evt) => {
 }
 
 const filterBySource = (evt) => {
+  if (localStorage.getItem('isLocal') === 'false') return;
   var data = evt.dataset;
-  console.log(data)
   var searchInput = document.querySelector('.js-shuffle-search');
   searchInput.value = `source:${data.source}`;
   searchInput.dispatchEvent(new window.Event('keyup', { bubbles: true }));
@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   var isLocal = localStorage.getItem('isLocal');
   if (isLocal === 'true') isLocal = true;
   else isLocal = false;
+
   if (isLocal) {
     try {
       const path = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
@@ -107,16 +108,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
       .then(d => d.json());;
     } catch (error) {
-      console.log(error);
+      isLocal = false;
+      localStorage.setItem('isLocal', false);
     }
-  } else {
-    try {
-      var communityFeeds = await fetch(`${communityRepoRawUrl}/${communityUserName}/${communityRepoName}/main/${communityFeedsJson}`)
-        .then(d => d.json());
-      allFeeds['communityFeeds'] = communityFeeds;
-    } catch (error) {
-      console.log(error);
-    }
+  } 
+
+  try {
+    var communityFeeds = await fetch(`${communityRepoRawUrl}/${communityUserName}/${communityRepoName}/main/${communityFeedsJson}`)
+      .then(d => d.json());
+    allFeeds['communityFeeds'] = communityFeeds;
+  } catch (error) {
+    console.log(error);
   }
 
   console.log(allFeeds);
@@ -126,6 +128,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (localStorage.getItem('view') === 'grid') {
     var parent = $('#feeds-grid');
+    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+      `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>` :
+      `<span></span>`;
+
     for (var i=0; i<allFeeds?.communityFeeds.length; i++) {
       // var contributor = await getUser(`https://api.github.com/users/${feeds?.communityFeeds[i].github}`);
       allFeeds['communityFeeds'][i]['source'] = 'community';
@@ -136,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h5 class="card-title">
               <div class="d-flex align-center space-between">
                 <span><span data-type="${allFeeds?.communityFeeds[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${allFeeds?.communityFeeds[i].type}</span></span>
-                <span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>
+                ${feedTypeSpan}
               </div>
             </h5>
 
@@ -178,7 +184,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (isLocal) {
-      for (var i=0; i<allFeeds?.localFeeds.length; i++) {
+      var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+        `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">local</span></span>` :
+        `<span></span>`;
+      for (var i=0; i<allFeeds?.localFeeds?.length; i++) {
         // var contributor = await getUser(`https://api.github.com/users/${feeds?.localFeeds[i].github}`);
         allFeeds['localFeeds'][i]['source'] = 'local';
         var feed = `
@@ -187,8 +196,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="card-body cart-tile">
               <h5 class="card-title">
                 <div class="d-flex align-center space-between">
-                <span><span data-type="${allFeeds?.localFeeds[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${allFeeds?.localFeeds[i].type}</span></span>
-                  <span><span data-source="local" onclick="filterBySource(this)" class="nav-link-button badge">local</span></span>
+                  <span><span data-type="${allFeeds?.localFeeds[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${allFeeds?.localFeeds[i].type}</span></span>
+                  ${feedTypeSpan}
                 </div>
               </h5>
 
@@ -241,6 +250,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // </tr>
 
     var parent = $('#feeds-table-body');
+    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+      `<div class="badge bg-dark">community</div>` :
+      `<div></div>`;
     for (var i=0; i<allFeeds?.communityFeeds.length; i++) {
       // var contributor = await getUser(`https://api.github.com/users/${feeds?.communityFeeds[i].github}`);
       allFeeds['communityFeeds'][i]['source'] = 'community';
@@ -252,7 +264,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="feed-table-info">
             <h6 class="feed-tile fw-bold"><a href="https://github.com/solacecommunity/solace-event-feeds/tree/main/${allFeeds?.communityFeeds[i].name}" target="_blank">${allFeeds?.communityFeeds[i].name}</a> </h6>
             <div class="text-muted text-description small pt-2 ps-1">${allFeeds?.communityFeeds[i].description}</div>
-            <div class="badge bg-dark">Community</div>
+            ${feedTypeSpan}
           </div>
         </td>
         <td>
@@ -291,7 +303,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (isLocal) {
-      for (var i=0; i<allFeeds?.localFeeds.length; i++) {
+      var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+        `<div class="badge bg-dark">local</div>` :
+        `<div></div>`;
+      for (var i=0; i<allFeeds?.localFeeds?.length; i++) {
         // var contributor = await getUser(`https://api.github.com/users/${feeds?.communityFeeds[i].github}`);
         allFeeds['localFeeds'][i]['source'] = 'local';
         var feed = `
@@ -302,7 +317,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="feed-table-info">
               <h6 class="feed-tile fw-bold">${allFeeds?.localFeeds[i].name}</h6>
               <div class="text-muted text-description small pt-2 ps-1">${allFeeds?.localFeeds[i].description}</div>
-              <div class="badge bg-dark">Local</div>
+              ${feedTypeSpan}
             </div>
           </td>
           <td>
@@ -369,21 +384,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     parent.empty();
     
     var ids = results.map(r => r.ref);
+    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+      `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>` :
+      `<span></span>`;
     for (var i=0; i<feeds.documents.length; i++) {
       if (!ids.includes(shortHash(feeds.documents[i].source + '::' + feeds.documents[i].name + '::' + feeds.documents[i].type + '::' + feeds.documents[i].contributor)))
         continue;
 
       // var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
-      console.log('I am here', data[i].name, data[i].source, data[i].type);
-
+      // console.log('I am here', data[i].name, data[i].source, data[i].type);
+      
       var feed = `
       <div class="col-xl-4">
         <div class="card info-card customers-card">
           <div class="card-body cart-tile">
             <h5 class="card-title">
               <div class="d-flex align-center space-between">
-              <span><span data-type="${data[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${data[i].type}</span></span>
-                <span><span data-source="local" onclick="filterBySource(this)" class="nav-link-button badge">local</span></span>
+                <span><span data-type="${data[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${data[i].type}</span></span>
+                ${feedTypeSpan}
               </div>
             </h5>
 
@@ -487,7 +505,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     var parent = $('#feeds-grid');
     parent.empty();
-    
+    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+      `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>` :
+      `<span></span>`;
+
     for (var i=0; i<data.length; i++) {
       if (!ids.includes(shortHash(data[i].source + '::' + data[i].name + '::' + data[i].type + '::' + data[i].contributor)))
         continue;
@@ -501,7 +522,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <h5 class="card-title">
               <div class="d-flex align-center space-between">
                 <span data-type="${data[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${data[i].type}</span>
-                <span data-source="${data[i].source}" onclick="filterBySource(this)" class="nav-link-button badge">${data[i].source}</span>
+                ${feedTypeSpan}
               </div>
             </h5>
   
@@ -603,4 +624,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     else
       els[i].style.display = 'block';
   }
+
+  if (localStorage.getItem('isLocal') === 'true') 
+    $('#exit-tool').css('display', 'block');
+  else 
+    $('#exit-tool').css('display', 'none');
 });
