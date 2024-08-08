@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (isLocal) {
       var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
-        `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">local</span></span>` :
+        `<span><span data-source="local" onclick="filterBySource(this)" class="nav-link-button badge">local</span></span>` :
         `<span></span>`;
       for (var i=0; i<allFeeds?.localFeeds?.length; i++) {
         // var contributor = await getUser(`https://api.github.com/users/${feeds?.localFeeds[i].github}`);
@@ -246,6 +246,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     //   <th>Domain</th>         <!-- Domain -->
     //   <th>Tag(s)</th>         <!-- Tags -->
     //   <th>Contributor</th>    <!-- Contributor -->
+    //   <th>Last Updated</th>   <!-- Last Updated -->
     //   <th></th>               <!-- Action -->
     // </tr>
 
@@ -288,6 +289,11 @@ document.addEventListener("DOMContentLoaded", async () => {
               `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span>${allFeeds?.communityFeeds[i].contributor}</div>`
             ) +
         `</div>
+        </td>
+        <td>
+          <div class="ps-3">
+            <div class="small pt-1 fw-bold"><span class="anon-contributor">${new Date(allFeeds?.communityFeeds[i].lastUpdated).toLocaleString()}</div>
+          </div>
         </td>
         <td style="vertical-align: middle;">
           <div class="ps-3 d-flex align-right">
@@ -342,6 +348,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             ) +
             `</div>
           </td>
+          <td>
+            <div class="ps-3">
+              <div class="small pt-1 fw-bold"><span class="anon-contributor">${new Date(allFeeds?.localFeeds[i].lastUpdated).toLocaleString()}</div>
+            </div>
+          </td>
           <td style="vertical-align: middle;">
             <div class="ps-3 d-flex align-right">
               <button type="button" class="btn btn-feeds-primary" onclick="openFeed('${allFeeds?.localFeeds[i].name}', 'local')">Open</button>
@@ -384,9 +395,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     parent.empty();
     
     var ids = results.map(r => r.ref);
-    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
-      `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>` :
-      `<span></span>`;
     for (var i=0; i<feeds.documents.length; i++) {
       if (!ids.includes(shortHash(feeds.documents[i].source + '::' + feeds.documents[i].name + '::' + feeds.documents[i].type + '::' + feeds.documents[i].contributor)))
         continue;
@@ -394,6 +402,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       // var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
       // console.log('I am here', data[i].name, data[i].source, data[i].type);
       
+      var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+        `<span><span data-source="${data[i].source}" onclick="filterBySource(this)" class="nav-link-button badge">${data[i].source}</span></span>` :
+        `<span></span>`;
+
       var feed = `
       <div class="col-xl-4">
         <div class="card info-card customers-card">
@@ -462,12 +474,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       btnX.classList.remove('active')
       let btn = document.getElementById('sort-alpha-down')
       btn.classList.add('active')
+      btn = document.getElementById('sort-recent')
+      btn.classList.remove('active')
       data.sort((a, b) => a.name.localeCompare(b.name));
     } else if (mode === 'alphaup') {
       let btnX = document.getElementById('sort-alpha-down')
       btnX.classList.remove('active')
       let btn = document.getElementById('sort-alpha-up')
       btn.classList.add('active')
+      btn = document.getElementById('sort-recent')
+      btn.classList.remove('active')
       data.sort((a, b) => b.name.localeCompare(a.name));
     } else if (mode === 'recent') {
       let btnX = document.getElementById('sort-alpha-up')
@@ -475,9 +491,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       btnX = document.getElementById('sort-alpha-down')
       btnX.classList.remove('active')
       let btn = document.getElementById('sort-recent')
-      if (btn.classList.contains('active')) {
-        btn.classList.remove('active')
-      } else {
+      if (!btn.classList.contains('active')) {
         btn.classList.add('active')
         data.sort((b, a) => new Date(a.lastUpdated) - new Date(b.lastUpdated));
       }
@@ -505,16 +519,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     var parent = $('#feeds-grid');
     parent.empty();
-    var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
-      `<span><span data-source="community" onclick="filterBySource(this)" class="nav-link-button badge">community</span></span>` :
-      `<span></span>`;
-
     for (var i=0; i<data.length; i++) {
       if (!ids.includes(shortHash(data[i].source + '::' + data[i].name + '::' + data[i].type + '::' + data[i].contributor)))
         continue;
 
       // var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
-  
+      var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
+        `<span><span data-source="${data[i].source}" onclick="filterBySource(this)" class="nav-link-button badge">${data[i].source}</span></span>` :
+        `<span></span>`;
+
+
       var feed = `
       <div class="col-xl-4">
         <div class="card info-card customers-card">
@@ -574,27 +588,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // view change
   const viewFeed = document.querySelectorAll('.view-feed');
   viewFeed.forEach(el => el.addEventListener('click', _handleView));
-});
 
-async function exitAndCloseTool() {
-  exitTool();
-  window.close();
-}
-
-async function exitTool() {
-  const path = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-  window.location.href = path + '/exit.html';
-  try {
-    await fetch(path + `/exit`, {
-      method: "POST",
-    });
-    window.close();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', async function () {
   var view = localStorage.getItem('view');
   if (!view) view = 'grid';
   localStorage.setItem('view', view);
@@ -607,6 +601,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     btnX.classList.add('active')
     let btn = document.getElementById('table-view')
     btn.classList.remove('active')
+
+    document.getElementById('sort-recent').click()
   } else {
     $('#feeds-table').css('display', 'block');
     // $('#feeds-grid').css('display', 'none');
@@ -629,4 +625,26 @@ document.addEventListener('DOMContentLoaded', async function () {
     $('#exit-tool').css('display', 'block');
   else 
     $('#exit-tool').css('display', 'none');
+
+});
+
+async function exitAndCloseTool() {
+  exitTool();
+  window.close();
+}
+
+async function exitTool() {
+  const path = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+  window.location.href = path + '/exit.html';
+  try {
+    await fetch(path + `/exit`, {
+      method: "POST",
+    });
+    window.close();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
 });
