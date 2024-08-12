@@ -399,11 +399,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!ids.includes(shortHash(feeds.documents[i].source + '::' + feeds.documents[i].name + '::' + feeds.documents[i].type + '::' + feeds.documents[i].contributor)))
         continue;
 
-      // var contributor = await getUser(`https://api.github.com/users/${data[i].github}`);
-      // console.log('I am here', data[i].name, data[i].source, data[i].type);
+      // var contributor = await getUser(`https://api.github.com/users/${feeds.documents[i].github}`);
+      // console.log('I am here', feeds.documents[i].name, feeds.documents[i].source, feeds.documents[i].type);
       
       var feedTypeSpan = localStorage.getItem('isLocal') === 'true' ?
-        `<span><span data-source="${data[i].source}" onclick="filterBySource(this)" class="nav-link-button badge">${data[i].source}</span></span>` :
+        `<span><span data-source="${feeds.documents[i].source}" onclick="filterBySource(this)" class="nav-link-button badge">${feeds.documents[i].source}</span></span>` :
         `<span></span>`;
 
       var feed = `
@@ -412,39 +412,39 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="card-body cart-tile">
             <h5 class="card-title">
               <div class="d-flex align-center space-between">
-                <span><span data-type="${data[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${data[i].type}</span></span>
+                <span><span data-type="${feeds.documents[i].type}" onclick="filterByType(this)" class="nav-link-button badge">${feeds.documents[i].type}</span></span>
                 ${feedTypeSpan}
               </div>
             </h5>
 
             <div class="d-flex align-items-center">
               <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                <img class="rounded-circle card-icon" src="${data[i].img ? data[i].img : 'assets/img/defaultfeed.png'}">
+                <img class="rounded-circle card-icon" src="${feeds.documents[i].img ? feeds.documents[i].img : 'assets/img/defaultfeed.png'}">
               </div>
               <div class="ps-3">
-                <h6 class="feed-tile fw-bold">${data[i].name}</h6>` +
-                (data[i].github ?
-                  `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span><a href="https://github.com/${data[i].github}" target="_blank">${data[i].contributor}</a></div>` :
-                  `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span>${data[i].contributor}</div>`
+                <h6 class="feed-tile fw-bold">${feeds.documents[i].name}</h6>` +
+                (feeds.documents[i].github ?
+                  `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span><a href="https://github.com/${feeds.documents[i].github}" target="_blank">${feeds.documents[i].contributor}</a></div>` :
+                  `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span>${feeds.documents[i].contributor}</div>`
                 ) +
               `</div>
             </div>
-            <div class="text-muted text-description small pt-2 ps-1">${data[i].description}</div>
+            <div class="text-muted text-description small pt-2 ps-1">${feeds.documents[i].description}</div>
             <div class="d-flex align-center space-between">
               <div class="ps-3">
                 <div class="text-muted small pt-2 ps-1 fw-bold">Domain: ${
-                  data[i].domain.split(',').map(token => `<div data-domain="${token.trim()}" onclick="filterByDomain(this)" class="nav-link-button badge bg-dark">${token.trim()}</div>`).join(' ')
+                  feeds.documents[i].domain.split(',').map(token => `<div data-domain="${token.trim()}" onclick="filterByDomain(this)" class="nav-link-button badge bg-dark">${token.trim()}</div>`).join(' ')
                 }</div>
                 <div class="text-muted small pt-2 ps-1 fw-bold ">Tags:` +
                     (localStorage.getItem('view') === 'grid' ?
-                      data[i].tags.split(',').map(token => 
+                      feeds.documents[i].tags.split(',').map(token => 
                         `<div data-tag="${token.trim()}" onclick="filterByTag(this)" class="nav-link-button badge bg-dark">${token.trim()}</div>`).join(' ') :
-                      data[i].tags.split(',').map(token => 
+                      feeds.documents[i].tags.split(',').map(token => 
                         `<div data-tag="${token.trim()}" class="badge bg-dark">${token.trim()}</div>`).join(' ')) +
                 `</div>
               </div>
               <div class="ps-3 d-flex align-right">
-                <button type="button" class="btn btn-feeds-primary" onclick="openFeed('${data[i].name}', '${data[i].source}')">Open</button>
+                <button type="button" class="btn btn-feeds-primary" onclick="openFeed('${feeds.documents[i].name}', '${feeds.documents[i].source}')">Open</button>
               </div>
             </div>
 
