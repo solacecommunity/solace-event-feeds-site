@@ -484,11 +484,14 @@ Tiles - Event Feeds
   overflow: scroll;
 }
 
+.info-card {
+  border-top: 3px solid #02C895;
+}
 .info-card .feed-tile {
   font-size: 20px !important;
 }
 .cart-tile {
-  height: 320px !important;
+  height: 350px !important;
 }
 
 .wrap-text {
