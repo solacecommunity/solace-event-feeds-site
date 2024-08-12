@@ -75,9 +75,9 @@ h6 {
   visibility: hidden;
   opacity: 0;
   right: 15px;
-  bottom: 15px;
+  bottom: 32px;
   z-index: 99999;
-  background: green;
+  background: #02C895;
   width: 40px;
   height: 40px;
   border-radius: 4px;
@@ -112,7 +112,7 @@ h6 {
   animation-fill-mode: both;
   border: 0;
   box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
-  background-color: green;
+  background-color: #02C895;
   display: block;
 }
 
@@ -154,7 +154,7 @@ h6 {
 }
 
 .dropdown-menu>.dropdown-item.buttons-columnVisibility:is(.active) {
-  background-color: green;
+  background-color: #02C895;
   color: white;
 }
 
