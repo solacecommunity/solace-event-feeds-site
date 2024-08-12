@@ -232,10 +232,6 @@ function onEventSelection(el = null) {
 function connectToBroker() {
   init();
   connectButtonClicked(connectionStatusCallback);
-  setTimeout(() => { 
-    $('#collapseBroker').collapse('toggle');
-    $('#collapseEvents').collapse('toggle');
-   }, 1000);
 }
 
 function errorCallback(errorMessage) {
@@ -290,6 +286,10 @@ function connectionStatusCallback(status) {
       document.getElementById('start-feed').classList.add('disabled');
       document.getElementById('stop-feed').classList.add('disabled');
     }
+    setTimeout(() => { 
+      $('#collapseBroker').collapse('toggle');
+      $('#collapseEvents').collapse('toggle');
+     }, 1000);
   
   } else if (status === 'disconnected') {
     connected = false;
