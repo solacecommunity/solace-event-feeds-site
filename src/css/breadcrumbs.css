@@ -1,0 +1,47 @@
+#breadcrumbs {
+  background: #000;
+
+  box-shadow: 0 -10px 20px -5px rgba(0, 0, 0, 0.4);
+}
+
+.breadcrumb {
+  background-color: unset;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb__list {
+  padding: 1rem 0 0 0;
+}
+
+.breadcrumb__list li {
+  display: inline-block;
+}
+
+.breadcrumb:last-child a {
+  color: #00c895;
+  font-weight: 100;
+}
+.breadcrumb:last-child:hover {
+  transform: none;
+}
+.breadcrumb a:hover {
+  color: #00c895;
+}
+.breadcrumb__link {
+  display: inline-block;
+  text-decoration: none;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 1);
+  transition: transform 0.2s;
+}
+.breadcrumb__link:hover {
+  text-decoration: none;
+  transform: scale(1.05);
+}
+
+.breadcrumb__separator {
+  font-size: 12px;
+  padding: 0 9px;
+  color: rgba(255, 255, 255, 1);
+}

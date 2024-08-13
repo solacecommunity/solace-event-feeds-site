@@ -1,0 +1,70 @@
+.custom-card {
+  background: #20262a;
+  border-radius: 6px;
+  border-top: 1px solid #00ad93;
+  border-right: 5px solid #000;
+  border-bottom: 5px solid #000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 20px;
+  height: 100%;
+  position: relative;
+}
+.custom-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+.custom-card:hover .desc {
+  color: #ffffff;
+}
+
+.custom-card:hover .link {
+  padding-left: 10px;
+}
+
+.custom-card .category {
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.custom-card .title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  padding-bottom: 10px;
+}
+
+.custom-card .desc {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 100;
+  font-size: 13px;
+  padding-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.custom-card .link {
+  color: #00ad93;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 10px;
+  transition: all 0.4s;
+  width: 50%;
+}
+
+.custom-card .arrow {
+  color: #fff;
+  width: 50%;
+}
+
+.custom-card .icon {
+  float: right;
+  padding: 0 !important;
+  object-fit: contain;
+  height: 100px;
+  width: 100px;
+}

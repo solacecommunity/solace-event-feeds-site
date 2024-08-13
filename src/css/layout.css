@@ -1,0 +1,226 @@
+@import "osano.css";
+@import "card.css";
+@import "tutorialCards.css";
+@import "howtoCards.css";
+@import "relatedTopics.css";
+@import "otp.css";
+@import "resources.css";
+@import "footer.css";
+@import "404.css";
+
+html {
+  font-size: 16px;  
+  color: rgba(0, 0, 0, 1);
+  font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+h1 {
+  font-size: 42px;
+  font-weight: 400;
+  color: rgba(0, 0, 0 1);
+}
+
+h2 {
+  font-size: 32px;
+  padding: 10px;
+  border: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+h3 {
+  font-size: 24px;
+  padding: 10px;
+  border: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+h4 {
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  color: rgba(0, 0, 0, 1);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  padding-left: 0;
+}
+
+p {
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0 0 0.5em;
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  /* min-height: 75vh; */
+  background: #fff !important;
+}
+
+.bg-dark {
+  background: #20262a !important;
+}
+
+.btn-primary {
+  background: #20262a;
+  font-weight: 100;
+}
+
+.btn-primary:hover {
+  background: #20262a;
+}
+
+#intro {
+  background: linear-gradient(-45deg, #20262a, #000000, #009193, #00ad93);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  text-align: center;
+  color: #fff !important;
+  border-bottom: 1px solid #eceeef;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#intro p {
+  color: #fff !important;
+  font-size: 20px;
+  line-height: 2.2rem;
+}
+
+#minutes {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #4e555b;
+  border-top: 1px solid #ddd;
+}
+
+.btn {
+  background: #20262a !important;
+  text-transform: uppercase;
+  border-radius: 40px;
+  padding: 8px 18px;
+  color: #00c895;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.btn:focus {
+  color: #fff;
+}
+
+.btnSmall {
+  font-size: 12px;
+  line-height: 14px;
+  color: #20262a;
+  font-weight: 600;
+  padding: 5px 15px;
+  border-radius: 70px;
+  height: 24px;
+  text-align: center;
+  background: #f2f2f2;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btnSmall:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  color: #009193;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin: 40px 0;
+  background: #fff;
+}
+
+th:nth-child(1) {
+  width: 20% !important;
+  text-align: left;
+}
+
+th:nth-child(2) {
+  width: 15% !important;
+  text-align: left;
+}
+
+th:nth-child(3) {
+  width: 65% !important;
+  text-align: center;
+}
+th,
+td {
+  padding: 10px;
+}
+th {
+  font-size: 16px;
+  background: #20262a;
+  color: #fff;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  font-size: 14px;
+}
+
+a {
+  color: #00ad93;
+}
+a:hover {
+  color: #20262a;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  padding-right: 1rem;
+  padding-left: 1rem;
+  font-size: 14px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #00c895;
+}
+
+.navbar-dark .navbar-nav .nav-link .active {
+  color: #00c895 !important;
+}

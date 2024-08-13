@@ -1,0 +1,108 @@
+/* 404 */
+#error404 {
+  background-color: #20262a !important;
+  border-bottom: 1px solid #20262a;
+}
+
+#error404 .card {
+  height: auto;
+  color: #fff !important;
+  text-align: center;
+  border: 1px solid #00c895;
+  border-radius: 20px;
+}
+
+.spraint {
+  border-bottom: 1px dotted #fff;
+}
+
+#error404 .card:hover {
+  transition: none;
+  transform: none;
+  box-shadow: none;
+  cursor: auto;
+}
+
+#error404 .card p {
+  color: #fff !important;
+}
+
+#error404under h3 {
+  line-height: 2.5rem;
+}
+
+#error404under .list-group-item {
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.error404-header h1 {
+  display: none;
+}
+.error404-header .row {
+  align-items: flex-end;
+}
+
+.error404 .solly404 img {
+  margin-bottom: 0;
+  max-width: 400px;
+  width: 100%;
+}
+
+.error404 [rel="tooltip"] {
+  border-bottom: 1px dashed #fff;
+}
+.error404 [rel="tooltip"]:hover {
+  cursor: help;
+}
+
+#tooltip {
+  background: #20262a;
+  color: #fff;
+  border-radius: 8px;
+  border: solid 1px #00c895;
+  border-bottom: solid 5px #00c895;
+  letter-spacing: 0.3px;
+  max-width: 400px;
+  padding: 10px;
+  position: absolute;
+  text-align: left;
+  z-index: 100;
+}
+#tooltip:after {
+  /* triangle decoration */
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #00c895;
+  content: "";
+  left: 50%;
+  bottom: -15px;
+  margin-left: -10px;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+#tooltip.top:after {
+  border-top-color: transparent;
+  border-bottom: 10px solid #00c895;
+  bottom: auto;
+  top: -21px;
+}
+#tooltip.left:after {
+  left: 10px;
+  margin: 0;
+}
+
+#tooltip.right:after {
+  right: 10px;
+  left: auto;
+  margin: 0;
+}
+
+/* Fix Solly / Card Margin */
+@media (max-width: 991px) {
+  .card {
+    margin-top: 0px;
+  }
+}
