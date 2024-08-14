@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td style="vertical-align: middle;">${allFeeds?.communityFeeds[i].type}</td>
         <td>
           <div class="feed-table-info">
-            <h6 class="feed-tile fw-bold"${allFeeds?.communityFeeds[i].name} </h6>
+            <h6 class="feed-tile fw-bold">${allFeeds?.communityFeeds[i].name} </h6>
             <div class="text-muted text-description small pt-2 ps-1">${allFeeds?.communityFeeds[i].description}</div>
             ${feedTypeSpan}
           </div>
