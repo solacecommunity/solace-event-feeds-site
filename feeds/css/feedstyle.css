@@ -919,3 +919,16 @@ input[type=radio]:checked{
   transition: all .3s cubic-bezier(.25,.8,.25,1);
 }
 
+.pre {
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-left: 3px solid #02C895;
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 12px;
+  max-width: 100%;
+  overflow: auto;
+  padding: 5px;
+  display: block;
+  word-wrap: break-word;
+}
