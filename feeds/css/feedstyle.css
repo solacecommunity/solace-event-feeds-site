@@ -932,3 +932,13 @@ input[type=radio]:checked{
   display: block;
   word-wrap: break-word;
 }
+
+.pre1 {
+  page-break-inside: avoid;
+  font-family: monospace;
+  font-size: 12px;
+  overflow: auto;
+  padding: 5px;
+  word-wrap: break-word;
+  color:#0d6efd;
+}
