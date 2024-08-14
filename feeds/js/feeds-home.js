@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <img class="rounded-circle card-icon" src="${allFeeds?.communityFeeds[i].img}">
               </div>
               <div class="ps-3">
-                <h6 class="feed-tile fw-bold"><a href="https://github.com/solacecommunity/solace-event-feeds/tree/main/${allFeeds?.communityFeeds[i].name}" target="_blank">${allFeeds?.communityFeeds[i].name}</a> </h6>` +
+                ${allFeeds?.communityFeeds[i].name} </h6>` +
                 (allFeeds?.communityFeeds[i].github ?
                   `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span><a href="https://github.com/${allFeeds?.communityFeeds[i].github}" target="_blank">${allFeeds?.communityFeeds[i].contributor}</a></div>` :
                   `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span>${allFeeds?.communityFeeds[i].contributor}</div>`
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <td style="vertical-align: middle;">${allFeeds?.communityFeeds[i].type}</td>
         <td>
           <div class="feed-table-info">
-            <h6 class="feed-tile fw-bold"><a href="https://github.com/solacecommunity/solace-event-feeds/tree/main/${allFeeds?.communityFeeds[i].name}" target="_blank">${allFeeds?.communityFeeds[i].name}</a> </h6>
+            <h6 class="feed-tile fw-bold"${allFeeds?.communityFeeds[i].name} </h6>
             <div class="text-muted text-description small pt-2 ps-1">${allFeeds?.communityFeeds[i].description}</div>
             ${feedTypeSpan}
           </div>
@@ -545,7 +545,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <img class="rounded-circle card-icon" src="${data[i].img ? data[i].img : 'assets/img/defaultfeed.png'}">
               </div>
               <div class="ps-3">
-                <h6 class="feed-tile fw-bold"><a href="${data[i].github}" target="_blank">${data[i].name}</a> </h6>` +
+                <h6 class="feed-tile fw-bold">${data[i].name}</h6>` +
                 (data[i].github ?
                   `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span><a href="https://github.com/${data[i].github}" target="_blank">${data[i].contributor}</a></div>` :
                   `<div class="text-danger small pt-1 fw-bold"><span class="anon-contributor">Contributor: </span>${data[i].contributor}</div>`
