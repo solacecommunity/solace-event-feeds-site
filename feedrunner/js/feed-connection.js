@@ -9,7 +9,7 @@ var currentConnSettings = {
   // do these two belong here?  Maybe outside of connection params
   qos: 'direct',    // SMF, REST: 0 == direct, 1 == persistent/guaranteed
   msgType: 'text',    // SMF only: either 'text' or 'bytes'
-  prettyPrint: true
+  prettyPrint: false
 }
 
 var defaultPorts = {};
@@ -110,6 +110,13 @@ function updateConnDetailsFromObject(newConnDetails) {
       currentConnSettings.port = newConnDetails.port;
     } else {
       currentConnSettings.port = getDefaultPort();
+    }
+    if (newConnDetails.prettyPrint) {
+      currentConnSettings.prettyPrint = newConnDetails.prettyPrint;
+      d3.select('#prettyPrint').property("checked", currentConnSettings.prettyPrint);
+    } else {
+      currentConnSettings.prettyPrint = false;
+      d3.select('#prettyPrint').property("checked", false);
     }
     d3.select('#textPort').property("value", currentConnSettings.port);
     d3.select('#textUrl').property("value", generateUrl());
