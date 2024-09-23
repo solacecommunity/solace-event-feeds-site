@@ -2,13 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import Helmet from "react-helmet"
 
-function SEO({ description, lang, meta, title }) {
+function SEO({ description="Solace Realtime EventDriven Feeds", lang="en", meta=[], title }) {
 
   return (
     <Helmet
-      htmlAttributes={{
-        lang,
-      }}
       title={title}
       meta={[
         {
@@ -50,12 +47,6 @@ function SEO({ description, lang, meta, title }) {
       ].concat(meta)}
     />
   )
-}
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: `Solace Realtime EventDriven Feeds`,
 }
 
 SEO.propTypes = {

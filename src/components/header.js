@@ -30,7 +30,7 @@ const Header = () => (
           >
             Getting Started
           </Nav.Link>
-          <Nav.Link href="/" className="active">
+          <Nav.Link href="https://tutorials.solace.dev/" target="_blank" className="active">
             Tutorials
           </Nav.Link>
           <Nav.Link

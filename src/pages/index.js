@@ -37,7 +37,7 @@ const IndexPage = () => {
     {
       "name": "Account_Management",
       "description": "Application for supporting account maintenance activities. Includes support for fraud detection.",
-      "img": "assets/img/defaultfeed.png",
+      "img": "./defaultfeed.png",
       "type": "asyncapi_feed",
       "contributor": "Solace Community",
       "github": "solacecommunity",
@@ -59,7 +59,7 @@ const IndexPage = () => {
     {
       "name": "Fake_London_Bus",
       "description": "Fake London Bus",
-      "img": "assets/img/defaultfeed.png",
+      "img": "./defaultfeed.png",
       "type": "asyncapi_feed",
       "contributor": "Giri Venkatesan",
       "github": "gvensan",
@@ -118,7 +118,7 @@ const IndexPage = () => {
       "type": "restapi_feed",
       "name": "Jokes",
       "description": "Random Jokes",
-      "img": "assets/img/defaultfeed.png",
+      "img": "./defaultfeed.png",
       "contributor": "Anonymous",
       "github": "",
       "domain": "Jokes",
@@ -178,7 +178,7 @@ const IndexPage = () => {
     {
       "name": "TEST LOCAL",
       "description": "TEST LOCAL DESCRIPTION",
-      "img": "assets/img/defaultfeed.png",
+      "img": "./defaultfeed.png",
       "type": "asyncapi_feed",
       "contributor": "Solace Community",
       "github": "solacecommunity",
@@ -191,12 +191,13 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      var feedsData = TestCommunityFeeds;
+      // await new Promise(resolve => setTimeout(resolve, 1000));
+      // var feedsData = TestCommunityFeeds;
       // for local testing only //
 
-      // var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
-      // dispatch({ type: 'SET_FEEDS', payload: feedsData.data });
+      var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
+      console.log(feedsData.data);
+      dispatch({ type: 'SET_FEEDS', payload: feedsData.data });
 
       const isLocal = state.hostname === 'localhost' || state.hostname === '127.0.0.1' || state.hostname === '' || state.hostname.startsWith('192.168.') || state.hostname.startsWith('10.');
       dispatch({ type: 'SET_LOCAL', payload: isLocal });
@@ -206,7 +207,9 @@ const IndexPage = () => {
         dispatch({ type: 'SET_LOCAL_FEEDS', payload: TestLocalFeeds });
       }
 
-      dispatch({ type: 'SET_FEEDS', payload: feedsData });
+      // for local testing only //
+      // dispatch({ type: 'SET_FEEDS', payload: feedsData });
+      // for local testing only //
       dispatch({ type: 'SET_LOADING', payload: false });
     };
 
@@ -241,8 +244,10 @@ const IndexPage = () => {
         <Container className="pb5">
           <h2 className="mt4">Community Feeds</h2>
           <Row className="mt3">
-            {state.communityFeeds.map((feed) => (
-              <FeedCard feed={feed} />
+            {state.communityFeeds.map((feed, index) => (
+              <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
+                <FeedCard feed={feed} index={index}/>
+              </Col>
             ))}
           </Row>
         </Container>
@@ -252,8 +257,10 @@ const IndexPage = () => {
         <Container className="pb5">
             <h2 className="mt4">Local Feeds</h2>
           <Row>
-            {state.localFeeds.map((feed) => (
-              <FeedCard feed={feed} />
+            {state.localFeeds.map((feed, index) => (
+              <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
+                <FeedCard feed={feed} index={index} />
+              </Col>
             ))}
           </Row>
         </Container>
