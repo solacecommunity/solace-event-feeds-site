@@ -191,13 +191,13 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
-      // await new Promise(resolve => setTimeout(resolve, 1000));
-      // var feedsData = TestCommunityFeeds;
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      var feedsData = TestCommunityFeeds;
       // for local testing only //
 
-      var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
-      console.log(feedsData.data);
-      dispatch({ type: 'SET_FEEDS', payload: feedsData.data });
+      // var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
+      // console.log(feedsData.data);
+      // dispatch({ type: 'SET_FEEDS', payload: feedsData.data });
 
       const isLocal = state.hostname === 'localhost' || state.hostname === '127.0.0.1' || state.hostname === '' || state.hostname.startsWith('192.168.') || state.hostname.startsWith('10.');
       dispatch({ type: 'SET_LOCAL', payload: isLocal });
@@ -208,7 +208,7 @@ const IndexPage = () => {
       }
 
       // for local testing only //
-      // dispatch({ type: 'SET_FEEDS', payload: feedsData });
+      dispatch({ type: 'SET_FEEDS', payload: feedsData });
       // for local testing only //
       dispatch({ type: 'SET_LOADING', payload: false });
     };
@@ -228,10 +228,8 @@ const IndexPage = () => {
           <Row className="tc">
             <Col>
               <h1>Solace Feeds</h1>
-              <p className="pt3 pb3 f5">
-                This site provides published event feeds that can be used to generate events. This will give you a guided, hands-on experience with the Solace PubSub+ Platform. Each feed exposes events relevant to specific industry domains or business contexts as exposed by the AsyncAPI document of application in the Event Portal.
-              <br />
-                Discuss your Event Feed experience in the Developer Community
+              <p>
+                This site provides a curated set of feeds that make it easy to start publishing events to a <a href="https://solace.com/products/event-broker/" target="_blank" rel="noopener noreferrer">Solace PubSub+ Event Broker</a>. Each feed contains a simplified set of events representing a domain or use case, and many were generated directly from a design in <a href="https://solace.com/products/portal/" target="_blank" rel="noopener noreferrer">PubSub+ Event Portal</a> using the app’s AsyncAPI doc.
               </p>
             </Col>
           </Row>
@@ -255,7 +253,7 @@ const IndexPage = () => {
 
       {state.isLocal && (
         <Container className="pb5">
-            <h2 className="mt4">Local Feeds</h2>
+          <h2 className="mt4">Local Feeds</h2>
           <Row>
             {state.localFeeds.map((feed, index) => (
               <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
