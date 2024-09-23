@@ -6,7 +6,7 @@ const FeedCard = (props) => {
   // if the feed.image contains the word default then change it to ./defaultfeed.png
   feed.img = feed.img.includes("default") ? "./defaultfeed.png" : feed.img
   return (
-    <a href='/'>
+    <a href={`/feed.html?feed=${feed.name}&source=community`} style={{ textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
       <div className="custom-card">
         <div className="icon">
           <img src={feed.img ? feed.img : "./defaultfeed.png"} alt={feed.name} width="100px" />
@@ -18,3 +18,4 @@ const FeedCard = (props) => {
   )
 }
 export default FeedCard
+

@@ -33,7 +33,6 @@ const reducer = (state, action) => {
 const IndexPage = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [search, setSearch] = useState("");
-  console.log(search)
 
   const TestCommunityFeeds = [
     {
@@ -249,7 +248,7 @@ const IndexPage = () => {
             <input
               type="text"
               className="form-control"
-              placeholder="Search feeds..."
+              placeholder="Search Community Feeds..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
