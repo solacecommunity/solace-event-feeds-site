@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer } from "react"
+import React, { useEffect, useReducer, useState } from "react"
 import axios from 'axios';
-import { Container, Row, Col } from "react-bootstrap"
+import { Container, Row, Col, InputGroup } from "react-bootstrap"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import FeedCard from "../components/feedCard"
@@ -32,6 +32,8 @@ const reducer = (state, action) => {
 
 const IndexPage = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [search, setSearch] = useState("");
+  console.log(search)
 
   const TestCommunityFeeds = [
     {
@@ -188,6 +190,7 @@ const IndexPage = () => {
     }
   ]
 
+
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
@@ -236,13 +239,26 @@ const IndexPage = () => {
         </Container>
       </section>
 
+      
+
       {state.isLoading ? (
         <div>Loading community feeds...</div>
       ) : (
         <Container className="pb5">
+          <InputGroup className="mt3 mb3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search feeds..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </InputGroup>
           <h2 className="mt4">Community Feeds</h2>
           <Row className="mt3">
-            {state.communityFeeds.map((feed, index) => (
+            {state.communityFeeds.filter((item) => {
+              return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search.toLowerCase())
+            }).map((feed, index) => (
               <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
                 <FeedCard feed={feed} index={index}/>
               </Col>
