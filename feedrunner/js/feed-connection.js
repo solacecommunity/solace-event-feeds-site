@@ -301,7 +301,7 @@ function guiChangeDetected() {
 function init() {
   // Initialize factory with the most recent Solace API defaults
   var factoryProps = new solace.SolclientFactoryProperties();
-  factoryProps.profile = solace.SolclientFactoryProfiles.version10;
+  factoryProps.profile = solace.SolclientFactoryProfiles.version10_5;
   solace.SolclientFactory.init(factoryProps);
   solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);  // INFO is too chatty
 }
