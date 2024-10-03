@@ -167,8 +167,8 @@ class Feed extends IFeed {
 
               if (rules) {
                 var rule = rules.find(el => el.messageName === msg);
-                data.count = rule ? rule.publishSettings.count : 20;
-                data.interval = rule ? rule.publishSettings.interval : 1;
+                data.count = rule ? rule.publishSettings.count : 0;
+                data.interval = rule ? rule.publishSettings.interval : 1000;
                 data.delay = rule ? rule.publishSettings.delay : 0;
               }
               
@@ -188,8 +188,8 @@ class Feed extends IFeed {
       };
 
       let rules = this.getFeedParam('rules');
-      data.count = rules ? rules.publishSettings.count : 20;
-      data.interval = rules ? rules.publishSettings.interval : 1;
+      data.count = rules ? rules.publishSettings.count : 0;
+      data.interval = rules ? rules.publishSettings.interval : 1000;
       data.delay = rules ? rules.publishSettings.delay : 0;
       
       messages.push(data);

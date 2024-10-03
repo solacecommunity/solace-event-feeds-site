@@ -604,13 +604,16 @@ Tiles - Event Feeds
   /* min-height: calc(100vh - 465px); */
   transition: all 0.3s; /* Smooth transition for expanding and collapsing */
   flex-grow: 1;
-  padding-left: 3.5%;
-  padding-right: 3.5%;
   /* background-color: white; */
   box-sizing: border-box;
 }
 
-div.scroll {
+.single-message {
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
+}
+
+.scroll {
   font-family: 'Courier New', Courier, monospace;
   font-weight: 700;
   margin:10px;
@@ -620,10 +623,14 @@ div.scroll {
   background-color: rgba(52,73,94,0);
   /* width: 500px; */
   /* height: 400px; */
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  /* height: 100%; */
+  /* overflow-x: hidden; */
+  /* overflow-y: auto; */
   /* text-align:justify; */
+  overflow-y: auto;
+  /* display: flex; */
+  /* flex-direction: column; */
+
 }
 
 .feed-panel {
@@ -723,7 +730,7 @@ div.scroll {
 .trans--grow{
   -webkit-transition: width 1s ease-out; /* For Safari 3.1 to 6.0 */
   transition: width 1s  ease-out;
-  width : 100vw;
+  /* width : 100vw; */
 }
 
 .trans--fit{
@@ -733,6 +740,7 @@ div.scroll {
 
 .hr1{
   margin-left:0;
+  border-top: 3px solid #02C895
 }
 
 .scroll-to-top {
@@ -933,6 +941,11 @@ input[type=radio]:checked{
   word-wrap: break-word;
 }
 
+pre.json-message {
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
+}
+
 .pre1 {
   page-break-inside: avoid;
   font-family: monospace;
@@ -941,4 +954,16 @@ input[type=radio]:checked{
   padding: 5px;
   word-wrap: break-word;
   color:#0d6efd;
+}
+
+.bi-large-icon {
+  font-size: 2rem;
+}
+
+.bx-large-icon:hover, .bi-large-icon:hover {
+  color: #02C895;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #02C895;
 }

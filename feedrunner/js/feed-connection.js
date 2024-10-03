@@ -135,6 +135,9 @@ function parseUrlAndUpdateVars(newUrl) {
     match = newUrl.match(regexHttpUrl);
   } else {
     var match = newUrl.match(regexWsUrl);
+    if (!match) {
+      match = newUrl.match(regexHttpUrl);
+    }
   }
   if (match) {
     console.log("MATCH! " + JSON.stringify(match));
@@ -146,6 +149,27 @@ function parseUrlAndUpdateVars(newUrl) {
     currentConnSettings.host = match[2];
     currentConnSettings.port = +match[3];
     // currentConnSettings.url = newUrl;
+
+    // Check if the port is 8443 and change protocol to MQTT and transport to WS
+    if (match[1] === 'wss') {
+      currentConnSettings.protocol = 'MQTT';
+      currentConnSettings.transport = 'tls';
+      document.getElementById('textVpn').disabled = true;
+      document.getElementById('textVpn').value = 'determined by port';
+  
+      updateselectProtocol();
+      updateCheckTls();
+    } else if (match[1] === 'https') {
+      currentConnSettings.protocol = 'REST';
+      currentConnSettings.transport = 'tls';
+      document.getElementById('textVpn').disabled = true;
+      document.getElementById('textVpn').value = 'determined by port';
+    }
+
+
+    d3.select('#textHost').property("value", currentConnSettings.host);
+    d3.select('#textPort').property("value", currentConnSettings.port);
+    d3.select('#textUrl').property("value", generateUrl());  
   } else {
     connStatus = 'disconnected';
     console.log("NO MATCH!");

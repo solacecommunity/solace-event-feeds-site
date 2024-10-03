@@ -172,12 +172,24 @@ function intervalChange() {
   var index = selectedMessages.findIndex(m => m.message === this.event.target.dataset.message && m.topic === this.event.target.dataset.topic);
   if (index < 0) return;
 
+  var el = document.getElementById(`interval-${selectedMessages[index].message}`);
+  if (el && (parseInt(this.event.target.value) < parseInt(el.getAttribute('min')) || 
+              parseInt(this.event.target.value) > parseInt(el.getAttribute('max')))) {
+    this.event.target.value = parseInt(el.getAttribute('default'));
+  }
+
   selectedMessages[index].interval = this.event.target.value;
 }
 
 function delayChange() {
   var index = selectedMessages.findIndex(m => m.message === this.event.target.dataset.message && m.topic === this.event.target.dataset.topic);
   if (index < 0) return;
+
+  var el = document.getElementById(`delay-${selectedMessages[index].message}`);
+  if (el && (parseInt(this.event.target.value) < parseInt(el.getAttribute('min')) || 
+              parseInt(this.event.target.value) > parseInt(el.getAttribute('max')))) {
+    this.event.target.value = parseInt(el.getAttribute('default'));
+  }
 
   selectedMessages[index].delay = this.event.target.value;
 }
@@ -322,17 +334,17 @@ async function loadFeed() {
 function delayedStart(msg) {
   $('#show-hide-settings').click();
 
-  sleep(msg.delay * 1000).then(() => { 
+  sleep(msg.delay).then(() => { 
     console.log(msg);
     if (msg.delay)
-      statusCallback(`Delayed start of event feed for <b>${msg.message}</b> [${msg.delay} secs]`)
+      statusCallback(`Delayed start of event feed for <b>${msg.message}</b> [${msg.delay} msecs]`)
     else
       statusCallback(`Starting event feed for <b>${msg.message}</b>`)
 
     eventFeedTimers.push({
       name: msg.message,
       message: msg,
-      timer: setInterval(publishEvent, msg.interval * 1000, msg)
+      timer: setInterval(publishEvent, msg.interval, msg)
     });
   });
 
@@ -362,7 +374,7 @@ async function publishEvent(msg) {
     events.forEach(event => {
       publish(event.topic, event.payload, event.pqKey, msg.message, `${msg.message}-${msg.topic}`);
       console.log(Date.now() + ': Publishing...', msg.message, event.topic)
-      if (publishStats[`${msg.message}-${msg.topic}`] >= msg.count) {
+      if (msg.count > 0 && publishStats[`${msg.message}-${msg.topic}`] >= msg.count) {
         var index = eventFeedTimers.findIndex((t) => t.name === msg.message);
         if (index < 0) {
           errorCallback('Hmm... could not find the timer');
@@ -433,7 +445,7 @@ async function publishEvent(msg) {
 
     publish(topic, payload, null, api.topic, `${msg.message}-${api.topic}`);
     console.log(Date.now() + ': Publishing...', msg.message, topic)
-    if (publishStats[`${msg.message}-${api.topic}`] >= msg.count) {
+    if (msg.count > 0 && publishStats[`${msg.message}-${api.topic}`] >= msg.count) {
       var index = eventFeedTimers.findIndex((t) => t.name === msg.message);
       if (index < 0) {
         errorCallback('Hmm... could not find the timer');
@@ -508,33 +520,33 @@ async function showFeedInfo() {
                 <div>
                   <a href="#" class="show-advanced-settings d-flex align-items-center justify-content-center"
                     data-message="${msg.messageName}" onclick="toggleMessageSettings('#settings-${msg.messageName}')">
-                    <i class="bi bi-gear"></i>
+                    <i class="bi bi-gear bi-large-icon"></i>
                   </a>        
                 </div>
               </div>
               ${msg.description ? `<small>${msg.description}</small>` : `<span/>`}   
-              <p class="mt-3 mb-1 small"><strong>Topic: </strong>${msg.topicName}</p>
-              ${msg.schema ? `<p class="mb-1 small"><strong>Schema: </strong>${msg.schema}</p>` : `<span/>`}
+              <p class="mt-3 mb-1 medium"><strong>Topic: </strong>${msg.topicName}</p>
+              ${msg.schema ? `<p class="mb-1 medium"><strong>Schema: </strong>${msg.schema}</p>` : `<span/>`}
               <div id="settings-${msg.messageName}" style="display:none;">
                 <hr class="trans--fit hr1">
                 <div class="d-flex flex-row flex-start">
                   <div class="me-3">
                     <label for="count-${msg.messageName}" class="small">No. of Events</label>
                     <input id="count-${msg.messageName}" data-message=${msg.messageName} data-topic=${msg.topicName}
-                        type="number" class="form-control" value="${msg.count}" min="1" max="1000" onchange="countChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 1 to 1000</span>
+                        type="number" class="form-control" value="${msg.count}" min="0" max="1000" onchange="countChange()" disabled>
+                    <span style="font-size: 0.75rem;">Default: 0 (infinite) or a +ve number</span>
                   </div>
                   <div class="me-3">
-                    <label for="interval-${msg.messageName}" class="small">Interval (secs)</label>
+                    <label for="interval-${msg.messageName}" class="small">Interval (milliseconds)</label>
                     <input id="interval-${msg.messageName}" data-message=${msg.messageName} data-topic=${msg.topicName}
-                      type="number" class="form-control" value="${msg.interval}" min="1" max="30" onchange="intervalChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 1 to 30 secs</span>
+                      type="number" class="form-control" value="${msg.interval}" min="0" max="120000" default="1000" onchange="intervalChange()" disabled>
+                    <span style="font-size: 0.75rem;">Range: 0 - 120000 ms</span>
                   </div>
                   <div class="me-3">
-                    <label for="delay-${msg.messageName}" class="small">Initial Delay (secs)</label>
+                    <label for="delay-${msg.messageName}" class="small">Initial Delay (milliseconds)</label>
                     <input id="delay-${msg.messageName}" data-message=${msg.messageName} data-topic=${msg.topicName}
-                        type="number" class="form-control" value="${msg.delay}" min="0" max="30" onchange="delayChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 0 to 30</span>
+                        type="number" class="form-control" value="${msg.delay}" min="0" max="120000" default="0" onchange="delayChange()" disabled>
+                    <span style="font-size: 0.75rem;">Range: 0 - 120000 ms</span>
                   </div>
                 </div>
               </div>
@@ -546,6 +558,7 @@ async function showFeedInfo() {
       })
     } else if (info.type === 'restapi_feed') {
       messages.forEach((msg, index) => {
+        console.log(msg)
       var item = `
         <div class="list-group-item list-group-item-action feed-event-item mb-3 mt-3" aria-current="true">
           <div class="d-flex flex-column">
@@ -561,7 +574,7 @@ async function showFeedInfo() {
                 <div>
                   <a href="#" class="show-advanced-settings d-flex align-items-center justify-content-center"
                     data-message="${msg.simplifiedName}" onclick="toggleMessageSettings('#settings-${msg.simplifiedName}')">
-                    <i class="bi bi-gear"></i>
+                    <i class="bi bi-gear bi-large-icon"></i>
                   </a>        
                 </div>
               </div>
@@ -574,20 +587,20 @@ async function showFeedInfo() {
                   <div class="me-3">
                     <label for="count-${msg.simplifiedName}" class="small">No. of Events</label>
                     <input id="count-${msg.simplifiedName}" data-message=${msg.simplifiedName} data-topic=${msg.topicName}
-                        type="number" class="form-control" value="${msg.count}" min="1" max="1000" onchange="countChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 1 to 1000</span>
+                        type="number" class="form-control" value="${msg.count}" min="0" max="1000" onchange="countChange()" disabled>
+                    <span style="font-size: 0.75rem;">Default: 0 (infinite) or a +ve number</span>
                   </div>
                   <div class="me-3">
-                    <label for="interval-${msg.simplifiedName}" class="small">Interval (secs)</label>
+                    <label for="interval-${msg.simplifiedName}" class="small">Interval (milliseconds)</label>
                     <input id="interval-${msg.simplifiedName}" data-message=${msg.simplifiedName} data-topic=${msg.topicName}
-                      type="number" class="form-control" value="${msg.interval}" min="1" max="30" onchange="intervalChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 1 to 30 secs</span>
+                      type="number" class="form-control" value="${msg.interval}" min="1000" max="120000" default="0" onchange="intervalChange()" disabled>
+                    <span style="font-size: 0.75rem;">Range: 0 - 120000 ms</span>
                   </div>
                   <div class="me-3">
-                    <label for="delay-${msg.simplifiedName}" class="small">Initial Delay (secs)</label>
+                    <label for="delay-${msg.simplifiedName}" class="small">Initial Delay (milliseconds)</label>
                     <input id="delay-${msg.simplifiedName}" data-message=${msg.simplifiedName} data-topic=${msg.topicName}
-                        type="number" class="form-control" value="${msg.delay}" min="0" max="30" onchange="delayChange()" disabled>
-                    <span style="font-size: 0.75rem;">Range: 0 to 30</span>
+                        type="number" class="form-control" value="${msg.delay}" min="0" max="120000" default="0" onchange="delayChange()" disabled>
+                    <span style="font-size: 0.75rem;">Range: 0 - 120000 ms</span>
                   </div>
                 </div>
               </div>
@@ -622,6 +635,7 @@ async function showFeedInfo() {
     console.log(`'load feed info failed: ${error.toString()} (${error.cause?.message} ? [${error.cause?.message}] : ''`);
   }
 }
+
 function addToConsole(topic, payload, publishKey, msgName) {
   var msgId = msgName.replaceAll('$', '').replaceAll('/', '-').toLowerCase();
   publishStats[publishKey] = publishStats[publishKey] ? publishStats[publishKey] + 1 : 1;
@@ -630,7 +644,7 @@ function addToConsole(topic, payload, publishKey, msgName) {
   var msgPrint = currentConnSettings.prettyPrint ?
                     topic + (payload ? ' :: ' + ((typeof payload === 'object') ? JSON.stringify(payload, null, 2) : payload) : '') :
                     topic + (payload ? ' :: ' + ((typeof payload === 'object') ? JSON.stringify(payload).trim() : payload) : '');
-  var newMsg = `<p>` +
+  var newMsg = `<p class='single-message'>` +
                   (payload ?
                     `<span id="copy-message-to-clipboard" onclick="copyMessageToClipboard('${msgId + '-' + publishStats[publishKey]}')">
                       <span class="badge rounded-pill copy-to-clipboard me-2">
@@ -642,16 +656,15 @@ function addToConsole(topic, payload, publishKey, msgName) {
                     `<span class="badge rounded-pill feed-msg-counter me-2 empty-clipboard">${publishStats[publishKey]}</span>`) +
                   `<span class="badge rounded-pill feed-msg-name me-2">${msgName}</span>` +
                   (currentConnSettings.prettyPrint ?
-                    `<pre id="${msgId + '-' + publishStats[publishKey]}">${msgPrint}</pre>` :
+                    `<pre class="json-message" id="${msgId + '-' + publishStats[publishKey]}">${msgPrint}</pre>` :
                     `<span id="${msgId + '-' + publishStats[publishKey]}">${msgPrint}</span>`) +
                 `</p>\n`;
-  div.innerHTML += newMsg;  // new message at bottom
-  // div.innerHTML = newMsg + div.innerHTML;  // new message at top
-  if (div.children.length > 25) {
-    // consoleLines.shift();
-    // div.children[0].remove();  // pop the oldest message off (new message at bottom)
-    div.children[25].remove(); // pop the oldest message off (new message on top)
-  }
+  div.appendChild(document.createRange().createContextualFragment(newMsg));
+  // if (div.children.length > 25) {
+  //   consoleLines.shift();
+  //   div.children[0].remove();  // pop the oldest message off (new message at bottom)
+  //   div.children[25].remove(); // pop the oldest message off (new message on top)
+  // }
   div.scrollTop = div.scrollHeight;
 
 }
