@@ -129,16 +129,22 @@ function updateConnDetailsFromObject(newConnDetails) {
 }
 
 function parseUrlAndUpdateVars(newUrl) {
-  var match;
-  if (currentConnSettings.protocol == 'REST') {
-    console.log('it is "' + newUrl + '" here');
-    match = newUrl.match(regexHttpUrl);
-  } else {
-    var match = newUrl.match(regexWsUrl);
-    if (!match) {
-      match = newUrl.match(regexHttpUrl);
-    }
-  }
+  // var match;
+  // if (currentConnSettings.protocol == 'REST') {
+  //   console.log('it is "' + newUrl + '" here');
+  //   match = newUrl.match(regexHttpUrl);
+  // } else {
+  //   var match = newUrl.match(regexWsUrl);
+  //   if (!match) {
+  //     match = newUrl.match(regexHttpUrl);
+  //   }
+  // }
+  console.log('it is "' + newUrl + '" here');
+  
+  var match = newUrl.match(regexWsUrl);
+  // if (!match)
+  //   match = newUrl.match(regexHttpUrl);
+
   if (match) {
     console.log("MATCH! " + JSON.stringify(match));
     if (match[1] == 'ws' || match[1] == 'http') {
@@ -164,6 +170,9 @@ function parseUrlAndUpdateVars(newUrl) {
       currentConnSettings.transport = 'tls';
       document.getElementById('textVpn').disabled = true;
       document.getElementById('textVpn').value = 'determined by port';
+
+      updateCheckTls();
+      updateselectProtocol();
     }
 
 
@@ -173,8 +182,8 @@ function parseUrlAndUpdateVars(newUrl) {
   } else {
     connStatus = 'disconnected';
     console.log("NO MATCH!");
-    alert('Illegal URL format for selected protocol');
-    notifyErrorStatus("Illegal URL format for selected protocol");
+    alert('Invalid URL format or specified protocol not supported');
+    notifyErrorStatus("Invalid URL format or specified protocol not supported");
   }
   return match;
 }
@@ -479,26 +488,24 @@ function connectButtonClicked(callback = null) {
 
     case 'REST':
       // curl -u pq:pq http://pq.messaging.solace.cloud:9000/QUEUE/a/b/c -X POST -v -H "Solace-Delivery-Mode: Direct"    generates 200OK,  good enough to prove conneciton
-      console.log(currentConnSettings.username);
-      console.log(currentConnSettings.password);
+      // console.log(currentConnSettings.username);
+      // console.log(currentConnSettings.password);
       
-      let headers = new Headers();
-      headers.set('Authorization', 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password));
-      headers.set('Content-Type', 'text/plain');
-      headers.set('Solace-Delivery-Mode', 'direct');
-
-      var postUrl = generateUrl() + `/${currentConnSettings.username}/test`;
+      var postUrl = generateUrl() + `/TOPIC/test`;
       console.log(postUrl);
       fetch(postUrl, {
         method: 'POST',
-        credentials: 'same-origin',
-        // cache: 'no-cache',
-        mode: "no-cors",
-        // headers: headers
-        headers: { "Authorization": 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password) }
+        mode: 'no-cors', // Use 'cors' mode to handle CORS
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(`${currentConnSettings.username}:${currentConnSettings.password}`),
+          'Solace-Delivery-Mode': 'Persistent'
+        },
+        body: JSON.stringify({ message: "Hello World" }) // Ensure the body is a JSON string
       })
         .then(response => {
-          console.log(response);
+          console.log('Status:', response.status);
+          console.log('Headers:', response.headers);
           onConnectSuccess();
           return;
         })  // initial SEMPv2 queue fetch block
@@ -575,19 +582,24 @@ function updateConnectionPanelAfterDisconnect() {
 }
 
 async function postData(topic = "", data = {}) {  
-  var postUrl = generateUrl() + '/' + topic;
+  var postUrl = generateUrl() + '/TOPIC/' + topic;
   console.log(postUrl);
 
   fetch(postUrl, {
     method: 'POST',
-    credentials: 'same-origin',
+    // credentials: 'same-origin',
+    // cache: 'no-cache',
     mode: "no-cors",
-    // headers: { "Authorization": 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password) },
-    body: data,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(`${currentConnSettings.username}:${currentConnSettings.password}`),
+      'Solace-Delivery-Mode': currentConnSettings.qos == 'direct' ? 'Direct' : 'Persistent'
+    },
+    body: data
   })
     .then(response => {
       console.log(response);
-    })  // initial SEMPv2 queue fetch block
+    })
     .catch(error => {
       notifyErrorStatus(error.message);
       console.error("Error when trying send a message to Solace REST Messaging");
