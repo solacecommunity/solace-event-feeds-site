@@ -1,31 +1,31 @@
 // DEFAULT starting values, override here for Solace Cloud?
 var currentConnSettings = {
-  protocol: "SMF",
-  transport: "non",
-  host: "localhost",
+  protocol: 'SMF',
+  transport: 'non',
+  host: 'localhost',
   vpn: 'default',
-  username: "default",
-  password: "default",
+  username: 'default',
+  password: 'default',
   // do these two belong here?  Maybe outside of connection params
-  qos: 'direct',    // SMF, REST: 0 == direct, 1 == persistent/guaranteed
-  msgType: 'text',    // SMF only: either 'text' or 'bytes'
-  prettyPrint: false
-}
+  qos: 'direct', // SMF, REST: 0 == direct, 1 == persistent/guaranteed
+  msgType: 'text', // SMF only: either 'text' or 'bytes'
+  prettyPrint: false,
+};
 
 var defaultPorts = {};
 defaultPorts['SMF'] = {};
 defaultPorts['MQTT'] = {};
 defaultPorts['REST'] = {};
 
-const regexWsUrl = /^(wss?):\/\/(.+):(\d\d+)$/;  // port needs to be at least 2 digits
+const regexWsUrl = /^(wss?):\/\/(.+):(\d\d+)$/; // port needs to be at least 2 digits
 const regexHttpUrl = /^(https?):\/\/(.+):(\d\d+)$/;
 
 const transportOptions = ['non', 'tls'];
-const wsOptions = { 'non': 'ws', 'tls': 'wss' };
-const httpOptions = { 'non': 'http', 'tls': 'https' };
+const wsOptions = { non: 'ws', tls: 'wss' };
+const httpOptions = { non: 'http', tls: 'https' };
 
-var connStatus = 'disconnected';  // 'disconnected', 'connecting', 'connected', 'disconnecting'
-var publisher = {};  // "global" var where our client lives
+var connStatus = 'disconnected'; // 'disconnected', 'connecting', 'connected', 'disconnecting'
+var publisher = {}; // "global" var where our client lives
 
 var errorCallbacks = [];
 var callbacks = [];
@@ -41,10 +41,10 @@ function updateDefaultPortsForSoftwareBroker() {
   defaultPorts.REST['non'] = 9000;
   defaultPorts.REST['tls'] = 9443;
   // derived varables now...
-  currentConnSettings.port = getDefaultPort();  // starting port
-  d3.select('#textPort').property("value", currentConnSettings.port);
+  currentConnSettings.port = getDefaultPort(); // starting port
+  d3.select('#textPort').property('value', currentConnSettings.port);
   // document.getElementById('textPort').value = currentConnSettings.port;
-  d3.select('#textUrl').property("value", generateUrl());
+  d3.select('#textUrl').property('value', generateUrl());
 }
 // setup broker ports as default
 updateDefaultPortsForSoftwareBroker();
@@ -60,8 +60,8 @@ function updateDefaultPortsForSolaceCloud() {
   defaultPorts.REST['non'] = 9000;
   defaultPorts.REST['tls'] = 9443;
   currentConnSettings.port = getDefaultPort();
-  d3.select('#textPort').property("value", currentConnSettings.port);
-  d3.select('#textUrl').property("value", generateUrl());
+  d3.select('#textPort').property('value', currentConnSettings.port);
+  d3.select('#textUrl').property('value', generateUrl());
 }
 
 function updateConnDetailsFromObject(newConnDetails) {
@@ -70,20 +70,26 @@ function updateConnDetailsFromObject(newConnDetails) {
   try {
     if (newConnDetails.host) {
       currentConnSettings.host = newConnDetails.host;
-      d3.select('#textHost').property("value", currentConnSettings.host);
+      d3.select('#textHost').property('value', currentConnSettings.host);
     }
     // set the port later, in case not defined, but transport and/or procol defined
     if (newConnDetails.vpn) {
       currentConnSettings.vpn = newConnDetails.vpn;
-      d3.select('#textVpn').property("value", currentConnSettings.vpn);
+      d3.select('#textVpn').property('value', currentConnSettings.vpn);
     }
     if (newConnDetails.username) {
       currentConnSettings.username = newConnDetails.username;
-      d3.select('#textUsername').property("value", currentConnSettings.username);
+      d3.select('#textUsername').property(
+        'value',
+        currentConnSettings.username
+      );
     }
     if (newConnDetails.password) {
       currentConnSettings.password = newConnDetails.password;
-      d3.select('#textPassword').property("value", currentConnSettings.password);
+      d3.select('#textPassword').property(
+        'value',
+        currentConnSettings.password
+      );
     }
     if (newConnDetails.protocol) {
       const protocol = newConnDetails.protocol.toUpperCase();
@@ -91,7 +97,11 @@ function updateConnDetailsFromObject(newConnDetails) {
         currentConnSettings.protocol = protocol;
         updateselectProtocol();
       } else {
-        console.error('received unexpected "protocol" value of "' + protocol + '" from remote side. Ignoring');
+        console.error(
+          'received unexpected "protocol" value of "' +
+            protocol +
+            '" from remote side. Ignoring'
+        );
       }
     }
     if (newConnDetails.transport) {
@@ -100,9 +110,13 @@ function updateConnDetailsFromObject(newConnDetails) {
         currentConnSettings.transport = transport;
         // updateselectTransport();
         updateCheckTls();
-                // d3.select('#transtextPort').property("value", currentConnSettings.transport);
+        // d3.select('#transtextPort').property("value", currentConnSettings.transport);
       } else {
-        console.error('received unexpected "transport" value of "' + transport + '" from remote side. Ignoring');
+        console.error(
+          'received unexpected "transport" value of "' +
+            transport +
+            '" from remote side. Ignoring'
+        );
       }
     }
     // possibly override default port with manually set port
@@ -113,17 +127,22 @@ function updateConnDetailsFromObject(newConnDetails) {
     }
     if (newConnDetails.prettyPrint) {
       currentConnSettings.prettyPrint = newConnDetails.prettyPrint;
-      d3.select('#prettyPrint').property("checked", currentConnSettings.prettyPrint);
+      d3.select('#prettyPrint').property(
+        'checked',
+        currentConnSettings.prettyPrint
+      );
     } else {
       currentConnSettings.prettyPrint = false;
-      d3.select('#prettyPrint').property("checked", false);
+      d3.select('#prettyPrint').property('checked', false);
     }
-    d3.select('#textPort').property("value", currentConnSettings.port);
-    d3.select('#textUrl').property("value", generateUrl());
+    d3.select('#textPort').property('value', currentConnSettings.port);
+    d3.select('#textUrl').property('value', generateUrl());
   } catch (error) {
     connStatus = 'disconnected';
     notifyErrorStatus(error.message);
-    console.error('caught while trying to update remotely with new connection details');
+    console.error(
+      'caught while trying to update remotely with new connection details'
+    );
     console.error(error);
   }
 }
@@ -137,7 +156,7 @@ function parseUrlAndUpdateVars(newUrl) {
     var match = newUrl.match(regexWsUrl);
   }
   if (match) {
-    console.log("MATCH! " + JSON.stringify(match));
+    console.log('MATCH! ' + JSON.stringify(match));
     if (match[1] == 'ws' || match[1] == 'http') {
       currentConnSettings.transport = 'non';
     } else {
@@ -148,58 +167,77 @@ function parseUrlAndUpdateVars(newUrl) {
     // currentConnSettings.url = newUrl;
   } else {
     connStatus = 'disconnected';
-    console.log("NO MATCH!");
+    console.log('NO MATCH!');
     alert('Illegal URL format for selected protocol');
-    notifyErrorStatus("Illegal URL format for selected protocol");
+    notifyErrorStatus('Illegal URL format for selected protocol');
   }
   return match;
 }
 
 /** returns a string with the derived value of URL (protocol + transport + host + port) */
 function generateUrl() {
-  var t = (currentConnSettings.protocol == 'REST' ? httpOptions[currentConnSettings.transport] : wsOptions[currentConnSettings.transport]);
-  return t + "://" + currentConnSettings.host + ":" + currentConnSettings.port;
+  var t =
+    currentConnSettings.protocol == 'REST'
+      ? httpOptions[currentConnSettings.transport]
+      : wsOptions[currentConnSettings.transport];
+  return t + '://' + currentConnSettings.host + ':' + currentConnSettings.port;
 }
 
 function getDefaultPort() {
-  var newPort = defaultPorts[currentConnSettings.protocol][currentConnSettings.transport];
+  var newPort =
+    defaultPorts[currentConnSettings.protocol][currentConnSettings.transport];
   if (!newPort) {
-    console.error("Couldn't find appropriate port matching for protocol " + currentConnSettings.protocol + " and transport " + currentConnSettings.transport);
+    console.error(
+      "Couldn't find appropriate port matching for protocol " +
+        currentConnSettings.protocol +
+        ' and transport ' +
+        currentConnSettings.transport
+    );
     return 0;
   }
   return newPort;
 }
 
-function updateCheckTls() {  // this replaces 
+function updateCheckTls() {
+  // this replaces
   const check = document.getElementById('checkTls');
   check.checked = currentConnSettings.transport == 'tls';
 }
 
-function updateselectProtocol() {  // one of SMF, MQTT, REST
+function updateselectProtocol() {
+  // one of SMF, MQTT, REST
   const select = document.getElementById('selectProtocol');
   select.value = currentConnSettings.protocol;
   updateCheckTls();
 }
 
-
 function guiChangeDetected() {
   // console.log(this);
-  console.log("change() fired on GUI: " + this.name + ", val=" + this.value + ", id=" + this.id);
+  console.log(
+    'change() fired on GUI: ' +
+      this.name +
+      ', val=' +
+      this.value +
+      ', id=' +
+      this.id
+  );
   if (this.name.startsWith('check')) {
     console.log(this.checked);
   }
   switch (this.name) {
-    case 'selectProtocol':  // SMF, MQTT, REST
+    case 'selectProtocol': // SMF, MQTT, REST
       // only update the port if the previous port value is non-default (i.e. it's been on-purposfully changed already)
-      if (currentConnSettings.port == getDefaultPort()) {  // default port for the old protocol (haven't updated the var yet)
+      if (currentConnSettings.port == getDefaultPort()) {
+        // default port for the old protocol (haven't updated the var yet)
         currentConnSettings.protocol = this.value;
         currentConnSettings.port = getDefaultPort();
-      } else {  // leave the port alone
-        currentConnSettings.protocol = this.value;  // update protocol, and update other stuff
+      } else {
+        // leave the port alone
+        currentConnSettings.protocol = this.value; // update protocol, and update other stuff
       }
-      d3.select('#textPort').property("value", currentConnSettings.port);
+      d3.select('#textPort').property('value', currentConnSettings.port);
       // currentConnSettings.url = generateUrl();  // update my var
-      d3.select('#textUrl').property("value", generateUrl());
+      d3.select('#textUrl').property('value', generateUrl());
       // What about the VPN text box?  Only specified using SMF
       if (currentConnSettings.protocol == 'SMF') {
         document.getElementById('textVpn').disabled = null;
@@ -210,46 +248,57 @@ function guiChangeDetected() {
         document.getElementById('textVpn').value = 'determined by port';
       }
       if (currentConnSettings.protocol == 'MQTT') {
-        for (let radio of document.querySelectorAll('input[name=radioFormat')) radio.disabled = true;
-        document.getElementById('radioAtMostOnceLabel').innerHTML = '&nbsp;QoS0';
-        document.getElementById('radioAtLeastOnceLabel').innerHTML = '&nbsp;QoS1';
+        for (let radio of document.querySelectorAll('input[name=radioFormat'))
+          radio.disabled = true;
+        document.getElementById('radioAtMostOnceLabel').innerHTML =
+          '&nbsp;QoS0';
+        document.getElementById('radioAtLeastOnceLabel').innerHTML =
+          '&nbsp;QoS1';
       } else {
-        for (let radio of document.querySelectorAll('input[name=radioFormat')) radio.disabled = null;
-        document.getElementById('radioAtMostOnceLabel').innerHTML = '&nbsp;Direct';
-        document.getElementById('radioAtLeastOnceLabel').innerHTML = '&nbsp;Guaranteed';
+        for (let radio of document.querySelectorAll('input[name=radioFormat'))
+          radio.disabled = null;
+        document.getElementById('radioAtMostOnceLabel').innerHTML =
+          '&nbsp;Direct';
+        document.getElementById('radioAtLeastOnceLabel').innerHTML =
+          '&nbsp;Guaranteed';
       }
       break;
-    case 'textUrl':  // user trying to update the full URL directly in GUI, so need to parse and make sure is ok...
+    case 'textUrl': // user trying to update the full URL directly in GUI, so need to parse and make sure is ok...
       var success = parseUrlAndUpdateVars(this.value);
       if (!success) {
-        this.value = generateUrl();  // reset back to my previous vals  (this somehow updates the GUI)
-      } else {  // all good!
+        this.value = generateUrl(); // reset back to my previous vals  (this somehow updates the GUI)
+      } else {
+        // all good!
         updateCheckTls();
-        d3.select('#textHost').property("value", currentConnSettings.host);
-        d3.select('#textPort').property("value", currentConnSettings.port);
+        d3.select('#textHost').property('value', currentConnSettings.host);
+        d3.select('#textPort').property('value', currentConnSettings.port);
       }
       break;
-    case 'selectTransport':  // WS, WSS, HTTP, HTTPS    (OLD WAY NOW)
+    case 'selectTransport': // WS, WSS, HTTP, HTTPS    (OLD WAY NOW)
       // only update the port if the previous port value is non-default (i.e. it's been on-purposfully changed already)
-      if (currentConnSettings.port == getDefaultPort()) {  // default port for the old protocol (haven't updated the var yet)
+      if (currentConnSettings.port == getDefaultPort()) {
+        // default port for the old protocol (haven't updated the var yet)
         currentConnSettings.transport = this.value;
         currentConnSettings.port = getDefaultPort();
-      } else {  // leave the port alone
-        currentConnSettings.transport = this.value;  // update transport, and update other stuff
+      } else {
+        // leave the port alone
+        currentConnSettings.transport = this.value; // update transport, and update other stuff
       }
-      d3.select('#textPort').property("value", currentConnSettings.port);
+      d3.select('#textPort').property('value', currentConnSettings.port);
       // currentConnSettings.url = generateUrl();  // update my var
       // d3.select('#textUrl').property("value", currentConnSettings.url);
-      d3.select('#textUrl').property("value", generateUrl());
+      d3.select('#textUrl').property('value', generateUrl());
 
       break;
-    case 'checkTls':  // WS, WSS, HTTP, HTTPS
+    case 'checkTls': // WS, WSS, HTTP, HTTPS
       // only update the port if the previous port value is non-default (i.e. it's been on-purposfully changed already)
-      if (currentConnSettings.port == getDefaultPort()) {  // default port for the old protocol (haven't updated the var yet)
+      if (currentConnSettings.port == getDefaultPort()) {
+        // default port for the old protocol (haven't updated the var yet)
         currentConnSettings.transport = this.checked ? 'tls' : 'non';
         currentConnSettings.port = getDefaultPort();
-      } else {  // leave the port alone
-        currentConnSettings.transport = this.checked ? 'tls' : 'non';  // update transport, and update other stuff
+      } else {
+        // leave the port alone
+        currentConnSettings.transport = this.checked ? 'tls' : 'non'; // update transport, and update other stuff
       }
       document.getElementById('textPort').value = currentConnSettings.port;
       // d3.select('#textPort').property("value", currentConnSettings.port);
@@ -264,13 +313,15 @@ function guiChangeDetected() {
       // d3.select('#textUrl').property("value", generateUrl());
       break;
     case 'textPort':
-      if (!this.value) {  // blanked the port, so update to default for this protocol + transport
+      if (!this.value) {
+        // blanked the port, so update to default for this protocol + transport
         this.value = getDefaultPort();
       }
       var newPort = +this.value;
-      if (newPort > 9) {  // two digits
+      if (newPort > 9) {
+        // two digits
         currentConnSettings.port = newPort;
-        d3.select('#textUrl').property("value", generateUrl());
+        d3.select('#textUrl').property('value', generateUrl());
         break;
       } else {
         this.value = currentConnSettings.port;
@@ -286,15 +337,17 @@ function guiChangeDetected() {
       currentConnSettings.vpn = this.value;
       break;
     case 'radioQoS':
-      currentConnSettings.qos = this.id == 'radioAtMostOnce' ? 'direct' : 'guaranteed';
+      currentConnSettings.qos =
+        this.id == 'radioAtMostOnce' ? 'direct' : 'guaranteed';
       break;
     case 'radioFormat':
-      currentConnSettings.msgType = this.id == 'radioTextMsg' ? 'text' : 'bytes';
+      currentConnSettings.msgType =
+        this.id == 'radioTextMsg' ? 'text' : 'bytes';
       break;
     case 'prettyPrint':
       currentConnSettings.prettyPrint = this.checked;
-      break
-    }
+      break;
+  }
 }
 
 // PubSub+ Interactions
@@ -303,7 +356,7 @@ function init() {
   var factoryProps = new solace.SolclientFactoryProperties();
   factoryProps.profile = solace.SolclientFactoryProfiles.version10;
   solace.SolclientFactory.init(factoryProps);
-  solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN);  // INFO is too chatty
+  solace.SolclientFactory.setLogLevel(solace.LogLevel.WARN); // INFO is too chatty
 }
 
 // connection & error callback management
@@ -318,9 +371,9 @@ function unregisterConnectionCallback(cb) {
 }
 
 function notifyConnectionStatus(status) {
-  callbacks.forEach(cb => {
+  callbacks.forEach((cb) => {
     cb(status);
-  })
+  });
 }
 
 // notify connection status at startup (disconnected)
@@ -337,9 +390,9 @@ function unregisterErrorCallback(cb) {
 }
 
 function notifyErrorStatus(status) {
-  errorCallbacks.forEach(cb => {
+  errorCallbacks.forEach((cb) => {
     cb(status);
-  })
+  });
 }
 
 // successful publish callback management
@@ -354,9 +407,9 @@ function unregisterPublishCallback(cb) {
 }
 
 function notifySuccessfulPublish(topic, payload, msgName, publishKey) {
-  publishCallbacks.forEach(cb => {
+  publishCallbacks.forEach((cb) => {
     cb(topic, payload, publishKey, msgName);
-  })
+  });
 }
 
 function connectButtonClicked(callback = null) {
@@ -382,12 +435,11 @@ function connectButtonClicked(callback = null) {
     }
   }
 
-
   if (connStatus != 'disconnected') return;
   connStatus = 'connecting';
   notifyConnectionStatus(connStatus);
   // start the connection process
-  d3.selectAll('.connInput').attr('disabled', true);   // could also use selectors on ID or name: https://stackoverflow.com/questions/8714090/how-to-do-a-wildcard-element-name-match-with-queryselector-or-queryselector
+  d3.selectAll('.connInput').attr('disabled', true); // could also use selectors on ID or name: https://stackoverflow.com/questions/8714090/how-to-do-a-wildcard-element-name-match-with-queryselector-or-queryselector
   switch (currentConnSettings.protocol) {
     case 'SMF':
       publisher.session = null;
@@ -398,29 +450,49 @@ function connectButtonClicked(callback = null) {
           url: generateUrl(),
           vpnName: currentConnSettings.vpn,
           userName: currentConnSettings.username,
-          password: currentConnSettings.password ? currentConnSettings.password : "",
+          password: currentConnSettings.password
+            ? currentConnSettings.password
+            : '',
           connectRetries: 0,
         });
         // define session event listeners
-        publisher.session.on(solace.SessionEventCode.UP_NOTICE, function (sessionEvent) {
-          // console.log('=== Successfully connected and ready to publish messages. ===');
-          // console.log(sessionEvent);
-          onConnectSuccess();
-        });
-        publisher.session.on(solace.SessionEventCode.CONNECT_FAILED_ERROR, function (sessionEvent) {
-          console.log('CONNECT_FAILED_ERROR Connection failed to the message router: ' + sessionEvent.infoStr +
-            ' - check correct parameter values and connectivity!');
-          onConnectFailure(sessionEvent.infoStr);
-        });
-        publisher.session.on(solace.SessionEventCode.DOWN_ERROR, function (sessionEvent) {
-          console.log('DOWN_ERROR Connection failed to the message router: ' + sessionEvent.infoStr +
-            ' - check correct parameter values and connectivity!');
-          onConnectFailure(sessionEvent.infoStr);
-        });
-        publisher.session.on(solace.SessionEventCode.DISCONNECTED, function (sessionEvent) {
-          console.log('Disconnected.');
-          onDisconnect(sessionEvent.infoStr);
-        });
+        publisher.session.on(
+          solace.SessionEventCode.UP_NOTICE,
+          function (sessionEvent) {
+            // console.log('=== Successfully connected and ready to publish messages. ===');
+            // console.log(sessionEvent);
+            onConnectSuccess();
+          }
+        );
+        publisher.session.on(
+          solace.SessionEventCode.CONNECT_FAILED_ERROR,
+          function (sessionEvent) {
+            console.log(
+              'CONNECT_FAILED_ERROR Connection failed to the message router: ' +
+                sessionEvent.infoStr +
+                ' - check correct parameter values and connectivity!'
+            );
+            onConnectFailure(sessionEvent.infoStr);
+          }
+        );
+        publisher.session.on(
+          solace.SessionEventCode.DOWN_ERROR,
+          function (sessionEvent) {
+            console.log(
+              'DOWN_ERROR Connection failed to the message router: ' +
+                sessionEvent.infoStr +
+                ' - check correct parameter values and connectivity!'
+            );
+            onConnectFailure(sessionEvent.infoStr);
+          }
+        );
+        publisher.session.on(
+          solace.SessionEventCode.DISCONNECTED,
+          function (sessionEvent) {
+            console.log('Disconnected.');
+            onDisconnect(sessionEvent.infoStr);
+          }
+        );
         // if all looks ok try to connect!
         publisher.session.connect();
       } catch (error) {
@@ -432,23 +504,36 @@ function connectButtonClicked(callback = null) {
       break;
     case 'MQTT':
       // publisher = {};
-      var connSettings = { protocolVersion: 5, resubscribe: true, reconnectPeriod: 1000 };  // anything else to add here?
-      if (currentConnSettings.username) connSettings.username = currentConnSettings.username;
-      if (currentConnSettings.password) connSettings.password = currentConnSettings.password;
-      publisher.client = mqtt.connect(wsOptions[currentConnSettings.transport] + '://' + currentConnSettings.host + ':' + currentConnSettings.port, connSettings);
+      var connSettings = {
+        protocolVersion: 5,
+        resubscribe: true,
+        reconnectPeriod: 1000,
+      }; // anything else to add here?
+      if (currentConnSettings.username)
+        connSettings.username = currentConnSettings.username;
+      if (currentConnSettings.password)
+        connSettings.password = currentConnSettings.password;
+      publisher.client = mqtt.connect(
+        wsOptions[currentConnSettings.transport] +
+          '://' +
+          currentConnSettings.host +
+          ':' +
+          currentConnSettings.port,
+        connSettings
+      );
 
-      publisher.client.on("connect", () => {
+      publisher.client.on('connect', () => {
         onConnectSuccess();
       });
       publisher.client.on('error', function (err) {
         d3.selectAll('.connInput').attr('disabled', null);
-        console.log(new Date() + " ERRROROROROROOR");
+        console.log(new Date() + ' ERRROROROROROOR');
         console.log(err);
         onConnectFailure(err);
       });
       publisher.client.on('close', function (err) {
         d3.selectAll('.connInput').attr('disabled', null);
-        console.log(new Date() + " CLOSE");
+        console.log(new Date() + ' CLOSE');
         onDisconnect(err);
       });
       break;
@@ -457,9 +542,15 @@ function connectButtonClicked(callback = null) {
       // curl -u pq:pq http://pq.messaging.solace.cloud:9000/QUEUE/a/b/c -X POST -v -H "Solace-Delivery-Mode: Direct"    generates 200OK,  good enough to prove conneciton
       console.log(currentConnSettings.username);
       console.log(currentConnSettings.password);
-      
+
       let headers = new Headers();
-      headers.set('Authorization', 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password));
+      headers.set(
+        'Authorization',
+        'Basic ' +
+          btoa(
+            currentConnSettings.username + ':' + currentConnSettings.password
+          )
+      );
       headers.set('Content-Type', 'text/plain');
       headers.set('Solace-Delivery-Mode', 'direct');
 
@@ -469,57 +560,71 @@ function connectButtonClicked(callback = null) {
         method: 'POST',
         credentials: 'same-origin',
         // cache: 'no-cache',
-        mode: "no-cors",
+        mode: 'no-cors',
         // headers: headers
-        headers: { "Authorization": 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password) }
+        headers: {
+          Authorization:
+            'Basic ' +
+            btoa(
+              currentConnSettings.username + ':' + currentConnSettings.password
+            ),
+        },
       })
-        .then(response => {
+        .then((response) => {
           console.log(response);
           onConnectSuccess();
           return;
-        })  // initial SEMPv2 queue fetch block
-        .catch(error => {
+        }) // initial SEMPv2 queue fetch block
+        .catch((error) => {
           d3.selectAll('.connInput').attr('disabled', null);
-          notifyErrorStatus("Error when trying to connect to Solace REST Messaging");
-          console.error("Error when trying to connect to Solace REST Messaging");
+          notifyErrorStatus(
+            'Error when trying to connect to Solace REST Messaging'
+          );
+          console.error(
+            'Error when trying to connect to Solace REST Messaging'
+          );
           console.error(error);
           onConnectFailure('REST connection failed');
           updateConnectionPanelAfterDisconnect();
         });
       break;
-
   }
 
   if (callback) callback(connStatus);
 }
 
 function onConnectSuccess() {
-  console.log("Connected!");
+  console.log('Connected!');
   connStatus = 'connected';
   notifyConnectionStatus(connStatus);
 
   d3.select('#buttonConnect')
     .attr('disabled', null)
-    .text("Disconnect")
-    .style('border-color', getComputedStyle(document.documentElement).getPropertyValue('--text'));
+    .text('Disconnect')
+    .style(
+      'border-color',
+      getComputedStyle(document.documentElement).getPropertyValue('--text')
+    );
 }
 
 // MQTT doesn't call this apparently
 function onConnectFailure(something) {
   if (connStatus == 'connected') {
-    console.log("LOST CONNECTION!" + (something ? " " + something : ""));
+    console.log('LOST CONNECTION!' + (something ? ' ' + something : ''));
   }
   onDisconnect(something);
 }
 
 function onDisconnect(something) {
-  console.log("Disconnected!");
-  if (connStatus == 'connecting') {  // was in the process of trying to connect..!
-    console.log("Couldn't connect!" + (something ? " " + something : ""));
-    notifyErrorStatus("Couldn't connect!" + (something ? " " + something : ""));
-  } else if (connStatus != 'disconnecting') {  // mqtt goes here
-    console.log("LOST CONNECTION!" + (something ? " " + something : ""));
-    notifyErrorStatus("LOST CONNECTION!" + (something ? " " + something : ""));
+  console.log('Disconnected!');
+  if (connStatus == 'connecting') {
+    // was in the process of trying to connect..!
+    console.log("Couldn't connect!" + (something ? ' ' + something : ''));
+    notifyErrorStatus("Couldn't connect!" + (something ? ' ' + something : ''));
+  } else if (connStatus != 'disconnecting') {
+    // mqtt goes here
+    console.log('LOST CONNECTION!' + (something ? ' ' + something : ''));
+    notifyErrorStatus('LOST CONNECTION!' + (something ? ' ' + something : ''));
   }
   switch (currentConnSettings.protocol) {
     case 'SMF':
@@ -541,32 +646,37 @@ function onDisconnect(something) {
 
 function updateConnectionPanelAfterDisconnect() {
   d3.selectAll('.connInput').attr('disabled', null);
-  d3.select('#textVpn').attr('disabled', (currentConnSettings.protocol == 'SMF' ? null : 'true'));  // disable the VPN text if using MQTT or REST
-  d3.select('#buttonConnect').attr('disabled', null)
-    .text("Connect")
+  d3.select('#textVpn').attr(
+    'disabled',
+    currentConnSettings.protocol == 'SMF' ? null : 'true'
+  ); // disable the VPN text if using MQTT or REST
+  d3.select('#buttonConnect')
+    .attr('disabled', null)
+    .text('Connect')
     .style('border-color', '#00c895');
-  if (connStatus === 'disconnecting')
-    notifyConnectionStatus('disconnected');
+  if (connStatus === 'disconnecting') notifyConnectionStatus('disconnected');
   connStatus = 'disconnected';
 }
 
-async function postData(topic = "", data = {}) {  
+async function postData(topic = '', data = {}) {
   var postUrl = generateUrl() + '/' + topic;
   console.log(postUrl);
 
   fetch(postUrl, {
     method: 'POST',
     credentials: 'same-origin',
-    mode: "no-cors",
+    mode: 'no-cors',
     // headers: { "Authorization": 'Basic ' + btoa(currentConnSettings.username + ":" + currentConnSettings.password) },
     body: data,
   })
-    .then(response => {
+    .then((response) => {
       console.log(response);
-    })  // initial SEMPv2 queue fetch block
-    .catch(error => {
+    }) // initial SEMPv2 queue fetch block
+    .catch((error) => {
       notifyErrorStatus(error.message);
-      console.error("Error when trying send a message to Solace REST Messaging");
+      console.error(
+        'Error when trying send a message to Solace REST Messaging'
+      );
       console.error(error);
     });
 }
@@ -576,16 +686,27 @@ async function publish(topic, payload, partitionKey, msgName, publishKey) {
     notifyErrorStatus('Not connected to broker!');
     return;
   }
-  
+
   switch (currentConnSettings.protocol) {
     case 'SMF':
       // var messageText = 'Sample Message';
       var message = solace.SolclientFactory.createMessage();
-      message.setDestination(solace.SolclientFactory.createTopicDestination(topic));
+      message.setDestination(
+        solace.SolclientFactory.createTopicDestination(topic)
+      );
       if (currentConnSettings.msgType == 'text') {
-        if (!isEmpty(payload)) message.setSdtContainer(solace.SDTField.create(solace.SDTFieldType.STRING, JSON.stringify(payload)));
+        if (!isEmpty(payload))
+          message.setSdtContainer(
+            solace.SDTField.create(
+              solace.SDTFieldType.STRING,
+              JSON.stringify(payload)
+            )
+          );
       } else {
-        if (!isEmpty(payload)) message.setBinaryAttachment(typeof payload === 'object' ? JSON.stringify(payload) : payload);  // binary msg
+        if (!isEmpty(payload))
+          message.setBinaryAttachment(
+            typeof payload === 'object' ? JSON.stringify(payload) : payload
+          ); // binary msg
       }
       if (currentConnSettings.qos == 'direct') {
         // solace.MessageDeliveryModeType.DIRECT;
@@ -601,11 +722,11 @@ async function publish(topic, payload, partitionKey, msgName, publishKey) {
         }
       }
       try {
-          publisher.session.send(message);
-        } catch (error) {
-          notifyErrorStatus(error.message);
-          console.log(error.toString());
-          return;
+        publisher.session.send(message);
+      } catch (error) {
+        notifyErrorStatus(error.message);
+        console.log(error.toString());
+        return;
       }
       break;
 
@@ -614,16 +735,21 @@ async function publish(topic, payload, partitionKey, msgName, publishKey) {
         var options = {};
         options.qos = currentConnSettings.qos == 'direct' ? 0 : 1;
         if (options.qos == 1 && partitionKey) {
-          options.properties =  { userProperties: { JMSXGroupId: partitionKey }};
+          options.properties = {
+            userProperties: { JMSXGroupId: partitionKey },
+          };
           options.properties.payloadFormatIndicator = true;
         }
 
-        if (!isEmpty(payload)) payload = (typeof payload === 'object') ? JSON.stringify(payload) : payload;  // binary msg
+        if (!isEmpty(payload))
+          payload =
+            typeof payload === 'object' ? JSON.stringify(payload) : payload; // binary msg
 
         publisher.client.publish(topic, payload, options);
-      } catch (error) {  // i have no idea if pubish throws off any errors?
+      } catch (error) {
+        // i have no idea if pubish throws off any errors?
         notifyErrorStatus(error.message);
-        console.error("error during MQTT publish!!");
+        console.error('error during MQTT publish!!');
         console.error(error);
         return;
       }
@@ -631,12 +757,15 @@ async function publish(topic, payload, partitionKey, msgName, publishKey) {
 
     case 'REST':
       // just a post!  Hopefully we're in messaging mode
-      if (!isEmpty(payload)) payload = (typeof payload === 'object') ? JSON.stringify(payload) : payload;
+      if (!isEmpty(payload))
+        payload =
+          typeof payload === 'object' ? JSON.stringify(payload) : payload;
       try {
         await postData(topic, payload);
-      } catch (error) {  // i have no idea if pubish throws off any errors?
+      } catch (error) {
+        // i have no idea if pubish throws off any errors?
         notifyErrorStatus(error.message);
-        console.error("error during REST publish!!");
+        console.error('error during REST publish!!');
         console.error(error);
         return;
       }

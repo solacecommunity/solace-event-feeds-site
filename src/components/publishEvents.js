@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, act } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Collapsible from 'react-collapsible';
 import '../css/collapsable.css';
 import { Button, List, Slider } from 'antd';
@@ -11,14 +11,30 @@ const MAX_DELAY = 10;
 const MAX_RATE = 10;
 
 const PublishEvents = (props) => {
-  const { session } = useContext(SessionContext); // Use context
-  const { sessionProperties } = useContext(SessionContext); // Use context
-  const { isAnyEventRunning, setIsAnyEventRunning } =
-    useContext(SessionContext); // Use context
+  const {
+    session,
+    sessionProperties,
+    isAnyEventRunning,
+    setIsAnyEventRunning,
+    setStreamedEvents,
+  } = useContext(SessionContext); // Use context
   const [isConnected, setIsConnected] = useState(false);
   const [disableForm, setdisableForm] = useState(true);
   const [errorConnection, setErrorString] = useState(undefined);
   const [activeFeedConfig, setActiveFeedConfig] = useState(null); // Track the active Control button
+  const tagColors = [
+    'magenta',
+    'red',
+    'volcano',
+    'orange',
+    'gold',
+    'lime',
+    'green',
+    'cyan',
+    'blue',
+    'geekblue',
+    'purple',
+  ];
 
   const feedRules = props.feedRules;
   const events = {};
@@ -32,6 +48,7 @@ const PublishEvents = (props) => {
       intervalId: null,
       timeoutId: null,
       countSend: 0,
+      tagColor: tagColors[Math.floor(Math.random() * tagColors.length)],
     };
   });
   const [activeEvents, setActiveEvents] = useState(events); // Track the active event
@@ -105,6 +122,18 @@ const PublishEvents = (props) => {
         );
         activeEvents[item.eventName].countSend += 1;
         session.send(message);
+
+        // Update streamedEvents with each published event
+        setStreamedEvents((prevEvents) => [
+          ...prevEvents,
+          {
+            eventName: item.eventName,
+            topic,
+            payload,
+            tagColor: activeEvents[item.eventName].tagColor,
+            countSend: activeEvents[item.eventName].countSend,
+          },
+        ]);
       }, 1000 / activeEvents[item.eventName]?.rate); // Calculate interval based on rate (messages per second)
 
       // Store the intervalId for stopping the feed later
@@ -200,6 +229,10 @@ const PublishEvents = (props) => {
           'Error disconnecting from Solace message router: ',
           error.toString()
         );
+        setErrorString(
+          'Error disconnecting from Solace message router: ',
+          error.toString()
+        );
       }
     }
   };
@@ -246,33 +279,40 @@ const PublishEvents = (props) => {
         >
           <div
             style={{
-              marginBottom: '16px',
               display: 'flex',
-              flexDirection: 'row',
               justifyContent: 'flex-end',
-              gap: '8px',
-              padding: '0 30px',
+              padding: '0 30px 0 0',
             }}
           >
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={startAllFeed}
-              disabled={
-                !isConnected ||
-                !Object.values(activeEvents).some((event) => !event.active)
-              }
-            >
-              Start All
-            </Button>
-            <Button
-              color="danger"
-              variant="outlined"
-              onClick={stopAllFeed}
-              disabled={!isConnected || !isAnyEventRunning}
-            >
-              Stop All
-            </Button>
+            <List>
+              <List.Item
+                actions={[
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    onClick={startAllFeed}
+                    disabled={
+                      !isConnected ||
+                      !Object.values(activeEvents).some(
+                        (event) => !event.active
+                      )
+                    }
+                  >
+                    Start All
+                  </Button>,
+                  <Button
+                    color="danger"
+                    variant="outlined"
+                    onClick={stopAllFeed}
+                    disabled={!isConnected || !isAnyEventRunning}
+                  >
+                    Stop All
+                  </Button>,
+                ]}
+              >
+                <List.Item.Meta title=" " description=" " />
+              </List.Item>
+            </List>
           </div>
           <InfiniteScroll
             dataLength={feedRules.length}

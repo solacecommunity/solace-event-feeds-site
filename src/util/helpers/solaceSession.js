@@ -8,7 +8,7 @@ export const SolaceSession = ({ children }) => {
   const [session, setSession] = useState(null);
   const [sessionProperties, setSessionProperties] = useState({});
   const [isAnyEventRunning, setIsAnyEventRunning] = useState(false);
-
+  const [streamedEvents, setStreamedEvents] = useState([]);
   return (
     <SessionContext.Provider
       value={{
@@ -18,6 +18,8 @@ export const SolaceSession = ({ children }) => {
         setSessionProperties,
         isAnyEventRunning,
         setIsAnyEventRunning,
+        streamedEvents,
+        setStreamedEvents,
       }}
     >
       {children}

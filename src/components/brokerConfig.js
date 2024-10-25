@@ -90,7 +90,7 @@ const BrokerConfig = () => {
     );
 
     newSession.on(solace.SessionEventCode.DISCONNECTED, () => {
-      console.log('Disconnected.');
+      console.log('Disconnected From broker.');
       setIsConnected(false);
       setConnecting(false);
       setdisableForm(false);
@@ -115,7 +115,6 @@ const BrokerConfig = () => {
         session.disconnect();
         setIsConnected(false);
         setConnecting(false);
-        console.log('Disconnected from Solace message router.');
       } catch (error) {
         setErrorString(
           'Error disconnecting from Solace message router: ',
@@ -261,11 +260,9 @@ const BrokerConfig = () => {
                     ) {
                       throw new Error('Invalid configuration file format.');
                     }
-                    console.log('Loaded config file: ', config);
                     setRecord(config);
                     form.setFieldsValue(config);
                   } catch (error) {
-                    console.log('Error parsing config file: ', error);
                     let errorString = 'Error parsing config file: ' + error;
                     setErrorString(errorString);
                   }

@@ -5,6 +5,7 @@ import SEO from '../components/seo';
 import Loading from '../components/loading';
 import BrokerConfig from '../components/brokerConfig';
 import PublishEvents from '../components/publishEvents';
+import Stream from '../components/stream';
 import { Container, Row, Col } from 'react-bootstrap';
 import { SolaceSession } from '../util/helpers/solaceSession';
 
@@ -1982,8 +1983,6 @@ const testFeedMetadata = {
 };
 
 const reducer = (state, action) => {
-  console.log('IN REDUCER');
-  console.log(action);
   switch (action.type) {
     case 'SET_FAKER_RULES':
       return { ...state, fakerRules: action.payload };
@@ -2078,6 +2077,9 @@ const FeedPage = ({ location }) => {
               </Row>
             )
           ) : null}
+          <Row className="mt3">
+            <Stream />
+          </Row>
         </Container>
       </SolaceSession>
 
