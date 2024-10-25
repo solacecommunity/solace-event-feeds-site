@@ -8,9 +8,18 @@ export const SolaceSession = ({ children }) => {
   const [session, setSession] = useState(null);
   const [sessionProperties, setSessionProperties] = useState({});
   const [isAnyEventRunning, setIsAnyEventRunning] = useState(false);
-  
+
   return (
-    <SessionContext.Provider value={{ session, setSession, sessionProperties, setSessionProperties, isAnyEventRunning, setIsAnyEventRunning }}>
+    <SessionContext.Provider
+      value={{
+        session,
+        setSession,
+        sessionProperties,
+        setSessionProperties,
+        isAnyEventRunning,
+        setIsAnyEventRunning,
+      }}
+    >
       {children}
     </SessionContext.Provider>
   );
