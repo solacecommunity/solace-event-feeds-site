@@ -2002,9 +2002,9 @@ const reducer = (state, action) => {
 };
 
 const FeedPage = ({ location }) => {
-  // const [state, dispatch] = useReducer(reducer, feedMetadata);
+  const [state, dispatch] = useReducer(reducer, feedMetadata);
   // for local testing only //
-  const [state, dispatch] = useReducer(reducer, testFeedMetadata);
+  // const [state, dispatch] = useReducer(reducer, testFeedMetadata);
 
   const params = new URLSearchParams(location.search);
   const feed = {
@@ -2016,21 +2016,33 @@ const FeedPage = ({ location }) => {
   useEffect(() => {
     const fetchFeedInfo = async () => {
       // Query all the feed metadata
-      // var feedFakerRules = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`);
-      // dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
-      // var feedInfo = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedinfo.json`);
-      // dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
-      // var feedRules = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedrules.json`);
-      // dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
-      // if (feed.type === 'asyncapi_feed') {
-      //   var analysis = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`);
-      //   dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
-      //   var feedSchemas = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedschemas.json`);
-      //   dispatch({ type: 'SET_FEED_SCHEMAS', payload: feedSchemas.data });
-      // } else if (feed.type === 'restapi_feed') {
-      //   var feedAPI = await axios.get(`https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedapi.json`);
-      //   dispatch({ type: 'SET_FEED_API', payload: feedAPI.data });
-      // }
+      var feedFakerRules = await axios.get(
+        `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`
+      );
+      dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
+      var feedInfo = await axios.get(
+        `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedinfo.json`
+      );
+      dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
+      var feedRules = await axios.get(
+        `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedrules.json`
+      );
+      dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
+      if (feed.type === 'asyncapi_feed') {
+        var analysis = await axios.get(
+          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
+        );
+        dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
+        var feedSchemas = await axios.get(
+          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedschemas.json`
+        );
+        dispatch({ type: 'SET_FEED_SCHEMAS', payload: feedSchemas.data });
+      } else if (feed.type === 'restapi_feed') {
+        var feedAPI = await axios.get(
+          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedapi.json`
+        );
+        dispatch({ type: 'SET_FEED_API', payload: feedAPI.data });
+      }
     };
 
     fetchFeedInfo();
@@ -2061,7 +2073,7 @@ const FeedPage = ({ location }) => {
           </Row>
 
           {feed.type === 'asyncapi_feed' ? (
-            state.feedSchemas.length === 0 ? (
+            state.feedRules.length === 0 ? (
               <Loading section="Events" />
             ) : (
               <Row className="mt3">

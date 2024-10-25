@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Collapsible from 'react-collapsible';
 import '../css/collapsable.css';
-import { Button, List, Slider } from 'antd';
+import { Button, List, Slider, Tooltip } from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
+import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ControlOutlined, LinkOutlined } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
@@ -18,6 +19,7 @@ const PublishEvents = (props) => {
     setIsAnyEventRunning,
     setStreamedEvents,
   } = useContext(SessionContext); // Use context
+
   const [isConnected, setIsConnected] = useState(false);
   const [disableForm, setdisableForm] = useState(true);
   const [errorConnection, setErrorString] = useState(undefined);
@@ -52,7 +54,7 @@ const PublishEvents = (props) => {
     };
   });
   const [activeEvents, setActiveEvents] = useState(events); // Track the active event
-
+  const faker = new Faker(); // For fake data generation
   const toggleControl = (item) => {
     setActiveFeedConfig((prev) =>
       prev === item.eventName ? null : item.eventName
@@ -103,8 +105,8 @@ const PublishEvents = (props) => {
     const timeoutId = setTimeout(() => {
       // Set up the interval after the delay
       const intervalId = setInterval(() => {
-        const payload = generatePayload(item);
-        const topic = generateTopic(item);
+        const payload = faker.generateRandomPayload(item);
+        const topic = faker.generateRandomTopic(item, payload);
         sessionProperties.msgformat === 'text'
           ? message.setSdtContainer(
               solace.SDTField.create(
@@ -201,19 +203,6 @@ const PublishEvents = (props) => {
     return Math.max(
       ...Object.values(activeEvents).map((event) => event.delay || MAX_DELAY)
     );
-  };
-
-  const generatePayload = (item) => {
-    let payload = {
-      EventName: item.eventName,
-      Count: activeEvents[item.eventName].countSend,
-    };
-    return payload;
-  };
-
-  const generateTopic = (item) => {
-    let topic = `test/${item.messageName}/${activeEvents[item.eventName].countSend}`;
-    return topic;
   };
 
   const handleDisconnect = () => {
@@ -377,53 +366,55 @@ const PublishEvents = (props) => {
                       </div>
                     }
                     title={`${item.eventName} v${item.eventVersion}`}
-                    description={item.topic}
+                    description={
+                      activeFeedConfig === item.eventName ? (
+                        <div style={{ marginTop: '10px' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                            }}
+                          >
+                            <span>
+                              Message rate ({activeEvents[item.eventName]?.rate}{' '}
+                              msg/s)
+                            </span>
+                            <Slider
+                              style={{ width: '250px', flex: '1' }}
+                              defaultValue={1}
+                              min={1}
+                              max={MAX_RATE}
+                              value={activeEvents[item.eventName]?.rate || 1}
+                              onChange={(rate) => updateRate(item, rate)}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              marginTop: '8px',
+                            }}
+                          >
+                            <span>
+                              Delay ({activeEvents[item.eventName]?.delay} s)
+                            </span>
+                            <Slider
+                              style={{ width: '250px', flex: '1' }}
+                              defaultValue={0}
+                              min={0}
+                              max={getMaxDelay(activeEvents)}
+                              value={activeEvents[item.eventName]?.delay || 0}
+                              onChange={(delay) => updateDelay(item, delay)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        `${item.topic}`
+                      )
+                    }
                   />
-                  {/* Conditionally render the sliders when the Control button is active */}
-                  {activeFeedConfig === item.eventName && (
-                    <div style={{ marginTop: '16px' }}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                        }}
-                      >
-                        <span>
-                          Message rate ({activeEvents[item.eventName]?.rate}{' '}
-                          msg/s)
-                        </span>
-                        <Slider
-                          style={{ width: '250px', flex: '1' }}
-                          defaultValue={1}
-                          min={1}
-                          max={MAX_RATE}
-                          value={activeEvents[item.eventName]?.rate || 1}
-                          onChange={(rate) => updateRate(item, rate)}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '8px',
-                          marginTop: '8px',
-                        }}
-                      >
-                        <span>
-                          Delay ({activeEvents[item.eventName]?.delay} s)
-                        </span>
-                        <Slider
-                          style={{ width: '250px', flex: '1' }}
-                          defaultValue={0}
-                          min={0}
-                          max={getMaxDelay(activeEvents)}
-                          value={activeEvents[item.eventName]?.delay || 0}
-                          onChange={(delay) => updateDelay(item, delay)}
-                        />
-                      </div>
-                    </div>
-                  )}
                 </List.Item>
               )}
             />

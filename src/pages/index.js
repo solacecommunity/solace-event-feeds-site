@@ -171,13 +171,15 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      var feedsData = TestCommunityFeeds;
-      feedsData = feedsData.filter((feed) => feed.type !== 'restapi_feed');
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      // var feedsData = TestCommunityFeeds;
+      // feedsData = feedsData.filter((feed) => feed.type !== 'restapi_feed');
       // for local testing only //
 
-      // var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
-      // feedsData = feedsData.data.filter(feed => feed.type !== 'restapi_feed');
+      var feedsData = await axios.get(
+        'https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json'
+      );
+      feedsData = feedsData.data.filter((feed) => feed.type !== 'restapi_feed');
 
       dispatch({ type: 'SET_FEEDS', payload: feedsData });
 

@@ -120,10 +120,18 @@ const Stream = () => {
                         }
                         title={event.topic}
                         description={
-                          showPayload
-                            ? 'Payload: ' +
-                              JSON.stringify(event.payload, null, 2)
-                            : ''
+                          showPayload ? (
+                            <pre
+                              style={{
+                                whiteSpace: 'pre-wrap',
+                                wordBreak: 'break-word',
+                              }}
+                            >
+                              {JSON.stringify(event.payload, null, 2)}
+                            </pre>
+                          ) : (
+                            ''
+                          )
                         }
                       />
                     </List.Item>
