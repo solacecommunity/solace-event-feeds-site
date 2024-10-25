@@ -4,6 +4,8 @@ import { Container, Row, Col, InputGroup } from "react-bootstrap"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import FeedCard from "../components/feedCard"
+import CodeBlock from '../components/codeBlock'; 
+import Loading from "../components/loading"
 
 const initialState = {
   isLoading: true,
@@ -34,146 +36,114 @@ const IndexPage = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [search, setSearch] = useState("");
 
-  const TestCommunityFeeds = [
+  const TestCommunityFeeds =  [
     {
-      "name": "Account_Management",
-      "description": "Application for supporting account maintenance activities. Includes support for fraud detection.",
-      "img": "./defaultfeed.png",
-      "type": "asyncapi_feed",
-      "contributor": "Solace Community",
-      "github": "solacecommunity",
-      "domain": "Banking",
-      "tags": "Account Management, Fraud Detection",
-      "lastUpdated": "2024-05-23T12:33:18.293Z"
+        "name": "Point_of_Sale_System",
+        "description": "Commercial off-the-shelf (COTS) Point of Sale (PoS) system that serves checkout areas for all stores within acme-retail.   Receives Product events from supply chain management domain to allow for price updates and restrictions on purchases.  Emits Retail Order events that allow for analytics and supply chain management decisions.",
+        "img": "https://cdn-icons-png.flaticon.com/512/641/641813.png",
+        "type": "asyncapi_feed",
+        "contributor": "Giri Venkatesan",
+        "github": "gvensan",
+        "domain": "Retail",
+        "tags": "PoS, Shopping, Retail",
+        "lastUpdated": "2024-05-23T12:33:18.293Z"
     },
     {
-      "name": "Point_of_Sale_System",
-      "description": "Commercial off-the-shelf (COTS) Point of Sale (PoS) system that serves checkout areas for all stores within acme-retail.   Receives Product events from supply chain management domain to allow for price updates and restrictions on purchases.  Emits Retail Order events that allow for analytics and supply chain management decisions.",
-      "img": "https://cdn-icons-png.flaticon.com/512/641/641813.png",
-      "type": "asyncapi_feed",
-      "contributor": "Giri Venkatesan",
-      "github": "gvensan",
-      "domain": "Retail",
-      "tags": "PoS, Shopping, Retail",
-      "lastUpdated": "2024-05-23T12:33:18.293Z"
+        "name": "Aviation - ACARSEngine",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtdB0qq-iGC7RpPzwdvrlgEq8haqrY-_QQd-Wg61qrdA&s",
+        "title": "ACARSEngine",
+        "description": "ACARS-Aircraft Communications Addressing and Reporting System is a digital datalink system for transmission of short messages between aircraft and ground stations via airband radio or satellite. ",
+        "github": "solacecommunity",
+        "contributor": "Solace Community",
+        "domain": "Aviation",
+        "tags": "Landing Status, Aircraft Status",
+        "type": "asyncapi_feed",
+        "lastUpdated": "2024-06-09T16:31:36.870Z"
     },
     {
-      "name": "Fake_London_Bus",
-      "description": "Fake London Bus",
-      "img": "./defaultfeed.png",
-      "type": "asyncapi_feed",
-      "contributor": "Giri Venkatesan",
-      "github": "gvensan",
-      "domain": "Transportation",
-      "tags": "Bus, Control",
-      "lastUpdated": "2024-05-23T12:33:18.293Z"
+        "name": "CRMSystem",
+        "img": "https://assets.bizclikmedia.net/1800/3eb7889182dd47f70f445f0e16f3591a:e4b74fc371efa3cf6f5942192c548b8c/gettyimages-1259086543-0-jpg.webp",
+        "title": "CRMSystem",
+        "description": "Mange Customer information - Address Change, Birthday, Name and other personal information change management",
+        "github": "gvensan",
+        "contributor": "Giri Venkatesan",
+        "domain": "CRM",
+        "tags": "Address Change, Name Change, DOB Change",
+        "type": "asyncapi_feed",
+        "lastUpdated": "2024-06-09T16:31:36.870Z"
     },
     {
-      "name": "Aviation - ACARSEngine",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtdB0qq-iGC7RpPzwdvrlgEq8haqrY-_QQd-Wg61qrdA&s",
-      "title": "ACARSEngine",
-      "description": "ACARS-Aircraft Communications Addressing and Reporting System is a digital datalink system for transmission of short messages between aircraft and ground stations via airband radio or satellite. ",
-      "github": "solacecommunity",
-      "contributor": "Solace Community",
-      "domain": "Aviation",
-      "tags": "Landing Status, Aircraft Status",
-      "type": "asyncapi_feed",
-      "lastUpdated": "2024-06-09T16:31:36.870Z"
+        "name": "Mining - HR Service",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcymJMuurAmVekjFY_PKcTYLpBuLNg5ZIa5w&s",
+        "title": "HR Service",
+        "description": "HR services in mining are crucial for managing the distinct challenges posed by the industry, which operates in often remote and hazardous environments. These services ensure the effective recruitment, retention, and development of a skilled workforce equipped to meet operational demands. Key functions include conducting robust safety and skills training, overseeing compliance with labor laws and safety regulations, and implementing programs that promote employee well-being and job satisfaction.",
+        "github": "solacecommunity",
+        "contributor": "Solace Community",
+        "domain": "Mining",
+        "tags": "HR Service, Shift Management, Break Management",
+        "type": "asyncapi_feed",
+        "lastUpdated": "2024-06-09T16:31:36.870Z"
     },
     {
-      "name": "Aviation - AirOps",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtdB0qq-iGC7RpPzwdvrlgEq8haqrY-_QQd-Wg61qrdA&s",
-      "description": "AirOps systems is resposible for complex management of flight scheduling and trip oversight, crew compliance and communication, customer data, charter and maintenance .",
-      "github": "solacecommunity",
-      "contributor": "Solace Community",
-      "domain": "Aviation",
-      "tags": "Gate Change",
-      "type": "asyncapi_feed",
-      "lastUpdated": "2024-06-09T16:31:36.870Z"
+        "type": "restapi_feed",
+        "name": "StarWars",
+        "description": "Star Wars API for the People End Point. All the Star Wars data you've ever wanted: Planets, Spaceships, Vehicles, People, Films and Species -  From all SEVEN Star Wars films, Now with The Force Awakens data!",
+        "img": "https://lumiere-a.akamaihd.net/v1/images/image_5c51d8fe.jpeg",
+        "contributor": "Tamimi",
+        "github": "TamimiGithub",
+        "domain": "StarWars",
+        "tags": "starwars, fiction, movie, TV",
+        "lastUpdated": "2024-08-01T12:55:54.776Z"
     },
     {
-      "name": "CRMSystem",
-      "img": "https://assets.bizclikmedia.net/1800/3eb7889182dd47f70f445f0e16f3591a:e4b74fc371efa3cf6f5942192c548b8c/gettyimages-1259086543-0-jpg.webp",
-      "title": "CRMSystem",
-      "description": "Mange Customer information - Address Change, Birthday, Name and other personal information change management",
-      "github": "gvensan",
-      "contributor": "Giri Venkatesan",
-      "domain": "CRM",
-      "tags": "Customer Management",
-      "type": "asyncapi_feed",
-      "lastUpdated": "2024-06-09T16:31:36.870Z"
+        "type": "asyncapi_feed",
+        "name": "Fraud-Detection",
+        "description": "Application which scans and detects fradulent transactions in a banking domain",
+        "img": "./defaultfeed.png",
+        "contributor": "Hari-Rangarajan-Solace",
+        "github": "Hari-Rangarajan-Solace",
+        "domain": "Acme-Banking",
+        "tags": "fraud detection, banking, solace broker, intelligent topics",
+        "lastUpdated": "2024-08-14T07:30:29.801Z",
+        "contributed": true
     },
     {
-      "name": "Mining - HR Service",
-      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcymJMuurAmVekjFY_PKcTYLpBuLNg5ZIa5w&s",
-      "title": "HR Service",
-      "description": "HR services in mining are crucial for managing the distinct challenges posed by the industry, which operates in often remote and hazardous environments. These services ensure the effective recruitment, retention, and development of a skilled workforce equipped to meet operational demands. Key functions include conducting robust safety and skills training, overseeing compliance with labor laws and safety regulations, and implementing programs that promote employee well-being and job satisfaction.",
-      "github": "solacecommunity",
-      "contributor": "Solace Community",
-      "domain": "Mining",
-      "tags": "HR Service, Shift Management, Break Management",
-      "type": "asyncapi_feed",
-      "lastUpdated": "2024-06-09T16:31:36.870Z"
+        "type": "asyncapi_feed",
+        "name": "Shipping-Service",
+        "description": "A streaming service leveraging the solace Streams API. This service reacts to orders as they are created, updating the Shipping topic as notifications are received from the delivery company",
+        "img": "https://cdn-icons-png.flaticon.com/512/411/411763.png",
+        "contributor": "Tamimi",
+        "github": "TamimiGithub",
+        "domain": "Shipping",
+        "tags": "shipping, delivery, tracking",
+        "lastUpdated": "2024-08-14T09:11:25.554Z",
+        "contributed": true
     },
     {
-      "type": "restapi_feed",
-      "name": "Jokes",
-      "description": "Random Jokes",
-      "img": "./defaultfeed.png",
-      "contributor": "Anonymous",
-      "github": "",
-      "domain": "Jokes",
-      "tags": "Jokes",
-      "lastUpdated": "2024-07-02T12:48:54.776Z"
+        "type": "restapi_feed",
+        "name": "Random-User-Generator",
+        "description": "The random user generator provides realistic user data for testing and development purposes. The user's profile encompasses personal information such as email (kim.myre@example.com), login credentials, date of birth, and registration details. Additionally, it includes contact numbers, a unique identifier, and a set of profile pictures. The generator also specifies geographical coordinates and timezone information, offering a comprehensive, realistic user profile for various application scenarios.",
+        "img": "https://xsgames.co/randomusers/assets/images/favicon.png",
+        "contributor": "Giri Venkatesan",
+        "github": "gvensan",
+        "domain": "Random Data",
+        "tags": "random user, fake data, fake profile",
+        "lastUpdated": "2024-08-14T09:51:47.345Z",
+        "contributed": true
     },
     {
-      "type": "restapi_feed",
-      "name": "StarWars",
-      "description": "Star Wars API for the People End Point",
-      "img": "https://lumiere-a.akamaihd.net/v1/images/image_5c51d8fe.jpeg",
-      "contributor": "Tamimi",
-      "github": "TamimiGithub",
-      "domain": "StarWars",
-      "tags": "starwars, fiction, movie, TV",
-      "lastUpdated": "2024-08-01T12:55:54.776Z"
-    },
-    {
-      "type": "asyncapi_feed",
-      "name": "Shipping Service",
-      "description": "A streaming service leveraging the solace Streams API. This service reacts to orders as they are created, updating the Shipping topic as notifications are received from the delivery company",
-      "img": "https://cdn-icons-png.flaticon.com/512/411/411763.png",
-      "contributor": "Tamimi",
-      "github": "TamimiGithub",
-      "domain": "Shipping",
-      "tags": "Shipping",
-      "lastUpdated": "2024-08-05T17:39:01.875Z",
-      "contributed": true
-    },
-    {
-      "type": "restapi_feed",
-      "name": "Quotes from Alpha Vantage",
-      "description": "A lightweight stock quote API, this service returns the latest price and volume information for a ticker of your choice.",
-      "img": "https://miro.medium.com/v2/resize:fit:1400/1*UDPtLHUTpusvLU623P8Q4w.jpeg",
-      "contributor": "Giri Venkatesan",
-      "github": "gvensan",
-      "domain": "Stocks",
-      "tags": "Real-time, Delayd, Quotes",
-      "lastUpdated": "2024-08-06T12:05:19.585Z",
-      "contributed": true
-    },
-    {
-      "type": "asyncapi_feed",
-      "name": "FraudService",
-      "description": "This service searches for potentially fraudulent transactions by calculating the total value of orders for a customer within a time period, then checks to see if this is over a configured limit. \n\n[GitHub](https://github.com/confluentinc/solace-streams-examples/blob/5.0.0-post/src/main/java/io/confluent/examples/streams/microservices/FraudService.java)",
-      "img": "https://banner2.cleanpng.com/20180531/kwp/kisspng-computer-icons-data-analysis-techniques-for-fraud-detector-5b0fe22874a146.1442294115277675924777.jpg",
-      "contributor": "Tamimi",
-      "github": "Tamimigithub",
-      "domain": "Fullfillment",
-      "tags": "fraud, fullfillment, e-commerce",
-      "lastUpdated": "2024-08-07T14:23:05.763Z",
-      "contributed": true
+        "type": "asyncapi_feed",
+        "name": "Core-Banking",
+        "description": "The Core Banking Application processes all transactions across bank accounts and automatically publishes the relevant event for each transaction. It ensures seamless, real-time management of all financial activities, enhancing operational efficiency and system integration",
+        "img": "./defaultfeed.png",
+        "contributor": "Hari-Rangarajan-Solace",
+        "github": "HariRangarajan-Solace",
+        "domain": "Acme-Banking",
+        "tags": "banking, transactions generator, solace broker, intelligent topics",
+        "lastUpdated": "2024-08-14T12:14:30.086Z",
+        "contributed": true
     }
-  ]
+]
 
   const TestLocalFeeds = [
     {
@@ -189,17 +159,18 @@ const IndexPage = () => {
     }
   ]
 
-
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
       await new Promise(resolve => setTimeout(resolve, 1000));
       var feedsData = TestCommunityFeeds;
+      feedsData = feedsData.filter(feed => feed.type !== 'restapi_feed');
       // for local testing only //
 
       // var feedsData = await axios.get('https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json')
-      // console.log(feedsData.data);
-      // dispatch({ type: 'SET_FEEDS', payload: feedsData.data });
+      // feedsData = feedsData.data.filter(feed => feed.type !== 'restapi_feed');
+      
+      dispatch({ type: 'SET_FEEDS', payload: feedsData });
 
       const isLocal = state.hostname === 'localhost' || state.hostname === '127.0.0.1' || state.hostname === '' || state.hostname.startsWith('192.168.') || state.hostname.startsWith('10.');
       dispatch({ type: 'SET_LOCAL', payload: isLocal });
@@ -208,10 +179,6 @@ const IndexPage = () => {
         console.log("Running local UI");
         dispatch({ type: 'SET_LOCAL_FEEDS', payload: TestLocalFeeds });
       }
-
-      // for local testing only //
-      dispatch({ type: 'SET_FEEDS', payload: feedsData });
-      // for local testing only //
       dispatch({ type: 'SET_LOADING', payload: false });
     };
 
@@ -238,46 +205,74 @@ const IndexPage = () => {
         </Container>
       </section>
 
-      
+      <section id="feeds-section">
+        {state.isLoading ? (
+          <Loading section="Community feeds"/>
+        ) : (
+            <Container className="pb5">
+              <InputGroup className="mt3 mb3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search Community Feeds..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </InputGroup>
+              <h2 className="mt4">Community Feeds</h2>
+              <Row className="mt3">
+                {state.communityFeeds.filter((item) => {
+                  if (search.toLowerCase() === "") {
+                    return item;
+                  } else {
+                    return item.name.toLowerCase().includes(search.toLowerCase()) || item.domain.toLowerCase().includes(search.toLowerCase())
+                  }
+                }).map((feed, index) => (
+                  <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
+                    <FeedCard feed={feed} index={index}/>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+        )}
 
-      {state.isLoading ? (
-        <div>Loading community feeds...</div>
-      ) : (
-        <Container className="pb5">
-          <InputGroup className="mt3 mb3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Community Feeds..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </InputGroup>
-          <h2 className="mt4">Community Feeds</h2>
-          <Row className="mt3">
-            {state.communityFeeds.filter((item) => {
-              return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search.toLowerCase())
-            }).map((feed, index) => (
-              <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
-                <FeedCard feed={feed} index={index}/>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      )}
+        {state.isLocal && (
+          <Container className="pb5">
+            <h2 className="mt4">Local Feeds</h2>
+            <Row>
+              {state.localFeeds.map((feed, index) => (
+                <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
+                  <FeedCard feed={feed} index={index} isLocal={true} />
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        )}
+      </section>
 
-      {state.isLocal && (
-        <Container className="pb5">
-          <h2 className="mt4">Local Feeds</h2>
+    <section id="contribute">
+        <Container className="pt6 pb5">
           <Row>
-            {state.localFeeds.map((feed, index) => (
-              <Col key={index} xs={12} sm={12} md={4} lg={4} xl={4} xxl={3} className="mt3 mb3">
-                <FeedCard feed={feed} index={index} />
-              </Col>
-            ))}
+            <Col>
+              <h1>How to Contribute</h1>
+              <h2>1. Download STM</h2>
+              <p>MacOS</p>
+              <CodeBlock language="bash" value={`brew tap SolaceLabs/stm \nbrew install stm`} />
+              <p>Linux (or WSL on Windows) </p>
+              <CodeBlock language="bash" value={`echo "deb [arch=amd64 trusted=yes] https://raw.githubusercontent.com/SolaceLabs/apt-stm/master stm main" /\n| sudo tee  /etc/apt/sources.list.d/solace-stm-test.list\nsudo apt-get update\nsudo apt-get install stm
+`} />
+              <p>Visit the <a href="https://github.com/SolaceLabs/solace-tryme-cli" target="_blank" rel="noopener noreferrer">Solace TryMe CLI GitHub page</a> for more infomraiton.</p>
+              <h2>2. Generate your own feed</h2>
+              <CodeBlock language="bash" value={`stm feed generate`} />
+              <h2>3. Configure your own feed</h2>
+              <CodeBlock language="bash" value={`stm feed configure`} />
+              <h2>4. Contribute the feed</h2>
+              <CodeBlock language="bash" value={`stm feed contribute`} />
+              <p>Visit the <a href="https://solace.community/" target="_blank" rel="noopener noreferrer">Solace Community forum</a> for more discussions.</p>
+            </Col>
           </Row>
         </Container>
-      )}
+      </section>
 
     </Layout>
   )

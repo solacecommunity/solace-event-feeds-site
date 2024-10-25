@@ -21,6 +21,15 @@ module.exports = {
         ],
         display: "swap",
       },
-    }
+    },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `Solace Feeds`,
+        short_name: `SolaceFeeds`,
+        start_url: `/`,
+        icon: `static/favicon.ico`, // This path is relative to the root of the site.
+      },
+    },
   ],
 }

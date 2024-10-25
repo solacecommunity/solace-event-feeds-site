@@ -43,6 +43,21 @@
   font-size: 13px;
   padding-bottom: 20px;
   transition: all 0.3s;
+  position: relative
+}
+
+
+.custom-card .arrow {
+  color: #fff;
+  width: 50%;
+}
+
+.custom-card .icon {
+  float: right;
+  padding: 0 !important;
+  object-fit: contain;
+  height: 100px;
+  width: 100px;
 }
 
 .custom-card .link {
@@ -56,15 +71,10 @@
   width: 50%;
 }
 
-.custom-card .arrow {
-  color: #fff;
-  width: 50%;
-}
-
-.custom-card .icon {
-  float: right;
-  padding: 0 !important;
-  object-fit: contain;
-  height: 100px;
-  width: 100px;
+.custom-card .feed-type-icon {
+  position: inherit;
+  bottom: -12px;
+  right: -224px;
+  width: 22px;
+  height: 47px;
 }

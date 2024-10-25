@@ -1,0 +1,30 @@
+.Collapsible {
+  border: 1px solid white;
+  padding: 10px;
+  background: rgb(218, 231, 230);
+  color: rgb(0, 0, 0);
+  transition: background-color 0.3s ease;
+  font-size: 1.7em;
+  border-radius: 10px;
+}
+
+.Collapsible:hover {
+  background-color: #e0e0e0;
+}
+
+.Collapsible:active {
+  background-color: #d0d0d0;
+}
+
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px lightGrey;
+}
+
+.la.la-arrow-down {
+  transition: transform 200ms ease;
+}
+
+.is-open .la.la-arrow-down {
+  transform: rotate(0.5turn)
+}

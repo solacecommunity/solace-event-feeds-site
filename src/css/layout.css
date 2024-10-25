@@ -93,6 +93,40 @@ main {
   border-bottom: 1px solid #eceeef;
 }
 
+#intro p {
+  color: #fff !important;
+  font-size: 17px;
+  line-height: 2.2rem;
+}
+
+#contribute {
+  border-top: 1px solid #eceeef;
+}
+
+#contribute h1 {
+  color: #000000 !important;
+  text-align: center;
+}
+
+#contribute h2 {
+  color: #000000 !important;
+  text-align: left;
+  font-size: 22px;
+  text-decoration: underline;
+}
+
+#contribute p {
+  color: #000000 !important;
+  font-size: 17px;
+  line-height: 2.2rem;
+  text-align: left;
+}
+
+#feeds-section {
+  background: #f2f2f2;
+  padding: 20px 0;
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -103,12 +137,6 @@ main {
   100% {
     background-position: 0% 50%;
   }
-}
-
-#intro p {
-  color: #fff !important;
-  font-size: 20px;
-  line-height: 2.2rem;
 }
 
 #minutes {
@@ -223,4 +251,10 @@ a:hover {
 
 .navbar-dark .navbar-nav .nav-link .active {
   color: #00c895 !important;
+}
+
+/* CSS for the Primary buttons */
+button.ant-btn-color-primary {
+  /* background-color: #00ad93 !important;
+  color: white; */
 }
