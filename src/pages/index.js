@@ -248,7 +248,7 @@ const IndexPage = () => {
         <Container className="pt6 pb5">
           <Row className="tc">
             <Col>
-              <h1>Solace Feeds</h1>
+              <h1>Solace Event Feeds</h1>
               <p>
                 This site provides a curated set of feeds that make it easy to
                 start publishing events to a{' '}

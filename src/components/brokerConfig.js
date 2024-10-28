@@ -49,7 +49,7 @@ const BrokerConfig = () => {
         vpnName: vpn,
         userName: username,
         password: password,
-        connectRetries: 3,
+        connectRetries: 0,
         reconnectRetries: 3,
         payloadCompressionLevel: compression ? 9 : 0,
       };
@@ -167,6 +167,7 @@ const BrokerConfig = () => {
             <Input.Password />
           </Form.Item>
         </Col>
+        <Col span={5}></Col>
         <Col span={6}>
           <Form.Item label="Quality of Service" name="qos">
             <Radio.Group>
@@ -184,11 +185,11 @@ const BrokerConfig = () => {
           </Form.Item>
         </Col>
         <Col span={6}>
-          <Form.Item label="Compression" name="compression">
+          {/* <Form.Item label="Payload Compression" name="compression">
             <Switch />
-          </Form.Item>
+          </Form.Item> */}
         </Col>
-        <Col span={6}></Col>
+        <Col span={3}></Col>
         <Col span={6}>
           <Form.Item>
             <Button
