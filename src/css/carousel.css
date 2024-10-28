@@ -1,0 +1,13 @@
+.ant-carousel .slick-prev,
+.ant-carousel .slick-next,
+.ant-carousel .slick-next:hover {
+  font-size: inherit;
+  color: currentColor;
+}
+
+.carousel {
+  margin: 0;
+  height: '160px';
+  color: '#fff';
+  background: '#364d79';
+}

@@ -95,14 +95,12 @@ const FeedPage = ({ location }) => {
     };
 
     const fetchLocalFeedInfo = async () => {
-      console.log('fetching local feed files for', feed.name);
       let feedRulesFile = localFeedFiles.find(
         (file) => file.name === 'feedrules'
       );
       var feedRules = feedRulesFile
         ? await axios.get(feedRulesFile.publicURL)
         : null;
-      console.log('feedRules', feedRules.data);
       dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
 
       let feedInfoFile = localFeedFiles.find(
@@ -111,7 +109,6 @@ const FeedPage = ({ location }) => {
       var feedInfo = feedInfoFile
         ? await axios.get(feedInfoFile.publicURL)
         : null;
-      console.log('feedInfo', feedInfo.data);
       dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
 
       let feedAPIFile = localFeedFiles.find((file) => file.name === 'feedapi');

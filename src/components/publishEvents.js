@@ -65,7 +65,6 @@ const PublishEvents = (props) => {
   useEffect(() => {
     setIsConnected(session ? true : false);
     setdisableForm(session ? false : true);
-    console.log('The Active Events are ', activeEvents);
     setIsAnyEventRunning(
       Object.values(activeEvents).some((event) => event.active)
     );
@@ -191,7 +190,6 @@ const PublishEvents = (props) => {
   };
 
   const updateRate = (item, rate) => {
-    console.log(`Update Rate for ${item.eventName} to ${rate}`);
     // const alreadyRunning = activeEvents[item.eventName].active;
     stopFeed(item);
     setActiveEvents((prevState) => ({
@@ -208,7 +206,6 @@ const PublishEvents = (props) => {
   };
 
   const setFrequency = (item, freq) => {
-    console.log(`Update frequency for ${item.eventName} to ${freq}`);
     setActiveEvents((prevState) => ({
       ...prevState,
       [item.eventName]: {
@@ -219,7 +216,6 @@ const PublishEvents = (props) => {
   };
 
   const updateDelay = (item, delay) => {
-    console.log(`Update Delay for ${item.eventName} to ${delay}`);
     stopFeed(item);
     setActiveEvents((prevState) => ({
       ...prevState,
@@ -438,7 +434,7 @@ const PublishEvents = (props) => {
                               Delay ({activeEvents[item.eventName]?.delay} s)
                             </span>
                             <InputNumber
-                              defaultValue={0}
+                              defaultValue={activeEvents[item.eventName]?.delay}
                               min={0}
                               max={getMaxDelay(activeEvents)}
                               step="1"

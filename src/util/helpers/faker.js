@@ -6,28 +6,29 @@ class Faker {
   }
 
   generateRandomPayload(payload) {
-    console.log(payload);
     const generateContent = (parameter) => this.generateContent(parameter);
     function processObject(obj) {
       const result = {};
       for (const key in obj) {
         const value = obj[key];
-
         if (value.type === 'object') {
           result[key] = processObject(value.properties || {});
         } else if (value.type === 'array') {
           result[key] = Array.from({ length: 3 }, () =>
-            processObject(value.items[0]?.properties || {})
+            value.items
+              ? processObject(value.items[0]?.properties || {})
+              : processObject(value.properties || {})
           );
         } else {
-          result[key] = generateContent({
-            rule: { group: `${capitalize(value.type)}Rules` },
-          });
+          value.rule
+            ? (result[key] = generateContent(value))
+            : (result[key] = generateContent({
+                rule: { group: `${capitalize(value.type)}Rules` },
+              }));
         }
       }
       return result;
     }
-
     function capitalize(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
@@ -58,14 +59,11 @@ class Faker {
         }
       }
     }
-
     // Handle remaining unmapped parameters with generated content
     for (const param of Object.keys(item.topicParameters)) {
       // Skip if parameter was already handled by mapping
       if (!mappedParams.has(param)) {
-        console.log(`Generating random content for topic ${param}`);
         const content = this.generateContent(item.topicParameters[param]);
-        console.log(content);
         topic = topic.replace(`{${param}}`, content);
       }
     }
