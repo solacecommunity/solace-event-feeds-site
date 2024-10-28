@@ -5,6 +5,8 @@ import Collapsible from 'react-collapsible';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CopyOutlined } from '@ant-design/icons';
 
+const MAX_RENDERED_MESSAGES = 100;
+
 const Stream = () => {
   const { streamedEvents, setStreamedEvents } = useContext(SessionContext); // Use context
   const [fadeClass, setFadeClass] = useState('');
@@ -31,6 +33,9 @@ const Stream = () => {
       }, 2000); // Hide tooltip after 1 second
 
       return () => clearTimeout(timer); // Cleanup the timer
+    }
+    if (streamedEvents.length > MAX_RENDERED_MESSAGES) {
+      setStreamedEvents(streamedEvents.slice(MAX_RENDERED_MESSAGES));
     }
   }, [streamedEvents, copyText]);
 
