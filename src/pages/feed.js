@@ -8,6 +8,7 @@ import PublishEvents from '../components/publishEvents';
 import Stream from '../components/stream';
 import { Container, Row, Col } from 'react-bootstrap';
 import { SolaceSession } from '../util/helpers/solaceSession';
+import useGetFilesQuery from '../util/helpers/useGetFilesQuery';
 
 const feedMetadata = {
   fakerRules: [],
@@ -2008,35 +2009,44 @@ const FeedPage = ({ location }) => {
 
   const params = new URLSearchParams(location.search);
   const feed = {
-    name: params.get('name'),
-    isLocal: params.get('isLocal'),
-    type: params.get('type'),
+    name: params.get('name') || '',
+    isLocal: params.get('isLocal') || false,
+    type: params.get('type') || '',
   };
 
+  let localFeedFiles = null;
+  if (feed.isLocal == 'true') {
+    localFeedFiles = useGetFilesQuery(feed.name);
+  }
+
   useEffect(() => {
-    const fetchFeedInfo = async () => {
+    const fetchGithubFeedInfo = async () => {
       // Query all the feed metadata
-      var feedFakerRules = await axios.get(
-        `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`
-      );
-      dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
+
+      // var feedFakerRules = await axios.get(
+      //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`
+      // );
+      // dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
+
       var feedInfo = await axios.get(
         `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedinfo.json`
       );
       dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
+
       var feedRules = await axios.get(
         `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedrules.json`
       );
       dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
+
       if (feed.type === 'asyncapi_feed') {
-        var analysis = await axios.get(
-          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
-        );
-        dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
-        var feedSchemas = await axios.get(
-          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedschemas.json`
-        );
-        dispatch({ type: 'SET_FEED_SCHEMAS', payload: feedSchemas.data });
+        // var analysis = await axios.get(
+        //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
+        // );
+        // dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
+        // var feedSchemas = await axios.get(
+        //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedschemas.json`
+        // );
+        // dispatch({ type: 'SET_FEED_SCHEMAS', payload: feedSchemas.data });
       } else if (feed.type === 'restapi_feed') {
         var feedAPI = await axios.get(
           `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedapi.json`
@@ -2045,7 +2055,34 @@ const FeedPage = ({ location }) => {
       }
     };
 
-    fetchFeedInfo();
+    const fetchLocalFeedInfo = async () => {
+      console.log('fetching local feed files for', feed.name);
+      let feedRulesFile = localFeedFiles.find(
+        (file) => file.name === 'feedrules'
+      );
+      var feedRules = feedRulesFile
+        ? await axios.get(feedRulesFile.publicURL)
+        : null;
+      console.log('feedRules', feedRules.data);
+      dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
+
+      let feedInfoFile = localFeedFiles.find(
+        (file) => file.name === 'feedinfo'
+      );
+      var feedInfo = feedInfoFile
+        ? await axios.get(feedInfoFile.publicURL)
+        : null;
+      console.log('feedInfo', feedInfo.data);
+      dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
+
+      let feedAPIFile = localFeedFiles.find((file) => file.name === 'feedapi');
+      var feedAPI = feedAPIFile ? await axios.get(feedAPIFile.publicURL) : null;
+      feedAPI
+        ? dispatch({ type: 'SET_FEED_API', payload: feedAPI.data })
+        : null;
+    };
+
+    feed.isLocal == 'true' ? fetchLocalFeedInfo() : fetchGithubFeedInfo();
   }, []);
 
   return (
@@ -2094,8 +2131,6 @@ const FeedPage = ({ location }) => {
           </Row>
         </Container>
       </SolaceSession>
-
-      {/* The events component */}
     </Layout>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Collapsible from 'react-collapsible';
 import '../css/collapsable.css';
-import { Button, List, Slider, Tooltip } from 'antd';
+import { Button, List, Slider } from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
 import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -105,7 +105,7 @@ const PublishEvents = (props) => {
     const timeoutId = setTimeout(() => {
       // Set up the interval after the delay
       const intervalId = setInterval(() => {
-        const payload = faker.generateRandomPayload(item);
+        const payload = faker.generateRandomPayload(item.payload);
         const topic = faker.generateRandomTopic(item, payload);
         sessionProperties.msgformat === 'text'
           ? message.setSdtContainer(

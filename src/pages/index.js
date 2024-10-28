@@ -6,6 +6,7 @@ import SEO from '../components/seo';
 import FeedCard from '../components/feedCard';
 import CodeBlock from '../components/codeBlock';
 import Loading from '../components/loading';
+import { useStaticQuery, graphql } from 'gatsby';
 
 const initialState = {
   isLoading: true,
@@ -168,6 +169,44 @@ const IndexPage = () => {
     },
   ];
 
+  const isLocal =
+    state.hostname === 'localhost' ||
+    state.hostname === '127.0.0.1' ||
+    state.hostname === '' ||
+    state.hostname.startsWith('192.168.') ||
+    state.hostname.startsWith('10.');
+
+  let localFeedsInfoFiles = [];
+  if (isLocal) {
+    // Query all the local feedinfo.json files
+    const data = useStaticQuery(graphql`
+      query {
+        allFile(
+          filter: {
+            relativePath: { regex: "/feedinfo\\.json$/" }
+          }
+        ) {
+          edges {
+            node {
+              childFeedsJson {
+                name
+                description
+                img
+                type
+                contributor
+                github
+                domain
+                tags
+                lastUpdated
+              }
+            }
+          }
+        }
+      }
+    `);
+    localFeedsInfoFiles = data.allFile.edges;
+  }
+
   useEffect(() => {
     const fetchFeeds = async () => {
       // for local testing only //
@@ -182,18 +221,15 @@ const IndexPage = () => {
       feedsData = feedsData.data.filter((feed) => feed.type !== 'restapi_feed');
 
       dispatch({ type: 'SET_FEEDS', payload: feedsData });
-
-      const isLocal =
-        state.hostname === 'localhost' ||
-        state.hostname === '127.0.0.1' ||
-        state.hostname === '' ||
-        state.hostname.startsWith('192.168.') ||
-        state.hostname.startsWith('10.');
       dispatch({ type: 'SET_LOCAL', payload: isLocal });
 
       if (isLocal) {
         console.log('Running local UI');
-        dispatch({ type: 'SET_LOCAL_FEEDS', payload: TestLocalFeeds });
+        const localFeeds = localFeedsInfoFiles.map(
+          (file) => file.node.childFeedsJson
+        );
+        // dispatch({ type: 'SET_LOCAL_FEEDS', payload: TestLocalFeeds });
+        dispatch({ type: 'SET_LOCAL_FEEDS', payload: localFeeds });
       }
       dispatch({ type: 'SET_LOADING', payload: false });
     };
@@ -278,7 +314,7 @@ const IndexPage = () => {
                     xxl={3}
                     className="mt3 mb3"
                   >
-                    <FeedCard feed={feed} index={index} />
+                    <FeedCard feed={feed} index={index} isLocal={false} />
                   </Col>
                 ))}
             </Row>

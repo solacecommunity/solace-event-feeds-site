@@ -5,26 +5,34 @@ class Faker {
     // Initialize any properties here
   }
 
-  generateRandomPayload(item) {
-    const payload = {};
+  generateRandomPayload(payload) {
+    console.log(payload);
+    const generateContent = (parameter) => this.generateContent(parameter);
+    function processObject(obj) {
+      const result = {};
+      for (const key in obj) {
+        const value = obj[key];
 
-    for (const param of Object.keys(item.payload)) {
-      const paramType = item.payload[param].type;
-
-      if (paramType === 'object') {
-        const nestedPayload = {};
-        for (const childParam of Object.keys(item.payload[param].properties)) {
-          nestedPayload[childParam] = this.generateContent(
-            item.payload[param].properties[childParam]
+        if (value.type === 'object') {
+          result[key] = processObject(value.properties || {});
+        } else if (value.type === 'array') {
+          result[key] = Array.from({ length: 3 }, () =>
+            processObject(value.items[0]?.properties || {})
           );
+        } else {
+          result[key] = generateContent({
+            rule: { group: `${capitalize(value.type)}Rules` },
+          });
         }
-        payload[param] = nestedPayload;
-      } else {
-        payload[param] = this.generateContent(item.payload[param]);
       }
+      return result;
     }
 
-    return payload;
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    return processObject(payload);
   }
 
   generateRandomTopic(item, payload) {
@@ -66,7 +74,7 @@ class Faker {
   }
 
   generateContent(parameter) {
-    switch (parameter.rule.group) {
+    switch (parameter.rule?.group) {
       case 'StringRules':
         return this.processStringRules(parameter.rule);
       case 'NullRules':
@@ -153,7 +161,7 @@ class Faker {
       case 'json':
         return faker.datatype.json();
       default:
-        return 'NoTypeFound';
+        return faker.string.alpha(10);
     }
   }
 
@@ -164,7 +172,7 @@ class Faker {
       case 'empty':
         return '';
       default:
-        return 'NoTypeFound';
+        return 'null';
     }
   }
 
@@ -185,7 +193,7 @@ class Faker {
         };
         return faker.number.float(options);
       default:
-        return 'NoTypeFound';
+        return faker.number.int(100);
     }
   }
 
@@ -194,7 +202,7 @@ class Faker {
       case 'boolean':
         return faker.datatype.boolean();
       default:
-        return 'NoTypeFound';
+        return 'true';
     }
   }
 
@@ -222,7 +230,7 @@ class Faker {
         options = { abbreviated: rule.abbreviated };
         return faker.date.weekday(options);
       default:
-        return 'NoTypeFound';
+        return faker.date.anytime();
     }
   }
 
@@ -258,7 +266,7 @@ class Faker {
         };
         return faker.lorem.word(options);
       default:
-        return 'NoTypeFound';
+        return faker.lorem.word(5);
     }
   }
 
@@ -285,7 +293,7 @@ class Faker {
       case 'jobType':
         return faker.person.jobType();
       default:
-        return 'NoTypeFound';
+        return faker.person.firstName();
     }
   }
 
@@ -325,7 +333,7 @@ class Faker {
       case 'timeZone':
         return faker.location.timeZone();
       default:
-        return 'NoTypeFound';
+        return faker.location.city();
     }
   }
 
@@ -359,7 +367,7 @@ class Faker {
       case 'transactionType':
         return faker.finance.transactionType();
       default:
-        return 'NoTypeFound';
+        return faker.finance.creditCardNumber();
     }
   }
 
@@ -388,7 +396,7 @@ class Faker {
         };
         return faker.airline.flightNumber(options);
       default:
-        return 'NoTypeFound';
+        return faker.airline.airport().iataCode;
     }
   }
 
@@ -414,7 +422,7 @@ class Faker {
       case 'productName':
         return faker.commerce.productName();
       default:
-        return 'NoTypeFound';
+        return faker.commerce.productName();
     }
   }
 }
