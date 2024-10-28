@@ -5,7 +5,6 @@ import { Link } from 'gatsby';
 
 const FeedCard = (props) => {
   let feed = props.feed;
-  console.log(feed);
   let title = feed.name.replace(/_/g, ' ');
   // if the feed.image contains the word default then change it to ./defaultfeed.png
   feed.img = feed.img.includes('default') ? './defaultfeed.png' : feed.img;
