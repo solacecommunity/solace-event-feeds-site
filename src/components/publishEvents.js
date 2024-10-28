@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Collapsible from 'react-collapsible';
 import '../css/collapsable.css';
-import { Button, List, Slider } from 'antd';
+import { Button, List, InputNumber, Select } from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
 import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -46,6 +46,7 @@ const PublishEvents = (props) => {
       active: false,
       topic: item.topic,
       rate: 1,
+      freq: 'msg/s',
       delay: parseInt(item.publishSettings.delay, 10) || 0,
       intervalId: null,
       timeoutId: null,
@@ -93,6 +94,25 @@ const PublishEvents = (props) => {
       : message.setDeliveryMode(solace.MessageDeliveryModeType.PERSISTENT);
 
     const delay = activeEvents[item.eventName]?.delay || 0; // Get delay, default to 0 if undefined
+    let freq;
+    switch (activeEvents[item.eventName]?.freq) {
+      case 'msg/s':
+        freq = 1000;
+        break;
+      case 'msg/m':
+        freq = 60000;
+        break;
+      case 'msg/h':
+        freq = 3600000;
+        break;
+      default:
+        freq = 1000; // Default to 1 second if undefined
+    }
+
+    let interval =
+      activeEvents[item.eventName]?.rate > 1
+        ? freq / activeEvents[item.eventName]?.rate
+        : freq * activeEvents[item.eventName]?.rate;
     setActiveEvents((prevState) => ({
       ...prevState,
       [item.eventName]: {
@@ -136,7 +156,7 @@ const PublishEvents = (props) => {
             countSend: activeEvents[item.eventName].countSend,
           },
         ]);
-      }, 1000 / activeEvents[item.eventName]?.rate); // Calculate interval based on rate (messages per second)
+      }, interval); // Calculate interval based on rate (messages per second)
 
       // Store the intervalId for stopping the feed later
       setActiveEvents((prevState) => ({
@@ -178,13 +198,24 @@ const PublishEvents = (props) => {
       ...prevState,
       [item.eventName]: {
         ...prevState[item.eventName], // Keep all the other values
-        rate: rate,
+        rate: parseFloat(rate),
       },
     }));
     // if(alreadyRunning) {
     //   console.log(activeEvents[item.eventName]?.active)
     //   startFeed(item);
     // }
+  };
+
+  const setFrequency = (item, freq) => {
+    console.log(`Update frequency for ${item.eventName} to ${freq}`);
+    setActiveEvents((prevState) => ({
+      ...prevState,
+      [item.eventName]: {
+        ...prevState[item.eventName],
+        freq: freq,
+      },
+    }));
   };
 
   const updateDelay = (item, delay) => {
@@ -376,17 +407,23 @@ const PublishEvents = (props) => {
                               gap: '8px',
                             }}
                           >
-                            <span>
-                              Message rate ({activeEvents[item.eventName]?.rate}{' '}
-                              msg/s)
-                            </span>
-                            <Slider
-                              style={{ width: '250px', flex: '1' }}
-                              defaultValue={1}
-                              min={1}
+                            <span>Message rate:</span>
+                            <InputNumber
+                              defaultValue="1"
+                              min={0.5}
                               max={MAX_RATE}
-                              value={activeEvents[item.eventName]?.rate || 1}
+                              step="0.5"
                               onChange={(rate) => updateRate(item, rate)}
+                              stringMode
+                            />
+                            <Select
+                              defaultValue="msg/s"
+                              onChange={(freq) => setFrequency(item, freq)}
+                              options={[
+                                { value: 'msg/s', label: 'msg/s' },
+                                { value: 'msg/m', label: 'msg/m' },
+                                { value: 'msg/h', label: 'msg/h' },
+                              ]}
                             />
                           </div>
                           <div
@@ -400,12 +437,11 @@ const PublishEvents = (props) => {
                             <span>
                               Delay ({activeEvents[item.eventName]?.delay} s)
                             </span>
-                            <Slider
-                              style={{ width: '250px', flex: '1' }}
+                            <InputNumber
                               defaultValue={0}
                               min={0}
                               max={getMaxDelay(activeEvents)}
-                              value={activeEvents[item.eventName]?.delay || 0}
+                              step="1"
                               onChange={(delay) => updateDelay(item, delay)}
                             />
                           </div>
