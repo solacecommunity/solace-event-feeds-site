@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { SessionContext } from '../util/helpers/solaceSession';
-import { Button, List, Tag } from 'antd';
+import { Button, List, Tag, Badge } from 'antd';
 import Collapsible from 'react-collapsible';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CopyOutlined } from '@ant-design/icons';
@@ -69,10 +69,14 @@ const Stream = () => {
               <List>
                 <List.Item
                   actions={[
-                    <Button color="default" variant="text" disabled={true}>
+                    <Tag>
                       Displaying the last {MAX_RENDERED_MESSAGES} published
                       messages
-                    </Button>,
+                    </Tag>,
+                    // <Button color="default" variant="text" disabled={true}>
+                    //   Displaying the last {MAX_RENDERED_MESSAGES} published
+                    //   messages
+                    // </Button>,
                     <Button
                       color="primary"
                       variant="outlined"
