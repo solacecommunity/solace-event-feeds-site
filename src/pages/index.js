@@ -193,22 +193,29 @@ const IndexPage = () => {
         {state.isLocal && (
           <Container className="pb5">
             <h2 className="mt4">Local Feeds</h2>
-            <Row>
-              {state.localFeeds.map((feed, index) => (
-                <Col
-                  key={index}
-                  xs={12}
-                  sm={12}
-                  md={4}
-                  lg={4}
-                  xl={4}
-                  xxl={3}
-                  className="mt3 mb3"
-                >
-                  <FeedCard feed={feed} index={index} isLocal={true} />
-                </Col>
-              ))}
-            </Row>
+            {state.localFeeds.length > 0 ? (
+              <Row>
+                {state.localFeeds.map((feed, index) => (
+                  <Col
+                    key={index}
+                    xs={12}
+                    sm={12}
+                    md={4}
+                    lg={4}
+                    xl={4}
+                    xxl={3}
+                    className="mt3 mb3"
+                  >
+                    <FeedCard feed={feed} index={index} isLocal={true} />
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <div>
+                No local feeds found. Generate a local feed using the steps
+                below
+              </div>
+            )}
           </Container>
         )}
       </section>
