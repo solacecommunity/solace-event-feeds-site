@@ -69,6 +69,10 @@ const Stream = () => {
               <List>
                 <List.Item
                   actions={[
+                    <Button color="default" variant="text" disabled={true}>
+                      Displaying the last {MAX_RENDERED_MESSAGES} published
+                      messages
+                    </Button>,
                     <Button
                       color="primary"
                       variant="outlined"
