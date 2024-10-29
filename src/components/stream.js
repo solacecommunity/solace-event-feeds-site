@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import { InputGroup } from 'react-bootstrap';
 import { SessionContext } from '../util/helpers/solaceSession';
-import { Button, List, Tag, Badge } from 'antd';
+import { Button, List, Tag } from 'antd';
 import Collapsible from 'react-collapsible';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CopyOutlined } from '@ant-design/icons';
@@ -13,6 +14,7 @@ const Stream = () => {
   const [showPayload, setShowPayload] = useState(false);
   const [copyText, setCopyText] = useState(null);
   const scrollableDivRef = useRef(null);
+  const [search, setSearch] = useState('');
 
   const handleCopy = (value) => {
     navigator.clipboard.writeText(JSON.stringify(value.payload, null, 2));
@@ -47,6 +49,17 @@ const Stream = () => {
       >
         {streamedEvents.length > 0 ? (
           <>
+            <div>
+              <InputGroup className="mt3 mb3" style={{ maxWidth: '500px' }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Filter published streams on event name, payload, and topics..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                />
+              </InputGroup>
+            </div>
             <div
               style={{
                 display: 'flex',
@@ -73,10 +86,6 @@ const Stream = () => {
                       Displaying the last {MAX_RENDERED_MESSAGES} published
                       messages
                     </Tag>,
-                    // <Button color="default" variant="text" disabled={true}>
-                    //   Displaying the last {MAX_RENDERED_MESSAGES} published
-                    //   messages
-                    // </Button>,
                     <Button
                       color="primary"
                       variant="outlined"
@@ -110,7 +119,16 @@ const Stream = () => {
                 scrollableTarget="scrollableDiv"
               >
                 <List
-                  dataSource={streamedEvents}
+                  dataSource={streamedEvents.filter(
+                    (item) =>
+                      item.eventName
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      JSON.stringify(item.payload)
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                      item.topic.toLowerCase().includes(search.toLowerCase())
+                  )}
                   renderItem={(event) => (
                     <List.Item
                       key={event.eventName}
