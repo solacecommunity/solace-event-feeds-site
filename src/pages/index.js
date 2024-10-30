@@ -112,7 +112,7 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SEO title="Solace Feeds" />
+      <SEO title="Solace Event Feeds" />
       <section id="intro">
         <Container className="pt6 pb5">
           <Row className="tc">

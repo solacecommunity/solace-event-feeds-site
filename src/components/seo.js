@@ -1,9 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import Helmet from "react-helmet"
+import React from 'react';
+import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 
-function SEO({ description="Solace Realtime EventDriven Feeds", lang="en", meta=[], title }) {
-
+function SEO({
+  description = 'Solace Event Feeds',
+  lang = 'en',
+  meta = [],
+  title,
+}) {
   return (
     <Helmet
       title={title}
@@ -26,7 +30,7 @@ function SEO({ description="Solace Realtime EventDriven Feeds", lang="en", meta=
         },
         {
           property: `og:image`,
-          content: "https://solace-dev-tutorials.netlify.app/solace-dev-meta-og-image.png",
+          content: './solace-dev-meta-og-image.png',
         },
         {
           name: `twitter:card`,
@@ -34,7 +38,7 @@ function SEO({ description="Solace Realtime EventDriven Feeds", lang="en", meta=
         },
         {
           name: `twitter:image`,
-          content: "https://solace-dev-tutorials.netlify.app/solace-dev-meta-og-image.png",
+          content: './solace-dev-meta-og-image.png',
         },
         {
           name: `twitter:title`,
@@ -46,7 +50,7 @@ function SEO({ description="Solace Realtime EventDriven Feeds", lang="en", meta=
         },
       ].concat(meta)}
     />
-  )
+  );
 }
 
 SEO.propTypes = {
@@ -54,6 +58,6 @@ SEO.propTypes = {
   lang: PropTypes.string,
   meta: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string.isRequired,
-}
+};
 
-export default SEO
+export default SEO;

@@ -10,7 +10,7 @@ const feedsPath = process.env.STM_HOME
  */
 module.exports = {
   siteMetadata: {
-    title: `Solace Feeds`,
+    title: `Solace Event Feeds`,
     siteUrl: `https://www.feeds.solace.dev`,
     description: `A collection of feeds for Solace PubSub+`,
     author: `@SolaceDevs`,
@@ -32,7 +32,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Solace Feeds`,
+        name: `Solace Event Feeds`,
         short_name: `SolaceFeeds`,
         start_url: `/`,
         icon: `static/favicon.ico`, // This path is relative to the root of the site.

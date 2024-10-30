@@ -1,9 +1,9 @@
 {
-  "name": "solace-feeds",
-  "version": "1.0.0",
-  "private": true,
-  "description": "solace-feeds",
-  "author": "Tamimi, Giri",
+  "name": "solace-feeds-site",
+  "version": "2.0.0",
+  "private": false,
+  "description": "Solace Event Feeds Site",
+  "author": "Tamimi",
   "keywords": [
     "Solace",
     "Feeds",
