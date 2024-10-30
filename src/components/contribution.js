@@ -1,21 +1,13 @@
 import React from 'react';
 import CodeBlock from './codeBlock';
-import { Carousel } from 'antd';
 import '../css/carousel.css';
-
-const contentStyle = {
-  margin: 0,
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
 
 const Contribution = () => {
   return (
     <div>
-      <h1>How to Contribute</h1>
+      <br />
+      <br />
+      <br />
       <h2>1. Download STM</h2>
       <p>MacOS</p>
       <CodeBlock

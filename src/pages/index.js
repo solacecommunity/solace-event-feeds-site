@@ -6,6 +6,7 @@ import SEO from '../components/seo';
 import FeedCard from '../components/feedCard';
 import Loading from '../components/loading';
 import Contribution from '../components/contribution';
+import ContributionSteps from '../components/contributionSteps';
 import { useStaticQuery, graphql } from 'gatsby';
 import { TestCommunityFeeds, TestLocalFeeds } from '../util/helpers/testFeeds';
 
@@ -222,7 +223,14 @@ const IndexPage = () => {
 
       <section id="contribute">
         <Container className="pt6 pb5">
+          <h1>How to Contribute</h1>
+          <br />
+          <br />
+          <br />
           <Row>
+            <Col>
+              <ContributionSteps />
+            </Col>
             <Col>
               <Contribution />
             </Col>

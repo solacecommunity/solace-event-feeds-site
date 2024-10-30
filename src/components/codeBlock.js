@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { twilight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FaRegCopy } from 'react-icons/fa';
-import { Tooltip } from 'antd';
+import { message } from 'antd';
 import '../css/codeblock.css'; // Import CSS for styling
 
 const CodeBlock = ({ language, value }) => {
@@ -11,6 +11,7 @@ const CodeBlock = ({ language, value }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(value);
     setTooltipVisible(true);
+    message.success('Copied!');
   };
 
   useEffect(() => {
@@ -25,11 +26,9 @@ const CodeBlock = ({ language, value }) => {
 
   return (
     <div className="code-block-container">
-      <Tooltip title="Copied!" visible={tooltipVisible}>
-        <button className="copy-button" onClick={handleCopy}>
-          <FaRegCopy />
-        </button>
-      </Tooltip>
+      <button className="copy-button" onClick={handleCopy}>
+        <FaRegCopy />
+      </button>
       <SyntaxHighlighter language={language} style={twilight}>
         {value}
       </SyntaxHighlighter>

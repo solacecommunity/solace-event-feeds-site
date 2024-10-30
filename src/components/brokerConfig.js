@@ -164,7 +164,6 @@ const BrokerConfig = () => {
             <Input.Password />
           </Form.Item>
         </Col>
-        <Col span={5}></Col>
         <Col span={6}>
           <Form.Item label="Quality of Service" name="qos">
             <Radio.Group>
@@ -181,13 +180,8 @@ const BrokerConfig = () => {
             </Radio.Group>
           </Form.Item>
         </Col>
-        <Col span={6}>
-          {/* <Form.Item label="Payload Compression" name="compression">
-            <Switch />
-          </Form.Item> */}
-        </Col>
-        <Col span={3}></Col>
-        <Col span={6}>
+        <Col span={1}></Col>
+        <Col span={2}>
           <Form.Item>
             <Button
               type="primary"
@@ -199,7 +193,7 @@ const BrokerConfig = () => {
             </Button>
           </Form.Item>
         </Col>
-        <Col span={6}>
+        <Col span={5}>
           <Form.Item>
             <Button
               color="danger"
@@ -212,7 +206,7 @@ const BrokerConfig = () => {
             </Button>
           </Form.Item>
         </Col>
-        <Col span={6}>
+        <Col span={3}>
           <Form.Item>
             <Tooltip
               title={
