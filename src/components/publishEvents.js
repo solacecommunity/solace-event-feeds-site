@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Collapsible from 'react-collapsible';
-import '../css/collapsable.css';
-import { Button, List, InputNumber, Select } from 'antd';
+import { Button, List, InputNumber, Select, Collapse } from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
 import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { ControlOutlined, LinkOutlined } from '@ant-design/icons';
+import {
+  ControlOutlined,
+  LinkOutlined,
+  CaretRightOutlined,
+} from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 
 const MAX_DELAY = 10;
@@ -253,206 +255,216 @@ const PublishEvents = (props) => {
     }
   };
 
-  return (
+  const Events = (
     <div>
-      <Collapsible
-        trigger="Choose Stream(s)"
-        transitionTime={400}
-        easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}
-        style={{ flex: 1 }}
-        open={!disableForm}
+      <div
+        style={{
+          marginBottom: '16px',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '8px',
+          paddingLeft: '10px',
+        }}
+      >
+        <Button
+          color="danger"
+          variant="filled"
+          shape="round"
+          onClick={handleDisconnect}
+          disabled={!isConnected || isAnyEventRunning}
+        >
+          {' '}
+          Disconnect Broker{' '}
+        </Button>
+      </div>
+      {errorConnection && (
+        <div style={{ color: 'red', fontSize: '15px' }}>{errorConnection}</div>
+      )}
+
+      {/* List of events  */}
+      <div
+        id="scrollableDiv"
+        style={{ height: 400, overflow: 'auto', padding: '0 16px' }}
       >
         <div
           style={{
-            marginBottom: '16px',
             display: 'flex',
-            flexDirection: 'row',
-            gap: '8px',
-            paddingLeft: '10px',
+            justifyContent: 'flex-end',
+            padding: '0 30px 0 0',
           }}
         >
-          <Button
-            color="danger"
-            variant="filled"
-            shape="round"
-            onClick={handleDisconnect}
-            disabled={!isConnected || isAnyEventRunning}
-          >
-            {' '}
-            Disconnect Broker{' '}
-          </Button>
+          <List>
+            <List.Item
+              actions={[
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  onClick={startAllFeed}
+                  disabled={
+                    !isConnected ||
+                    !Object.values(activeEvents).some((event) => !event.active)
+                  }
+                >
+                  Start All
+                </Button>,
+                <Button
+                  color="danger"
+                  variant="outlined"
+                  onClick={stopAllFeed}
+                  disabled={!isConnected || !isAnyEventRunning}
+                >
+                  Stop All
+                </Button>,
+              ]}
+            >
+              <List.Item.Meta title=" " description=" " />
+            </List.Item>
+          </List>
         </div>
-        {errorConnection && (
-          <div style={{ color: 'red', fontSize: '15px' }}>
-            {errorConnection}
-          </div>
-        )}
-
-        {/* List of events  */}
-        <div
-          id="scrollableDiv"
-          style={{ height: 400, overflow: 'auto', padding: '0 16px' }}
+        <InfiniteScroll
+          dataLength={feedRules.length}
+          scrollableTarget="scrollableDiv"
+          style={{ display: 'flex', flexDirection: 'column-reverse' }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              padding: '0 30px 0 0',
-            }}
-          >
-            <List>
+          <List
+            dataSource={feedRules}
+            renderItem={(item) => (
               <List.Item
+                key={item.eventName}
                 actions={[
                   <Button
                     color="primary"
-                    variant="outlined"
-                    onClick={startAllFeed}
+                    variant="filled"
+                    shape="round"
+                    onClick={() => startFeed(item)}
                     disabled={
-                      !isConnected ||
-                      !Object.values(activeEvents).some(
-                        (event) => !event.active
-                      )
+                      !isConnected || activeEvents[item.eventName].active
                     }
                   >
-                    Start All
+                    {' '}
+                    Start{' '}
                   </Button>,
                   <Button
                     color="danger"
-                    variant="outlined"
-                    onClick={stopAllFeed}
-                    disabled={!isConnected || !isAnyEventRunning}
+                    variant="filled"
+                    shape="round"
+                    onClick={() => stopFeed(item)}
+                    disabled={!activeEvents[item.eventName].active}
                   >
-                    Stop All
+                    {' '}
+                    Stop{' '}
                   </Button>,
+                  <Button
+                    style={{
+                      color:
+                        activeFeedConfig === item.eventName
+                          ? '#00ad93'
+                          : 'black',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                    variant="link"
+                    icon={<ControlOutlined />}
+                    onClick={() => toggleControl(item)}
+                    disabled={!isConnected}
+                  />,
                 ]}
               >
-                <List.Item.Meta title=" " description=" " />
-              </List.Item>
-            </List>
-          </div>
-          <InfiniteScroll
-            dataLength={feedRules.length}
-            scrollableTarget="scrollableDiv"
-            style={{ display: 'flex', flexDirection: 'column-reverse' }}
-          >
-            <List
-              dataSource={feedRules}
-              renderItem={(item) => (
-                <List.Item
-                  key={item.eventName}
-                  actions={[
-                    <Button
-                      color="primary"
-                      variant="filled"
-                      shape="round"
-                      onClick={() => startFeed(item)}
-                      disabled={
-                        !isConnected || activeEvents[item.eventName].active
-                      }
-                    >
-                      {' '}
-                      Start{' '}
-                    </Button>,
-                    <Button
-                      color="danger"
-                      variant="filled"
-                      shape="round"
-                      onClick={() => stopFeed(item)}
-                      disabled={!activeEvents[item.eventName].active}
-                    >
-                      {' '}
-                      Stop{' '}
-                    </Button>,
-                    <Button
-                      style={{
-                        color:
-                          activeFeedConfig === item.eventName
+                <List.Item.Meta
+                  avatar={
+                    <div style={{ padding: '10px 0 0 0' }}>
+                      <LinkOutlined
+                        style={{
+                          fontSize: '15px',
+                          color: activeEvents[item.eventName].timeoutId
                             ? '#00ad93'
                             : 'black',
-                        background: 'none',
-                        border: 'none',
-                      }}
-                      variant="link"
-                      icon={<ControlOutlined />}
-                      onClick={() => toggleControl(item)}
-                      disabled={!isConnected}
-                    />,
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={
-                      <div style={{ padding: '10px 0 0 0' }}>
-                        <LinkOutlined
+                        }}
+                      />
+                    </div>
+                  }
+                  title={`${item.eventName} v${item.eventVersion}`}
+                  description={
+                    activeFeedConfig === item.eventName ? (
+                      <div style={{ marginTop: '10px' }}>
+                        <div
                           style={{
-                            fontSize: '15px',
-                            color: activeEvents[item.eventName].timeoutId
-                              ? '#00ad93'
-                              : 'black',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
                           }}
-                        />
-                      </div>
-                    }
-                    title={`${item.eventName} v${item.eventVersion}`}
-                    description={
-                      activeFeedConfig === item.eventName ? (
-                        <div style={{ marginTop: '10px' }}>
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '8px',
-                            }}
-                          >
-                            <span>Message rate:</span>
-                            <InputNumber
-                              defaultValue="1"
-                              min={0.5}
-                              max={MAX_RATE}
-                              step="0.5"
-                              onChange={(rate) => updateRate(item, rate)}
-                              stringMode
-                            />
-                            <Select
-                              defaultValue="msg/s"
-                              onChange={(freq) => setFrequency(item, freq)}
-                              options={[
-                                { value: 'msg/s', label: 'msg/s' },
-                                { value: 'msg/m', label: 'msg/m' },
-                                { value: 'msg/h', label: 'msg/h' },
-                              ]}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '8px',
-                              marginTop: '8px',
-                            }}
-                          >
-                            <span>
-                              Delay ({activeEvents[item.eventName]?.delay} s)
-                            </span>
-                            <InputNumber
-                              defaultValue={activeEvents[item.eventName]?.delay}
-                              min={0}
-                              max={getMaxDelay(activeEvents)}
-                              step="1"
-                              onChange={(delay) => updateDelay(item, delay)}
-                            />
-                          </div>
+                        >
+                          <span>Message rate:</span>
+                          <InputNumber
+                            defaultValue="1"
+                            min={0.5}
+                            max={MAX_RATE}
+                            step="0.5"
+                            onChange={(rate) => updateRate(item, rate)}
+                            stringMode
+                          />
+                          <Select
+                            defaultValue="msg/s"
+                            onChange={(freq) => setFrequency(item, freq)}
+                            options={[
+                              { value: 'msg/s', label: 'msg/s' },
+                              { value: 'msg/m', label: 'msg/m' },
+                              { value: 'msg/h', label: 'msg/h' },
+                            ]}
+                          />
                         </div>
-                      ) : (
-                        `${item.topic}`
-                      )
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </InfiniteScroll>
-        </div>
-      </Collapsible>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginTop: '8px',
+                          }}
+                        >
+                          <span>
+                            Delay ({activeEvents[item.eventName]?.delay} s)
+                          </span>
+                          <InputNumber
+                            defaultValue={activeEvents[item.eventName]?.delay}
+                            min={0}
+                            max={getMaxDelay(activeEvents)}
+                            step="1"
+                            onChange={(delay) => updateDelay(item, delay)}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      `${item.topic}`
+                    )
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </InfiniteScroll>
+      </div>
+    </div>
+  );
+
+  return (
+    <div>
+      <Collapse
+        items={[
+          {
+            key: 'events',
+            label: 'Choose Stream(s)',
+            children: Events,
+          },
+        ]}
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            style={{ fontSize: '20px', padding: '15px 0 0 0' }}
+            rotate={isActive ? 90 : 0}
+          />
+        )}
+        size="medium"
+        collapsible={disableForm ? 'disabled' : null}
+      />
     </div>
   );
 };

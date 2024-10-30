@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Collapsible from 'react-collapsible';
 import '../css/collapsable.css';
-import { Row, Col, Form, Input, Button, Radio, Tooltip, Switch } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Row, Col, Form, Input, Button, Radio, Tooltip, Collapse } from 'antd';
+import { UploadOutlined, CaretRightOutlined } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 import { SessionContext } from '../util/helpers/solaceSession';
 
@@ -12,10 +11,8 @@ SolclientFactory.init(factoryProps);
 SolclientFactory.setLogLevel(solace.LogLevel.FATAL);
 
 const BrokerConfig = () => {
-  const { session, setSession } = useContext(SessionContext); // Use context
-  const { sessionProperties, setSessionProperties } =
+  const { session, setSession, setSessionProperties, isAnyEventRunning } =
     useContext(SessionContext); // Use context
-  const { isAnyEventRunning } = useContext(SessionContext); // Use context
   const [isConnected, setIsConnected] = useState(session ? true : false);
   const [connecting, setConnecting] = useState(false);
   const [errorConnection, setErrorString] = useState(undefined);
@@ -286,15 +283,23 @@ const BrokerConfig = () => {
 
   return (
     <div>
-      <Collapsible
-        trigger="Configure Broker"
-        transitionTime={400}
-        easing={'cubic-bezier(0.175, 0.885, 0.32, 2.275)'}
-        style={{ flex: 1 }}
-        open={!disableForm}
-      >
-        {ConnectionForm}
-      </Collapsible>
+      <Collapse
+        items={[
+          {
+            key: 'config',
+            label: 'Configure Broker',
+            children: ConnectionForm,
+          },
+        ]}
+        expandIcon={({ isActive }) => (
+          <CaretRightOutlined
+            style={{ fontSize: '20px', padding: '15px 0 0 0' }}
+            rotate={isActive ? 90 : 0}
+          />
+        )}
+        size="medium"
+        defaultActiveKey={['config']}
+      />
     </div>
   );
 };
