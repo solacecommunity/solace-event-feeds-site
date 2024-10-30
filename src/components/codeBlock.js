@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { twilight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FaRegCopy } from 'react-icons/fa';
 import { Tooltip } from 'antd';
-import '../css/codeBlock.css'; // Import CSS for styling
+import '../css/codeblock.css'; // Import CSS for styling
 
 const CodeBlock = ({ language, value }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
