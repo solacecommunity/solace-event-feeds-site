@@ -248,9 +248,9 @@ const IndexPage = () => {
           <br />
           <br />
           <Row>
-            <Col>
+            {/* <Col>
               <ContributionSteps />
-            </Col>
+            </Col> */}
             <Col>
               <Contribution />
             </Col>
