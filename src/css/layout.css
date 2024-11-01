@@ -292,3 +292,7 @@ button.ant-btn-color-primary {
 .fade-out {
   animation: fadeOut 0.1s forwards;
 }
+
+.tooltip {
+  text-align: center;
+}

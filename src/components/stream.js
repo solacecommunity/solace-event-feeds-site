@@ -14,7 +14,8 @@ const MAX_RENDERED_MESSAGES = 100;
 const Stream = () => {
   const { streamedEvents, setStreamedEvents, session } =
     useContext(SessionContext);
-  const [showPayload, setShowPayload] = useState(false);
+  const [showAllPayload, setShowAllPayload] = useState(false);
+  const [showPayload, setShowPayload] = useState(null);
   const scrollableDivRef = useRef(null);
   const [search, setSearch] = useState('');
 
@@ -45,11 +46,15 @@ const Stream = () => {
                 className="form-control"
                 placeholder="Filter published streams on event name, payload, and topics..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                onChange={(e) => {
+                  setSearch(e.target.value.toLowerCase());
+                }}
               />
               <Tooltip title="Clear search">
                 <ClearOutlined
-                  onClick={(e) => setSearch('')}
+                  onClick={(e) => {
+                    setSearch('');
+                  }}
                   style={{ padding: '0 0 0 10px' }}
                 ></ClearOutlined>
               </Tooltip>
@@ -64,6 +69,7 @@ const Stream = () => {
           >
             <List>
               <List.Item
+                key={'streams options'}
                 actions={[
                   <Tag>
                     Displaying the last {MAX_RENDERED_MESSAGES} published
@@ -76,13 +82,19 @@ const Stream = () => {
                   >
                     Clear
                   </Button>,
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => setShowPayload(!showPayload)}
+                  <Tooltip
+                    title="Click on event to show single payload"
+                    mouseLeaveDelay={0.5}
+                    overlayStyle={{ textAlign: 'center !important' }}
                   >
-                    {showPayload ? 'Hide Payload' : 'Show Payload'}
-                  </Button>,
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      onClick={() => setShowAllPayload(!showAllPayload)}
+                    >
+                      {showAllPayload ? 'Hide All Payload' : 'Show All Payload'}
+                    </Button>
+                  </Tooltip>,
                 ]}
               ></List.Item>
             </List>
@@ -116,12 +128,14 @@ const Stream = () => {
                   <List.Item
                     key={event.eventName}
                     actions={[
-                      <Button
-                        color="primary"
-                        icon={<CopyOutlined />}
-                        onClick={() => handleCopy(event)}
-                        style={{ background: 'none', border: 'none' }}
-                      ></Button>,
+                      <Tooltip title="Copy Payload">
+                        <Button
+                          color="primary"
+                          icon={<CopyOutlined />}
+                          onClick={() => handleCopy(event)}
+                          style={{ background: 'none', border: 'none' }}
+                        ></Button>
+                      </Tooltip>,
                     ]}
                   >
                     <List.Item.Meta
@@ -134,7 +148,7 @@ const Stream = () => {
                       }
                       title={event.topic}
                       description={
-                        showPayload ? (
+                        showAllPayload || showPayload == event ? (
                           <pre
                             style={{
                               whiteSpace: 'pre-wrap',
@@ -146,6 +160,9 @@ const Stream = () => {
                         ) : (
                           ''
                         )
+                      }
+                      onClick={() =>
+                        setShowPayload(showPayload === event ? null : event)
                       }
                     />
                   </List.Item>
