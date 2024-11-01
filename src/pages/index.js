@@ -9,6 +9,8 @@ import Contribution from '../components/contribution';
 import ContributionSteps from '../components/contributionSteps';
 import { useStaticQuery, graphql } from 'gatsby';
 import { TestCommunityFeeds, TestLocalFeeds } from '../util/helpers/testFeeds';
+import { ClearOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 
 const initialState = {
   isLoading: true,
@@ -151,15 +153,33 @@ const IndexPage = () => {
           <Loading section="Community feeds" />
         ) : (
           <Container className="pb5">
-            <InputGroup className="mt3 mb3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search Community Feeds..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </InputGroup>
+            <Row className="mt3">
+              <Col
+                xs={5}
+                sm={5}
+                md={5}
+                lg={5}
+                xl={5}
+                xxl={5}
+                className="mt3 mb3"
+              >
+                <InputGroup className="mt3 mb3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search Community Feeds..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                  <Tooltip title="Clear search">
+                    <ClearOutlined
+                      onClick={(e) => setSearch('')}
+                      style={{ padding: '0 0 0 10px' }}
+                    ></ClearOutlined>
+                  </Tooltip>
+                </InputGroup>
+              </Col>
+            </Row>
             <h2 className="mt4">Community Feeds</h2>
             <Row className="mt3">
               {state.communityFeeds

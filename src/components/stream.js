@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { InputGroup } from 'react-bootstrap';
 import { SessionContext } from '../util/helpers/solaceSession';
-import { Button, List, Tag, Collapse, message } from 'antd';
+import { Button, List, Tag, Collapse, message, Tooltip } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { CopyOutlined, CaretRightOutlined } from '@ant-design/icons';
+import {
+  CopyOutlined,
+  CaretRightOutlined,
+  ClearOutlined,
+} from '@ant-design/icons';
 
 const MAX_RENDERED_MESSAGES = 100;
 
@@ -43,6 +47,12 @@ const Stream = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value.toLowerCase())}
               />
+              <Tooltip title="Clear search">
+                <ClearOutlined
+                  onClick={(e) => setSearch('')}
+                  style={{ padding: '0 0 0 10px' }}
+                ></ClearOutlined>
+              </Tooltip>
             </InputGroup>
           </div>
           <div
