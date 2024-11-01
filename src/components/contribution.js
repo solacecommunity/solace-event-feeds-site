@@ -8,7 +8,14 @@ const Contribution = () => {
       <br />
       <br />
       <br />
-      <h2>1. Download STM</h2>
+      <h2>1. Design your application on Event Portal</h2>
+      <p>
+        {' '}
+        Have applications, publishing events, and schemas associated to every
+        event
+      </p>
+      <h2>2. Downlaod the AsyncaPI Spec file for the target application</h2>
+      <h2>3. Download STM</h2>
       <p>MacOS</p>
       <CodeBlock
         language="bash"
@@ -31,11 +38,13 @@ const Contribution = () => {
         </a>{' '}
         for more infomraiton.
       </p>
-      <h2>2. Generate your own feed</h2>
+      <h2>4. Generate your own feed</h2>
       <CodeBlock language="bash" value={`stm feed generate`} />
-      <h2>3. Configure your own feed</h2>
+      <h2>5. Configure your own feed</h2>
       <CodeBlock language="bash" value={`stm feed configure`} />
-      <h2>4. Contribute the feed</h2>
+      <h2>6. Run the feed locally</h2>
+      <CodeBlock language="bash" value={`stm feed run`} />
+      <h2>7. Contribute the feed</h2>
       <CodeBlock language="bash" value={`stm feed contribute`} />
       <p>
         Visit the{' '}
