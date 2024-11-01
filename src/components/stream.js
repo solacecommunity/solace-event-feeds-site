@@ -3,11 +3,13 @@ import { InputGroup } from 'react-bootstrap';
 import { SessionContext } from '../util/helpers/solaceSession';
 import { Button, List, Tag, Collapse, message, Tooltip } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Highlighter from 'react-highlight-words';
 import {
   CopyOutlined,
   CaretRightOutlined,
   ClearOutlined,
 } from '@ant-design/icons';
+import { fa } from '@faker-js/faker';
 
 const MAX_RENDERED_MESSAGES = 100;
 
@@ -48,12 +50,17 @@ const Stream = () => {
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value.toLowerCase());
+                  console.log(search.length);
+                  search.length == 1
+                    ? setShowAllPayload(false)
+                    : setShowAllPayload(true);
                 }}
               />
               <Tooltip title="Clear search">
                 <ClearOutlined
                   onClick={(e) => {
                     setSearch('');
+                    setShowAllPayload(false);
                   }}
                   style={{ padding: '0 0 0 10px' }}
                 ></ClearOutlined>
@@ -141,12 +148,22 @@ const Stream = () => {
                     <List.Item.Meta
                       avatar={
                         <div style={{ padding: '10px 0 0 0' }}>
-                          <Tag
-                            color={event.tagColor}
-                          >{` ${event.countSend} | ${event.eventName}`}</Tag>
+                          <Tag color={event.tagColor}>
+                            <Highlighter
+                              searchWords={[search]}
+                              autoEscape={true}
+                              textToHighlight={` ${event.countSend} | ${event.eventName}`}
+                            />
+                          </Tag>
                         </div>
                       }
-                      title={event.topic}
+                      title={
+                        <Highlighter
+                          searchWords={[search]}
+                          autoEscape={true}
+                          textToHighlight={event.topic}
+                        />
+                      }
                       description={
                         showAllPayload || showPayload == event ? (
                           <pre
@@ -155,7 +172,15 @@ const Stream = () => {
                               wordBreak: 'break-word',
                             }}
                           >
-                            {JSON.stringify(event.payload, null, 2)}
+                            <Highlighter
+                              searchWords={[search]}
+                              autoEscape={true}
+                              textToHighlight={JSON.stringify(
+                                event.payload,
+                                null,
+                                2
+                              )}
+                            />
                           </pre>
                         ) : (
                           ''
