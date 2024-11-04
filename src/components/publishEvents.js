@@ -10,7 +10,7 @@ import {
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 
-const MAX_DELAY = 10;
+const MAX_START_DELAY = 10;
 const MAX_RATE = 10;
 const MAX_MSG_COUNT = 1000;
 
@@ -270,12 +270,6 @@ const PublishEvents = (props) => {
     }));
   };
 
-  const getMaxDelay = (activeEvents) => {
-    return Math.max(
-      ...Object.values(activeEvents).map((event) => event.delay || MAX_DELAY)
-    );
-  };
-
   const handleDisconnect = () => {
     if (session) {
       try {
@@ -470,7 +464,7 @@ const PublishEvents = (props) => {
                           <InputNumber
                             defaultValue={activeEvents[item.eventName]?.delay}
                             min={0}
-                            max={getMaxDelay(activeEvents)}
+                            max={MAX_START_DELAY}
                             step="1"
                             onChange={(delay) => updateDelay(item, delay)}
                           />

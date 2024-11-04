@@ -289,6 +289,7 @@ const BrokerConfig = () => {
                 icon={<DownloadOutlined />}
                 onClick={handleDownload}
                 style={{ padding: '10px' }}
+                disabled={false}
               ></Button>
             </Tooltip>
           </Col>
