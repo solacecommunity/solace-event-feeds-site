@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import '../css/collapsable.css';
 import { Row, Col, Form, Input, Button, Radio, Tooltip, Collapse } from 'antd';
-import { UploadOutlined, CaretRightOutlined } from '@ant-design/icons';
+import {
+  UploadOutlined,
+  CaretRightOutlined,
+  LinkOutlined,
+  DownloadOutlined,
+} from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 import { SessionContext } from '../util/helpers/solaceSession';
 
@@ -121,6 +126,26 @@ const BrokerConfig = () => {
     }
   };
 
+  const handleDownload = () => {
+    const config = {
+      url: record.url,
+      vpn: record.vpn,
+      username: record.username,
+      password: record.password,
+    };
+
+    const blob = new Blob([JSON.stringify(config, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'config.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
   const ConnectionForm = (
     <Form
       layout="vertical"
@@ -181,19 +206,26 @@ const BrokerConfig = () => {
           </Form.Item>
         </Col>
         <Col span={1}></Col>
-        <Col span={2}>
+        <Col span={3}>
           <Form.Item>
+            <LinkOutlined
+              style={{ padding: '10px', color: isConnected ? 'green' : 'red' }}
+            />
             <Button
               type="primary"
               shape="round"
               onClick={handleConnect}
               disabled={isConnected}
             >
-              {connecting ? 'Connecting...' : 'Connect'}
+              {connecting
+                ? 'Connecting...'
+                : isConnected
+                  ? 'Connected'
+                  : 'Connect'}
             </Button>
           </Form.Item>
         </Col>
-        <Col span={5}>
+        <Col span={4}>
           <Form.Item>
             <Button
               color="danger"
@@ -206,32 +238,16 @@ const BrokerConfig = () => {
             </Button>
           </Form.Item>
         </Col>
-        <Col span={3}>
+        <Col span={1}>
           <Form.Item>
-            <Tooltip
-              title={
-                <pre>
-                  {JSON.stringify(
-                    {
-                      url: 'web_url',
-                      vpn: 'msg_vpn',
-                      username: 'username',
-                      password: 'password',
-                    },
-                    null,
-                    2
-                  )}
-                </pre>
-              }
-            >
+            <Tooltip title="Upload config">
               <Button
                 type="primary"
                 shape="round"
                 icon={<UploadOutlined />}
+                style={{ padding: '10px' }}
                 onClick={() => document.getElementById('fileInput').click()}
-              >
-                Load Config File
-              </Button>
+              ></Button>
             </Tooltip>
             <input
               type="file"
@@ -264,6 +280,19 @@ const BrokerConfig = () => {
             />
           </Form.Item>
         </Col>
+        <Form.Item>
+          <Col span={2}>
+            <Tooltip title="Download config">
+              <Button
+                type="primary"
+                shape="round"
+                icon={<DownloadOutlined />}
+                onClick={handleDownload}
+                style={{ padding: '10px' }}
+              ></Button>
+            </Tooltip>
+          </Col>
+        </Form.Item>
         {errorConnection && (
           <Col span={24}>
             <Form.Item>

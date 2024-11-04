@@ -45,7 +45,7 @@ const Stream = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Filter published streams on event name, payload, and topics..."
+                placeholder="Filter published streams on event name, payload, and topics"
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value.toLowerCase());
@@ -86,7 +86,7 @@ const Stream = () => {
                     variant="outlined"
                     onClick={() => setStreamedEvents([])}
                   >
-                    Clear
+                    Clear All Messages
                   </Button>,
                   <Tooltip
                     title="Click on event to show single payload"
@@ -214,7 +214,7 @@ const Stream = () => {
         items={[
           {
             key: 'streams',
-            label: 'Publishing Stream',
+            label: 'Publishing Streams',
             children: Streams,
           },
         ]}

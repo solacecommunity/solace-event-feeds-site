@@ -464,7 +464,8 @@ const PublishEvents = (props) => {
                           }}
                         >
                           <span>
-                            Delay ({activeEvents[item.eventName]?.delay} s)
+                            Start Delay ({activeEvents[item.eventName]?.delay}{' '}
+                            s)
                           </span>
                           <InputNumber
                             defaultValue={activeEvents[item.eventName]?.delay}
