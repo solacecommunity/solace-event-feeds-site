@@ -12,6 +12,7 @@ import solace, { SolclientFactory } from 'solclientjs';
 
 const MAX_DELAY = 10;
 const MAX_RATE = 10;
+const MAX_MSG_COUNT = 1000;
 
 const PublishEvents = (props) => {
   const {
@@ -23,7 +24,6 @@ const PublishEvents = (props) => {
   } = useContext(SessionContext); // Use context
 
   const [isConnected, setIsConnected] = useState(false);
-  const [disableForm, setdisableForm] = useState(true);
   const [errorConnection, setErrorString] = useState(undefined);
   const [activeFeedConfig, setActiveFeedConfig] = useState(null); // Track the active Control button
   const tagColors = [
@@ -54,11 +54,26 @@ const PublishEvents = (props) => {
       timeoutId: null,
       countSend: 0,
       tagColor: tagColors[Math.floor(Math.random() * tagColors.length)],
+      maxMsgCount: parseInt(item.publishSettings.count, 10) || MAX_MSG_COUNT,
     };
   });
   const [activeEvents, setActiveEvents] = useState(events); // Track the active event
   const faker = new Faker(); // For fake data generation
-  const toggleControl = (item) => {
+
+  const toggleControl = (item, e) => {
+    // Skip toggling the control if the user is interacting with an input or select element
+    const skipToggleClassNames = ['input', 'select'];
+    let skip =
+      typeof e.target.className == 'string'
+        ? skipToggleClassNames.some((className) =>
+            e.target.className.includes(className)
+          )
+        : null;
+    console.log(e.target.dataset.icon);
+    if (e.target.dataset.icon == 'up' || e.target.dataset.icon == 'down')
+      skip = true;
+
+    if (skip) return;
     setActiveFeedConfig((prev) =>
       prev === item.eventName ? null : item.eventName
     );
@@ -66,7 +81,6 @@ const PublishEvents = (props) => {
 
   useEffect(() => {
     setIsConnected(session ? true : false);
-    setdisableForm(session ? false : true);
     setIsAnyEventRunning(
       Object.values(activeEvents).some((event) => event.active)
     );
@@ -157,6 +171,24 @@ const PublishEvents = (props) => {
             countSend: activeEvents[item.eventName].countSend,
           },
         ]);
+        if (
+          activeEvents[item.eventName]?.countSend >=
+            activeEvents[item.eventName]?.maxMsgCount &&
+          activeEvents[item.eventName]?.maxMsgCount !== -1
+        ) {
+          clearInterval(intervalId); // Stop the interval
+          clearTimeout(timeoutId); // Stop the timeout
+          activeEvents[item.eventName].countSend = 0;
+          setActiveEvents((prevState) => ({
+            ...prevState,
+            [item.eventName]: {
+              ...prevState[item.eventName], // Keep all the other values
+              active: false, // Set the event to active
+              intervalId: null,
+              timeoutId: null,
+            },
+          }));
+        }
       }, interval); // Calculate interval based on rate (messages per second)
 
       // Store the intervalId for stopping the feed later
@@ -224,6 +256,16 @@ const PublishEvents = (props) => {
       [item.eventName]: {
         ...prevState[item.eventName], // Keep all the other values
         delay: delay, // Set the event to active
+      },
+    }));
+  };
+
+  const updateMaxMsgCount = (item, maxMsgCount) => {
+    setActiveEvents((prevState) => ({
+      ...prevState,
+      [item.eventName]: {
+        ...prevState[item.eventName], // Keep all the other values
+        maxMsgCount: maxMsgCount,
       },
     }));
   };
@@ -355,6 +397,7 @@ const PublishEvents = (props) => {
                     Stop{' '}
                   </Button>,
                   <Button
+                    className="TEST"
                     style={{
                       color:
                         activeFeedConfig === item.eventName
@@ -365,8 +408,7 @@ const PublishEvents = (props) => {
                     }}
                     variant="link"
                     icon={<ControlOutlined />}
-                    onClick={() => toggleControl(item)}
-                    disabled={!isConnected}
+                    onClick={(e) => toggleControl(item, e)}
                   />,
                 ]}
               >
@@ -396,7 +438,7 @@ const PublishEvents = (props) => {
                         >
                           <span>Message rate:</span>
                           <InputNumber
-                            defaultValue="1"
+                            defaultValue={activeEvents[item.eventName]?.rate}
                             min={0.5}
                             max={MAX_RATE}
                             step="0.5"
@@ -432,11 +474,33 @@ const PublishEvents = (props) => {
                             onChange={(delay) => updateDelay(item, delay)}
                           />
                         </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginTop: '8px',
+                          }}
+                        >
+                          <span>Max number of messages (-1 for infinite)</span>
+                          <InputNumber
+                            defaultValue={
+                              activeEvents[item.eventName]?.maxMsgCount
+                            }
+                            min={-1}
+                            max={MAX_MSG_COUNT}
+                            step="1"
+                            onChange={(maxMsgCount) =>
+                              updateMaxMsgCount(item, maxMsgCount)
+                            }
+                          />
+                        </div>
                       </div>
                     ) : (
                       `${item.topic}`
                     )
                   }
+                  onClick={(e) => toggleControl(item, e)}
                 />
               </List.Item>
             )}
@@ -463,7 +527,6 @@ const PublishEvents = (props) => {
           />
         )}
         size="medium"
-        collapsible={disableForm ? 'disabled' : null}
       />
     </div>
   );

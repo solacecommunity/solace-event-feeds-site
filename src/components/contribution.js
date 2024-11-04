@@ -14,7 +14,7 @@ const Contribution = () => {
         Have applications, publishing events, and schemas associated to every
         event
       </p>
-      <h2>2. Downlaod the AsyncaPI Spec file for the target application</h2>
+      <h2>2. Download the AsyncaPI Spec file for the target application</h2>
       <h2>3. Download STM</h2>
       <p>MacOS</p>
       <CodeBlock

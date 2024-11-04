@@ -9,7 +9,6 @@ import {
   CaretRightOutlined,
   ClearOutlined,
 } from '@ant-design/icons';
-import { fa } from '@faker-js/faker';
 
 const MAX_RENDERED_MESSAGES = 100;
 
