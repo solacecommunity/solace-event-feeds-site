@@ -30,7 +30,7 @@ function SEO({
         },
         {
           property: `og:image`,
-          content: './solace-dev-meta-og-image.png',
+          content: 'static/solace-dev-meta-og-image.png',
         },
         {
           name: `twitter:card`,
@@ -38,7 +38,7 @@ function SEO({
         },
         {
           name: `twitter:image`,
-          content: './solace-dev-meta-og-image.png',
+          content: 'static/solace-dev-meta-og-image.png',
         },
         {
           name: `twitter:title`,
