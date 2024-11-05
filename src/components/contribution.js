@@ -5,16 +5,13 @@ import '../css/carousel.css';
 const Contribution = () => {
   return (
     <div>
-      <br />
-      <br />
-      <br />
       <h2>1. Design your application on Event Portal</h2>
       <p>
         {' '}
         Have applications, publishing events, and schemas associated to every
         event
       </p>
-      <h2>2. Download the AsyncaPI Spec file for the target application</h2>
+      <h2>2. Download the AsyncAPI Spec file for the target application</h2>
       <h2>3. Download STM</h2>
       <p>MacOS</p>
       <CodeBlock
