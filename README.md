@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/solacecommunity/solace-event-feeds-site)](https://github.com/solacecommunity/solace-event-feeds-site/blob/main/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d856a3bf-86d1-4192-90b6-f348832f231e/deploy-status)](https://app.netlify.com/sites/solacefeedsv2/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cfeda1a7-444c-4f72-8550-def758c8e7b4/deploy-status)](https://app.netlify.com/sites/solacefeedsv2/deploys)
 
 [![GitHub issues](https://img.shields.io/github/issues/solacecommunity/solace-event-feeds-site?color=red)](https://github.com/solacecommunity/solace-event-feeds-site/issues)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/solacecommunity/solace-event-feeds-site?color=green)](https://github.com/solacecommunity/solace-event-feeds-site/issues?q=is%3Aissue+is%3Aclosed)
