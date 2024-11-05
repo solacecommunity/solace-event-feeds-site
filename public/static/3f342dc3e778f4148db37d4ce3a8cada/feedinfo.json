@@ -1,0 +1,12 @@
+{
+  "type": "asyncapi_feed",
+  "name": "BaristaStation",
+  "description": "Barista Station ordering coffee",
+  "img": "https://cdn-icons-png.flaticon.com/512/590/590749.png",
+  "contributor": "Tamimi",
+  "github": "TamimiGithub",
+  "domain": "Coffee Shop",
+  "tags": "coffee, barrista",
+  "lastUpdated": "2024-10-30T17:47:46.079Z",
+  "contributed": true
+}

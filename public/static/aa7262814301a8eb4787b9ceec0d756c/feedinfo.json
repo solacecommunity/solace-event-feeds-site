@@ -1,0 +1,11 @@
+{
+  "type": "asyncapi_feed",
+  "name": "SAP-Retail",
+  "description": "Publish order created and udapted",
+  "img": "https://cdn-icons-png.flaticon.com/512/882/882701.png",
+  "contributor": "Tamimi",
+  "github": "Tamimigithub",
+  "domain": "Retail",
+  "tags": "SAP",
+  "lastUpdated": "2024-09-16T19:45:20.651Z"
+}

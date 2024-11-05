@@ -1,0 +1,11 @@
+{
+  "type": "asyncapi_feed",
+  "name": "SAP Price Generator",
+  "description": "Description",
+  "img": "https://cdn-icons-png.flaticon.com/512/882/882701.png",
+  "contributor": "Tamimi",
+  "github": "TamimiGithub",
+  "domain": "Retail",
+  "tags": "retail, sap",
+  "lastUpdated": "2024-09-12T23:27:34.423Z"
+}

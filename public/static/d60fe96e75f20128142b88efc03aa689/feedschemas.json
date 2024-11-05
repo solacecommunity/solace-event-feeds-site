@@ -1,0 +1,45 @@
+[
+  {
+    "topic": "myair/foreignAffairs/v1/{passportNo}/{status}",
+    "eventName": "immigrationCheckStatus",
+    "eventVersion": "0.1.0",
+    "messageName": "immigrationCheckStatus",
+    "topicParameters": {
+      "passportNo": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "status": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "passportNo": {
+        "type": "string"
+      },
+      "firstName": {
+        "type": "string"
+      },
+      "lastName": {
+        "type": "string"
+      },
+      "flightNo": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      }
+    },
+    "consumers": [
+      {
+        "name": "localImmigrationEngine.immigrationCheckStatus",
+        "topicSubscriptions": [
+          "myair/foreignAffairs/v1/*/*"
+        ]
+      }
+    ]
+  }
+]

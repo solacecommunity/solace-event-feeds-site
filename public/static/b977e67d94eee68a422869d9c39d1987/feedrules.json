@@ -1,0 +1,422 @@
+[
+  {
+    "topic": "acmeretail/mdm/sap/{storeId}/price/{trigger}/{matType}/{matNr}",
+    "eventName": "Price",
+    "eventVersion": "0.1.0",
+    "messageName": "Price",
+    "topicParameters": {
+      "matNr": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "matNr",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "apples",
+            "oranges",
+            "bananas"
+          ]
+        }
+      },
+      "trigger": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ]
+        },
+        "rule": {
+          "name": "trigger",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ]
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ]
+        },
+        "rule": {
+          "name": "storeId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ]
+        }
+      },
+      "matType": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ]
+        },
+        "rule": {
+          "name": "matType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "price": {
+        "type": "number",
+        "$id": "data/properties/price",
+        "rule": {
+          "type": "number",
+          "$id": "data/properties/price",
+          "name": "price",
+          "group": "NumberRules",
+          "rule": "float",
+          "minimum": 0,
+          "maximum": 1000,
+          "fractionDigits": 2
+        }
+      },
+      "matNr": {
+        "type": "integer",
+        "$id": "data/properties/matNr",
+        "rule": {
+          "type": "integer",
+          "$id": "data/properties/matNr",
+          "name": "matNr",
+          "group": "NumberRules",
+          "rule": "int",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      },
+      "currency": {
+        "type": "string",
+        "enum": [
+          "EUR",
+          "USD"
+        ],
+        "$id": "data/properties/currency",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "EUR",
+            "USD"
+          ],
+          "$id": "data/properties/currency",
+          "name": "currency",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "trigger": {
+        "type": "string",
+        "enum": [
+          "created",
+          "changed",
+          "deleted"
+        ],
+        "$id": "data/properties/trigger",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ],
+          "$id": "data/properties/trigger",
+          "name": "trigger",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "storeId": {
+        "type": "string",
+        "enum": [
+          "101",
+          "102",
+          "103"
+        ],
+        "$id": "data/properties/storeId",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ],
+          "$id": "data/properties/storeId",
+          "name": "storeId",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "matType": {
+        "type": "string",
+        "enum": [
+          "HAWA",
+          "FLEZ",
+          "VERP"
+        ],
+        "$id": "data/properties/matType",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ],
+          "$id": "data/properties/matType",
+          "name": "matType",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "acmeretail/mdm/sap/{storeId}/product/{trigger}/{matType}/{matNr}",
+    "eventName": "Product",
+    "eventVersion": "0.1.0",
+    "messageName": "Product",
+    "topicParameters": {
+      "matNr": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "matNr",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "trigger": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ]
+        },
+        "rule": {
+          "name": "trigger",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ]
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ]
+        },
+        "rule": {
+          "name": "storeId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ]
+        }
+      },
+      "matType": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ]
+        },
+        "rule": {
+          "name": "matType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "enum",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ]
+        }
+      }
+    },
+    "payload": {
+      "unitOfMeasurement": {
+        "type": "string",
+        "enum": [
+          "PC",
+          "BOT",
+          "KAR"
+        ],
+        "$id": "data/properties/unitOfMeasurement",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "PC",
+            "BOT",
+            "KAR"
+          ],
+          "$id": "data/properties/unitOfMeasurement",
+          "name": "unitOfMeasurement",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "supplier": {
+        "type": "string",
+        "$id": "data/properties/supplier",
+        "rule": {
+          "type": "string",
+          "$id": "data/properties/supplier",
+          "name": "supplier",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "matNr": {
+        "type": "integer",
+        "$id": "data/properties/matNr",
+        "rule": {
+          "type": "integer",
+          "$id": "data/properties/matNr",
+          "name": "matNr",
+          "group": "NumberRules",
+          "rule": "int",
+          "minimum": 0,
+          "maximum": 1000
+        }
+      },
+      "description": {
+        "type": "string",
+        "$id": "data/properties/description",
+        "rule": {
+          "type": "string",
+          "$id": "data/properties/description",
+          "name": "description",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "trigger": {
+        "type": "string",
+        "enum": [
+          "created",
+          "changed",
+          "deleted"
+        ],
+        "$id": "data/properties/trigger",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "created",
+            "changed",
+            "deleted"
+          ],
+          "$id": "data/properties/trigger",
+          "name": "trigger",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "storeId": {
+        "type": "string",
+        "enum": [
+          "101",
+          "102",
+          "103"
+        ],
+        "$id": "data/properties/storeId",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "101",
+            "102",
+            "103"
+          ],
+          "$id": "data/properties/storeId",
+          "name": "storeId",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      },
+      "matType": {
+        "type": "string",
+        "enum": [
+          "HAWA",
+          "FLEZ",
+          "VERP"
+        ],
+        "$id": "data/properties/matType",
+        "rule": {
+          "type": "string",
+          "enum": [
+            "HAWA",
+            "FLEZ",
+            "VERP"
+          ],
+          "$id": "data/properties/matType",
+          "name": "matType",
+          "group": "StringRules",
+          "rule": "enum"
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  }
+]

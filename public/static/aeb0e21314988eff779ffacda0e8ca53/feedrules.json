@@ -1,0 +1,110 @@
+[
+  {
+    "topic": "acme/ecommerce/customer/order/acceped/{orderRequestId}",
+    "eventName": "OrderAccepted",
+    "eventVersion": "0.1.0",
+    "messageName": "OrderAccepted",
+    "topicParameters": {
+      "orderRequestId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "orderRequestId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 0,
+      "interval": 1000,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "acme/ecommerce/order/processed/{OrderId}",
+    "eventName": "OrderProcessed",
+    "eventVersion": "0.1.0",
+    "messageName": "OrderProcessed",
+    "topicParameters": {
+      "OrderId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "OrderId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 0,
+      "interval": 1000,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "acme/ecommerce/order/shipped/{OrderId}",
+    "eventName": "OrderShipped",
+    "eventVersion": "0.1.0",
+    "messageName": "OrderShipped",
+    "topicParameters": {
+      "OrderId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "OrderId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 0,
+      "interval": 1000,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "acme/ecommerce/order/received/{OrderId}",
+    "eventName": "OrderReceived",
+    "eventVersion": "0.1.0",
+    "messageName": "OrderReceived",
+    "topicParameters": {
+      "OrderId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "OrderId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 0,
+      "interval": 1000,
+      "delay": 0
+    }
+  }
+]

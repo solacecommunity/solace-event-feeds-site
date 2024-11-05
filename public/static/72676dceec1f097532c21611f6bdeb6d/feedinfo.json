@@ -1,0 +1,11 @@
+{
+  "type": "asyncapi_feed",
+  "name": "InventoryManagement",
+  "description": "Subscribe to order created and update and publishes low or no inventory events",
+  "img": "https://cdn-icons-png.flaticon.com/512/4866/4866986.png",
+  "contributor": "Tamimi",
+  "github": "TamimiGithub",
+  "domain": "Retail",
+  "tags": "inventory",
+  "lastUpdated": "2024-09-16T19:44:48.197Z"
+}

@@ -1,0 +1,1560 @@
+[
+  {
+    "topic": "sap.com/material/create/V1/{materialClass}/{industrySector}/{materialType}/{materialNumber}/{maintenanceStatusGroup}/{maintenanceStatusMaterial}/{deletionIndicator}",
+    "eventName": "Material Create Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Material_Create_Event",
+    "topicParameters": {
+      "materialClass": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialClass",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "industrySector": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "industrySector",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "materialNumber": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialNumber",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "materialType": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "maintenanceStatusGroup": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "maintenanceStatusGroup",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "maintenanceStatusMaterial": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "maintenanceStatusMaterial",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "deletionIndicator": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "deletionIndicator",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "material": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "materialClass": {
+                "type": "string"
+              },
+              "industrySector": {
+                "type": "string"
+              },
+              "materialType": {
+                "type": "string"
+              },
+              "maintenanceStatusGroup": {
+                "type": "string"
+              },
+              "maintenanceStatusMaterial": {
+                "type": "string"
+              },
+              "units": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "uOM": {
+                        "type": "string"
+                      },
+                      "ean11": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uOM",
+                      "ean11"
+                    ]
+                  }
+                ]
+              },
+              "creationDate": {
+                "type": "string"
+              },
+              "changerUser": {
+                "type": "string"
+              },
+              "deletionIndicator": {
+                "type": "string"
+              },
+              "baseUnit": {
+                "type": "string"
+              },
+              "materialNumber": {
+                "type": "string"
+              },
+              "creatorUser": {
+                "type": "string"
+              },
+              "lastChange": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "materialNumber",
+              "creationDate",
+              "creatorUser",
+              "changerUser",
+              "maintenanceStatusGroup",
+              "maintenanceStatusMaterial",
+              "deletionIndicator",
+              "materialType",
+              "industrySector",
+              "materialClass",
+              "baseUnit",
+              "units"
+            ]
+          }
+        ],
+        "name": "material"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": "10",
+      "delay": "10"
+    }
+  },
+  {
+    "topic": "sap.com/salesorder/change/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+    "eventName": "Sales Order Change Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Sales_Order_Change_Event",
+    "topicParameters": {
+      "division": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "division",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "customerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "customerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "salesOrg": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "salesOrg",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "distributionChannel": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "distributionChannel",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "orderHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "salesType": {
+                "type": "string"
+              },
+              "division": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "string"
+              },
+              "orderItem": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  }
+                ]
+              },
+              "salesOrg": {
+                "type": "string"
+              },
+              "salesOrderNumber": {
+                "type": "string"
+              },
+              "distributionChannel": {
+                "type": "string"
+              },
+              "ordertype": {
+                "type": "string"
+              },
+              "customer": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "zipCode": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "customerId": {
+                        "type": "string"
+                      },
+                      "customerName": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "customerId",
+                      "customerName",
+                      "zipCode",
+                      "street",
+                      "phone"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "salesOrderNumber",
+              "creator",
+              "date",
+              "salesType",
+              "ordertype",
+              "salesOrg",
+              "distributionChannel",
+              "division",
+              "customer",
+              "orderItem"
+            ]
+          }
+        ],
+        "name": "orderHeader"
+      }
+    },
+    "publishSettings": {
+      "count": "100",
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/notification/create/V1/{type}/{plant}/{notificationId}",
+    "eventName": "Notification Create Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Notification_Create_Event",
+    "topicParameters": {
+      "plant": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "plant",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "notificationId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "notificationId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "type": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "type",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": "5",
+      "interval": "30",
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/salesorder/create/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+    "eventName": "Sales Order Create Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Sales_Order_Create_Event",
+    "topicParameters": {
+      "division": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "division",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "customerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "customerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "salesOrg": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "salesOrg",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "distributionChannel": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "distributionChannel",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "orderHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "salesType": {
+                "type": "string"
+              },
+              "division": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "string"
+              },
+              "orderItem": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  }
+                ]
+              },
+              "salesOrg": {
+                "type": "string"
+              },
+              "salesOrderNumber": {
+                "type": "string"
+              },
+              "distributionChannel": {
+                "type": "string"
+              },
+              "ordertype": {
+                "type": "string"
+              },
+              "customer": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "zipCode": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "customerId": {
+                        "type": "string"
+                      },
+                      "customerName": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "customerId",
+                      "customerName",
+                      "zipCode",
+                      "street",
+                      "phone"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "salesOrderNumber",
+              "creator",
+              "date",
+              "salesType",
+              "ordertype",
+              "salesOrg",
+              "distributionChannel",
+              "division",
+              "customer",
+              "orderItem"
+            ]
+          }
+        ],
+        "name": "orderHeader"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/material/change/V1/{materialClass}/{industrySector}/{materialType}/{materialNumber}/{maintenanceStatusGroup}/{maintenanceStatusMaterial}/{deletionIndicator}",
+    "eventName": "Material Change Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Material_Change_Event",
+    "topicParameters": {
+      "materialClass": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialClass",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "industrySector": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "industrySector",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "materialNumber": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialNumber",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "materialType": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "materialType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "maintenanceStatusGroup": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "maintenanceStatusGroup",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "maintenanceStatusMaterial": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "maintenanceStatusMaterial",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "deletionIndicator": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "deletionIndicator",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "material": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "materialClass": {
+                "type": "string"
+              },
+              "industrySector": {
+                "type": "string"
+              },
+              "materialType": {
+                "type": "string"
+              },
+              "maintenanceStatusGroup": {
+                "type": "string"
+              },
+              "maintenanceStatusMaterial": {
+                "type": "string"
+              },
+              "units": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "uOM": {
+                        "type": "string"
+                      },
+                      "ean11": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "uOM",
+                      "ean11"
+                    ]
+                  }
+                ]
+              },
+              "creationDate": {
+                "type": "string"
+              },
+              "changerUser": {
+                "type": "string"
+              },
+              "deletionIndicator": {
+                "type": "string"
+              },
+              "baseUnit": {
+                "type": "string"
+              },
+              "materialNumber": {
+                "type": "string"
+              },
+              "creatorUser": {
+                "type": "string"
+              },
+              "lastChange": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "materialNumber",
+              "creationDate",
+              "creatorUser",
+              "changerUser",
+              "maintenanceStatusGroup",
+              "maintenanceStatusMaterial",
+              "deletionIndicator",
+              "materialType",
+              "industrySector",
+              "materialClass",
+              "baseUnit",
+              "units"
+            ]
+          }
+        ],
+        "name": "material"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/notification/change/V1/{type}/{plant}/{notificationId}",
+    "eventName": "Notification Change Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Notification_Change_Event",
+    "topicParameters": {
+      "plant": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "plant",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "notificationId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "notificationId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "type": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "type",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/businesspartner/change/V1/{businessPartnerType}/{partnerId}",
+    "eventName": "Business Partner Change Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Business_Partner_Change_Event",
+    "topicParameters": {
+      "partnerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "partnerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "businessPartnerType": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "businessPartnerType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "businessPartner": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "addressLink": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "country": {
+                                "type": "string"
+                              },
+                              "nation": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "street": {
+                                "type": "string"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              },
+                              "houseNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "nation",
+                              "city",
+                              "street",
+                              "houseNumber",
+                              "postalCode",
+                              "country"
+                            ]
+                          }
+                        ]
+                      },
+                      "addressNumber": {
+                        "type": "string"
+                      },
+                      "dateFrom": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "dateFrom",
+                      "addressNumber",
+                      "address"
+                    ]
+                  }
+                ]
+              },
+              "partnerId": {
+                "type": "string"
+              },
+              "businessPartnerType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "partnerId",
+              "firstName",
+              "lastName",
+              "businessPartnerType",
+              "adressLink"
+            ]
+          }
+        ],
+        "name": "businessPartner"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/businesspartner/create/V1/{businessPartnerType}/{partnerId}",
+    "eventName": "Business Partner Create Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Business_Partner_Create_Event",
+    "topicParameters": {
+      "partnerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "partnerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "businessPartnerType": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "businessPartnerType",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "businessPartner": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string"
+              },
+              "lastName": {
+                "type": "string"
+              },
+              "addressLink": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "country": {
+                                "type": "string"
+                              },
+                              "nation": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "street": {
+                                "type": "string"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              },
+                              "houseNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "nation",
+                              "city",
+                              "street",
+                              "houseNumber",
+                              "postalCode",
+                              "country"
+                            ]
+                          }
+                        ]
+                      },
+                      "addressNumber": {
+                        "type": "string"
+                      },
+                      "dateFrom": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "dateFrom",
+                      "addressNumber",
+                      "address"
+                    ]
+                  }
+                ]
+              },
+              "partnerId": {
+                "type": "string"
+              },
+              "businessPartnerType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "partnerId",
+              "firstName",
+              "lastName",
+              "businessPartnerType",
+              "adressLink"
+            ]
+          }
+        ],
+        "name": "businessPartner"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/chartofaccounts/change/V1/{chartOfAccounts}/{accountNumber}",
+    "eventName": "Chart Of Accounts Change Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Chart_Of_Accounts_Change_Event",
+    "topicParameters": {
+      "chartOfAccounts": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "chartOfAccounts",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "accountNumber": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "accountNumber",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "accountHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "creator": {
+                "type": "string"
+              },
+              "chartOfAccounts": {
+                "type": "string"
+              },
+              "companyCodeData": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "companyCode": {
+                        "type": "string"
+                      },
+                      "fieldStatusGroup": {
+                        "type": "string"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "taxCode": {
+                        "type": "string"
+                      },
+                      "financialBudgetItem": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "companyCode",
+                      "financialBudgetItem",
+                      "fieldStatusGroup",
+                      "taxCode",
+                      "currency"
+                    ]
+                  }
+                ]
+              },
+              "accountNumber": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "chartOfAccounts",
+              "accountNumber",
+              "creator",
+              "companyCodeData"
+            ]
+          }
+        ],
+        "name": "accountHeader"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/chartofaccounts/create/V1/{chartOfAccounts}/{accountNumber}",
+    "eventName": "Chart Of Accounts Create Event",
+    "eventVersion": "1.0.0",
+    "messageName": "Chart_Of_Accounts_Create_Event",
+    "topicParameters": {
+      "chartOfAccounts": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "chartOfAccounts",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "accountNumber": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "accountNumber",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "accountHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "creator": {
+                "type": "string"
+              },
+              "chartOfAccounts": {
+                "type": "string"
+              },
+              "companyCodeData": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "companyCode": {
+                        "type": "string"
+                      },
+                      "fieldStatusGroup": {
+                        "type": "string"
+                      },
+                      "currency": {
+                        "type": "string"
+                      },
+                      "taxCode": {
+                        "type": "string"
+                      },
+                      "financialBudgetItem": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "companyCode",
+                      "financialBudgetItem",
+                      "fieldStatusGroup",
+                      "taxCode",
+                      "currency"
+                    ]
+                  }
+                ]
+              },
+              "accountNumber": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "chartOfAccounts",
+              "accountNumber",
+              "creator",
+              "companyCodeData"
+            ]
+          }
+        ],
+        "name": "accountHeader"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "apiUrl": "https://swapi.dev/api/people/${char}",
+  "apiAuthType": "None",
+  "topic": "solace/feed/starwars2.0"
+}

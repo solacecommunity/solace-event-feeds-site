@@ -1,0 +1,600 @@
+[
+  {
+    "topic": "sap.com/salesorder/change/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+    "eventName": "Order Updated",
+    "eventVersion": "0.1.0",
+    "messageName": "Order_Updated",
+    "topicParameters": {
+      "division": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "division",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "customerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "customerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "salesOrg": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "salesOrg",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "distributionChannel": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "distributionChannel",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "orderHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "salesType": {
+                "type": "string"
+              },
+              "division": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "string"
+              },
+              "orderItem": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  }
+                ]
+              },
+              "salesOrg": {
+                "type": "string"
+              },
+              "salesOrderNumber": {
+                "type": "string"
+              },
+              "distributionChannel": {
+                "type": "string"
+              },
+              "ordertype": {
+                "type": "string"
+              },
+              "customer": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "zipCode": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "customerId": {
+                        "type": "string"
+                      },
+                      "customerName": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "customerId",
+                      "customerName",
+                      "zipCode",
+                      "street",
+                      "phone"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "salesOrderNumber",
+              "creator",
+              "date",
+              "salesType",
+              "ordertype",
+              "salesOrg",
+              "distributionChannel",
+              "division",
+              "customer",
+              "orderItem"
+            ]
+          }
+        ],
+        "name": "orderHeader"
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  },
+  {
+    "topic": "sap.com/salesorder/create/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+    "eventName": "Order Created",
+    "eventVersion": "0.1.0",
+    "messageName": "Order_Created",
+    "topicParameters": {
+      "division": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "division",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "customerId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "customerId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "salesOrg": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "salesOrg",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "distributionChannel": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "distributionChannel",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "orderHeader": {
+        "type": "array",
+        "items": [
+          {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "salesType": {
+                "type": "string"
+              },
+              "division": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "string"
+              },
+              "orderItem": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "orderSchedule": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "uom": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "scheduleNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "scheduleNumber",
+                              "quantity",
+                              "uom"
+                            ]
+                          }
+                        ]
+                      },
+                      "item": {
+                        "type": "string"
+                      },
+                      "itemType": {
+                        "type": "string"
+                      },
+                      "material": {
+                        "type": "string"
+                      },
+                      "materialType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "item",
+                      "material",
+                      "materialType",
+                      "itemType",
+                      "orderSchedule"
+                    ]
+                  }
+                ]
+              },
+              "salesOrg": {
+                "type": "string"
+              },
+              "salesOrderNumber": {
+                "type": "string"
+              },
+              "distributionChannel": {
+                "type": "string"
+              },
+              "ordertype": {
+                "type": "string"
+              },
+              "customer": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "zipCode": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "street": {
+                        "type": "string"
+                      },
+                      "customerId": {
+                        "type": "string"
+                      },
+                      "customerName": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "customerId",
+                      "customerName",
+                      "zipCode",
+                      "street",
+                      "phone"
+                    ]
+                  }
+                ]
+              }
+            },
+            "required": [
+              "salesOrderNumber",
+              "creator",
+              "date",
+              "salesType",
+              "ordertype",
+              "salesOrg",
+              "distributionChannel",
+              "division",
+              "customer",
+              "orderItem"
+            ]
+          }
+        ],
+        "name": "orderHeader"
+      }
+    },
+    "publishSettings": {
+      "count": "5",
+      "interval": "2",
+      "delay": "2"
+    }
+  }
+]

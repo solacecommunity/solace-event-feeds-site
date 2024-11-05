@@ -1,0 +1,10 @@
+{
+  "type": "restapi_feed",
+  "name": "StarWars 2.0",
+  "description": "Star Wars API 2.0",
+  "img": "",
+  "contributor": "CoolDev Ninja",
+  "github": "",
+  "domain": "SW",
+  "tags": "REST"
+}

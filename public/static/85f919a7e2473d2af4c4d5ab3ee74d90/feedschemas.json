@@ -1,0 +1,311 @@
+[
+  {
+    "topic": "coffeeshop/order/status/v1/ready/{source}/{country}/{storeId}/{orderId}",
+    "eventName": "KF-Order Ready",
+    "eventVersion": "0.1.0",
+    "messageName": "KF-Order_Ready",
+    "topicParameters": {
+      "country": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "orderId": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "source": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "country": {
+        "type": "string"
+      },
+      "orderId": {
+        "type": "number"
+      },
+      "requestId": {
+        "type": "number"
+      },
+      "source": {
+        "type": "string"
+      },
+      "storeId": {
+        "type": "number"
+      }
+    },
+    "consumers": [
+      {
+        "name": "BS:Order Status",
+        "topicSubscriptions": [
+          "coffeeshop/order/status/v1/inprogress/*/*/*/*",
+          "coffeeshop/order/status/v1/outofstock/*/*/*/*",
+          "coffeeshop/order/status/v1/ready/*/*/*/*"
+        ]
+      },
+      {
+        "name": "BS:New Orders",
+        "topicSubscriptions": [
+          "coffeeshop/order/details/v1/*/*/*/*"
+        ]
+      }
+    ]
+  },
+  {
+    "topic": "coffeeshop/order/status/v1/inprogress/{source}/{country}/{storeId}/{orderId}",
+    "eventName": "KF-Order Prep Started",
+    "eventVersion": "0.1.0",
+    "messageName": "KF-Order_Prep_Started",
+    "topicParameters": {
+      "country": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "orderId": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "source": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "country": {
+        "type": "string"
+      },
+      "eta": {
+        "type": "string"
+      },
+      "orderId": {
+        "type": "number"
+      },
+      "requestId": {
+        "type": "number"
+      },
+      "source": {
+        "type": "string"
+      },
+      "storeId": {
+        "type": "number"
+      }
+    },
+    "consumers": [
+      {
+        "name": "BS:Order Status",
+        "topicSubscriptions": [
+          "coffeeshop/order/status/v1/inprogress/*/*/*/*",
+          "coffeeshop/order/status/v1/outofstock/*/*/*/*",
+          "coffeeshop/order/status/v1/ready/*/*/*/*"
+        ]
+      },
+      {
+        "name": "BS:New Orders",
+        "topicSubscriptions": [
+          "coffeeshop/order/details/v1/*/*/*/*"
+        ]
+      }
+    ]
+  },
+  {
+    "topic": "coffeeshop/order/details/v1/{source}/{country}/{storeId}/{orderId}",
+    "eventName": "OM-Order Details",
+    "eventVersion": "0.1.0",
+    "messageName": "OM-Order_Details",
+    "topicParameters": {
+      "country": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "orderId": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "source": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "country": {
+        "type": "string"
+      },
+      "pickupTime": {
+        "type": "string"
+      },
+      "orderId": {
+        "type": "number"
+      },
+      "requestId": {
+        "type": "number"
+      },
+      "specialInstructions": {
+        "type": "string"
+      },
+      "source": {
+        "type": "string"
+      },
+      "storeId": {
+        "type": "number"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "number"
+            },
+            "productID": {
+              "type": "string"
+            },
+            "size": {
+              "type": "string"
+            },
+            "options": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "productName": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "productID",
+            "productName",
+            "quantity"
+          ]
+        }
+      }
+    },
+    "consumers": [
+      {
+        "name": "BS:Order Status",
+        "topicSubscriptions": [
+          "coffeeshop/order/status/v1/inprogress/*/*/*/*",
+          "coffeeshop/order/status/v1/outofstock/*/*/*/*",
+          "coffeeshop/order/status/v1/ready/*/*/*/*"
+        ]
+      },
+      {
+        "name": "BS:New Orders",
+        "topicSubscriptions": [
+          "coffeeshop/order/details/v1/*/*/*/*"
+        ]
+      }
+    ]
+  },
+  {
+    "topic": "coffeeshop/order/status/v1/outofstock/{source}/{country}/{storeId}/{orderId}",
+    "eventName": "KF-Order OutOfStock",
+    "eventVersion": "0.1.0",
+    "messageName": "KF-Order_OutOfStock",
+    "topicParameters": {
+      "country": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "orderId": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "source": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "country": {
+        "type": "string"
+      },
+      "orderId": {
+        "type": "number"
+      },
+      "requestId": {
+        "type": "number"
+      },
+      "source": {
+        "type": "string"
+      },
+      "storeId": {
+        "type": "number"
+      },
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "quantity": {
+              "type": "number"
+            },
+            "productID": {
+              "type": "string"
+            },
+            "productName": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "productID",
+            "productName",
+            "quantity"
+          ]
+        }
+      }
+    },
+    "consumers": [
+      {
+        "name": "BS:Order Status",
+        "topicSubscriptions": [
+          "coffeeshop/order/status/v1/inprogress/*/*/*/*",
+          "coffeeshop/order/status/v1/outofstock/*/*/*/*",
+          "coffeeshop/order/status/v1/ready/*/*/*/*"
+        ]
+      },
+      {
+        "name": "BS:New Orders",
+        "topicSubscriptions": [
+          "coffeeshop/order/details/v1/*/*/*/*"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,2514 @@
+{
+  "messages": {
+    "Material_Create_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/material/create/V1/{materialClass}/{industrySector}/{materialType}/{materialNumber}/{maintenanceStatusGroup}/{maintenanceStatusMaterial}/{deletionIndicator}",
+          "topicParameters": {
+            "materialClass": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialClass"
+              },
+              "x-ep-parameter-name": "materialClass"
+            },
+            "industrySector": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "industrySector"
+              },
+              "x-ep-parameter-name": "industrySector"
+            },
+            "materialNumber": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialNumber"
+              },
+              "x-ep-parameter-name": "materialNumber"
+            },
+            "materialType": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialType"
+              },
+              "x-ep-parameter-name": "materialType"
+            },
+            "maintenanceStatusGroup": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "maintenanceStatusGroup"
+              },
+              "x-ep-parameter-name": "maintenanceStatusGroup"
+            },
+            "maintenanceStatusMaterial": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "maintenanceStatusMaterial"
+              },
+              "x-ep-parameter-name": "maintenanceStatusMaterial"
+            },
+            "deletionIndicator": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "deletionIndicator"
+              },
+              "x-ep-parameter-name": "deletionIndicator"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "9r302hpdihm",
+            "x-ep-event-version-displayname": "",
+            "description": "A MaterialCreateEvent occurs when a new material object has been created in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "ynokgub10vw",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "pj1dea4u7ae",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Material Schema",
+              "title": "MaterialV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "material"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "jf4n0zs09hj",
+              "properties": {
+                "material": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "materialClass": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-3>"
+                        },
+                        "industrySector": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-4>"
+                        },
+                        "materialType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-5>"
+                        },
+                        "maintenanceStatusGroup": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-6>"
+                        },
+                        "maintenanceStatusMaterial": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-7>"
+                        },
+                        "units": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "uOM": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-10>"
+                                },
+                                "ean11": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-11>"
+                                }
+                              },
+                              "required": [
+                                "uOM",
+                                "ean11"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-9>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-8>"
+                        },
+                        "creationDate": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-12>"
+                        },
+                        "changerUser": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-13>"
+                        },
+                        "deletionIndicator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-14>"
+                        },
+                        "baseUnit": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-15>"
+                        },
+                        "materialNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-16>"
+                        },
+                        "creatorUser": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-17>"
+                        },
+                        "lastChange": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-18>"
+                        }
+                      },
+                      "required": [
+                        "materialNumber",
+                        "creationDate",
+                        "creatorUser",
+                        "changerUser",
+                        "maintenanceStatusGroup",
+                        "maintenanceStatusMaterial",
+                        "deletionIndicator",
+                        "materialType",
+                        "industrySector",
+                        "materialClass",
+                        "baseUnit",
+                        "units"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-2>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-1>"
+                }
+              },
+              "$id": "https://sap.com/MaterialV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/MaterialV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Material Create Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Material_Create_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Material Schema"
+    },
+    "Sales_Order_Change_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/salesorder/change/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+          "topicParameters": {
+            "division": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "division"
+              },
+              "x-ep-parameter-name": "division"
+            },
+            "customerId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "customerId"
+              },
+              "x-ep-parameter-name": "customerId"
+            },
+            "salesOrg": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "salesOrg"
+              },
+              "x-ep-parameter-name": "salesOrg"
+            },
+            "distributionChannel": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "distributionChannel"
+              },
+              "x-ep-parameter-name": "distributionChannel"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "qoqx791kala",
+            "x-ep-event-version-displayname": "",
+            "description": "A SalesOrderChange event occurs when an existing sales order has been updated in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "9u36hz2dyz1",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "gr4t761w3va",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Sales Order Schema",
+              "title": "SalesOrderV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "orderHeader"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "iw385o406g0",
+              "properties": {
+                "orderHeader": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-21>"
+                        },
+                        "salesType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-22>"
+                        },
+                        "division": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-23>"
+                        },
+                        "creator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-24>"
+                        },
+                        "orderItem": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-29>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-30>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-31>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-28>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-27>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-32>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-33>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-34>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-35>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-26>"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-39>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-40>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-41>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-38>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-37>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-42>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-43>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-44>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-45>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-36>"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-49>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-50>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-51>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-48>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-47>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-52>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-53>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-54>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-55>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-46>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-25>"
+                        },
+                        "salesOrg": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-56>"
+                        },
+                        "salesOrderNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-57>"
+                        },
+                        "distributionChannel": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-58>"
+                        },
+                        "ordertype": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-59>"
+                        },
+                        "customer": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "zipCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-62>"
+                                },
+                                "phone": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-63>"
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-64>"
+                                },
+                                "customerId": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-65>"
+                                },
+                                "customerName": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-66>"
+                                }
+                              },
+                              "required": [
+                                "customerId",
+                                "customerName",
+                                "zipCode",
+                                "street",
+                                "phone"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-61>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-60>"
+                        }
+                      },
+                      "required": [
+                        "salesOrderNumber",
+                        "creator",
+                        "date",
+                        "salesType",
+                        "ordertype",
+                        "salesOrg",
+                        "distributionChannel",
+                        "division",
+                        "customer",
+                        "orderItem"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-20>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-19>"
+                }
+              },
+              "$id": "https://sap.com/SalesOrderV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/SalesOrderV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Sales Order Change Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Sales_Order_Change_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Sales Order Schema"
+    },
+    "Notification_Create_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/notification/create/V1/{type}/{plant}/{notificationId}",
+          "topicParameters": {
+            "plant": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "plant"
+              },
+              "x-ep-parameter-name": "plant"
+            },
+            "notificationId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "notificationId"
+              },
+              "x-ep-parameter-name": "notificationId"
+            },
+            "type": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "type"
+              },
+              "x-ep-parameter-name": "type"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "v6vtd2id67e",
+            "x-ep-event-version-displayname": "",
+            "description": "A NotificationCreateEvent occurs when a new notification object has been created in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "qk48ck497qx",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-version-id": "b1bvdmdl5s8",
+              "x-ep-schema-id": "i6x29hj9ijj",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Notification Schema",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-parser-schema-id": "Notification_Schema"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Notification Create Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Notification_Create_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Notification Schema"
+    },
+    "Sales_Order_Create_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/salesorder/create/V1/{salesOrg}/{distributionChannel}/{division}/{customerId}",
+          "topicParameters": {
+            "division": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "division"
+              },
+              "x-ep-parameter-name": "division"
+            },
+            "customerId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "customerId"
+              },
+              "x-ep-parameter-name": "customerId"
+            },
+            "salesOrg": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "salesOrg"
+              },
+              "x-ep-parameter-name": "salesOrg"
+            },
+            "distributionChannel": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "distributionChannel"
+              },
+              "x-ep-parameter-name": "distributionChannel"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "4daz778big7",
+            "x-ep-event-version-displayname": "",
+            "description": "A SalesOrderCreated event occurs when a new sales order has been created in the ERP system.\n",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "qyrm1gaqpbv",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "gr4t761w3va",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Sales Order Schema",
+              "title": "SalesOrderV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "orderHeader"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "iw385o406g0",
+              "properties": {
+                "orderHeader": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-21>"
+                        },
+                        "salesType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-22>"
+                        },
+                        "division": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-23>"
+                        },
+                        "creator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-24>"
+                        },
+                        "orderItem": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-29>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-30>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-31>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-28>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-27>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-32>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-33>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-34>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-35>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-26>"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-39>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-40>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-41>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-38>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-37>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-42>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-43>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-44>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-45>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-36>"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "orderSchedule": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "uom": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-49>"
+                                        },
+                                        "quantity": {
+                                          "type": "number",
+                                          "x-parser-schema-id": "<anonymous-schema-50>"
+                                        },
+                                        "scheduleNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-51>"
+                                        }
+                                      },
+                                      "required": [
+                                        "scheduleNumber",
+                                        "quantity",
+                                        "uom"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-48>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-47>"
+                                },
+                                "item": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-52>"
+                                },
+                                "itemType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-53>"
+                                },
+                                "material": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-54>"
+                                },
+                                "materialType": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-55>"
+                                }
+                              },
+                              "required": [
+                                "item",
+                                "material",
+                                "materialType",
+                                "itemType",
+                                "orderSchedule"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-46>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-25>"
+                        },
+                        "salesOrg": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-56>"
+                        },
+                        "salesOrderNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-57>"
+                        },
+                        "distributionChannel": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-58>"
+                        },
+                        "ordertype": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-59>"
+                        },
+                        "customer": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "zipCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-62>"
+                                },
+                                "phone": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-63>"
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-64>"
+                                },
+                                "customerId": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-65>"
+                                },
+                                "customerName": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-66>"
+                                }
+                              },
+                              "required": [
+                                "customerId",
+                                "customerName",
+                                "zipCode",
+                                "street",
+                                "phone"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-61>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-60>"
+                        }
+                      },
+                      "required": [
+                        "salesOrderNumber",
+                        "creator",
+                        "date",
+                        "salesType",
+                        "ordertype",
+                        "salesOrg",
+                        "distributionChannel",
+                        "division",
+                        "customer",
+                        "orderItem"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-20>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-19>"
+                }
+              },
+              "$id": "https://sap.com/SalesOrderV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/SalesOrderV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Sales Order Create Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Sales_Order_Create_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Sales Order Schema"
+    },
+    "Material_Change_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/material/change/V1/{materialClass}/{industrySector}/{materialType}/{materialNumber}/{maintenanceStatusGroup}/{maintenanceStatusMaterial}/{deletionIndicator}",
+          "topicParameters": {
+            "materialClass": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialClass"
+              },
+              "x-ep-parameter-name": "materialClass"
+            },
+            "industrySector": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "industrySector"
+              },
+              "x-ep-parameter-name": "industrySector"
+            },
+            "materialNumber": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialNumber"
+              },
+              "x-ep-parameter-name": "materialNumber"
+            },
+            "materialType": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "materialType"
+              },
+              "x-ep-parameter-name": "materialType"
+            },
+            "maintenanceStatusGroup": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "maintenanceStatusGroup"
+              },
+              "x-ep-parameter-name": "maintenanceStatusGroup"
+            },
+            "maintenanceStatusMaterial": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "maintenanceStatusMaterial"
+              },
+              "x-ep-parameter-name": "maintenanceStatusMaterial"
+            },
+            "deletionIndicator": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "deletionIndicator"
+              },
+              "x-ep-parameter-name": "deletionIndicator"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "x4gjgjeqmb2",
+            "x-ep-event-version-displayname": "",
+            "description": "A MaterialChangeEvent occurs when an existing material object has been updated in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "ag42oupvkjl",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "pj1dea4u7ae",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Material Schema",
+              "title": "MaterialV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "material"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "jf4n0zs09hj",
+              "properties": {
+                "material": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "materialClass": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-3>"
+                        },
+                        "industrySector": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-4>"
+                        },
+                        "materialType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-5>"
+                        },
+                        "maintenanceStatusGroup": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-6>"
+                        },
+                        "maintenanceStatusMaterial": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-7>"
+                        },
+                        "units": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "uOM": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-10>"
+                                },
+                                "ean11": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-11>"
+                                }
+                              },
+                              "required": [
+                                "uOM",
+                                "ean11"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-9>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-8>"
+                        },
+                        "creationDate": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-12>"
+                        },
+                        "changerUser": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-13>"
+                        },
+                        "deletionIndicator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-14>"
+                        },
+                        "baseUnit": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-15>"
+                        },
+                        "materialNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-16>"
+                        },
+                        "creatorUser": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-17>"
+                        },
+                        "lastChange": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-18>"
+                        }
+                      },
+                      "required": [
+                        "materialNumber",
+                        "creationDate",
+                        "creatorUser",
+                        "changerUser",
+                        "maintenanceStatusGroup",
+                        "maintenanceStatusMaterial",
+                        "deletionIndicator",
+                        "materialType",
+                        "industrySector",
+                        "materialClass",
+                        "baseUnit",
+                        "units"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-2>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-1>"
+                }
+              },
+              "$id": "https://sap.com/MaterialV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/MaterialV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Material Change Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Material_Change_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Material Schema"
+    },
+    "Notification_Change_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/notification/change/V1/{type}/{plant}/{notificationId}",
+          "topicParameters": {
+            "plant": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "plant"
+              },
+              "x-ep-parameter-name": "plant"
+            },
+            "notificationId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "notificationId"
+              },
+              "x-ep-parameter-name": "notificationId"
+            },
+            "type": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "type"
+              },
+              "x-ep-parameter-name": "type"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "7hs70yk093q",
+            "x-ep-event-version-displayname": "",
+            "description": "A NotificationChangeEvent occurs when an existing notification object has been updated in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "dpvqprjlz1s",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-version-id": "b1bvdmdl5s8",
+              "x-ep-schema-id": "i6x29hj9ijj",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Notification Schema",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-parser-schema-id": "Notification_Schema"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Notification Change Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Notification_Change_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Notification Schema"
+    },
+    "Business_Partner_Change_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/businesspartner/change/V1/{businessPartnerType}/{partnerId}",
+          "topicParameters": {
+            "partnerId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "partnerId"
+              },
+              "x-ep-parameter-name": "partnerId"
+            },
+            "businessPartnerType": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "businessPartnerType"
+              },
+              "x-ep-parameter-name": "businessPartnerType"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "wax29t7se74",
+            "x-ep-event-version-displayname": "",
+            "description": "A BusinessPartnerChangeEvent occurs when an existing business partner object has been updated in the ERP system.\n",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "0ivd6ej23ml",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "irt8nw0y8yn",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Business Partner Schema",
+              "title": "BusinessPartnerV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "businessPartner"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "4zasq8kkpre",
+              "properties": {
+                "businessPartner": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-69>"
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-70>"
+                        },
+                        "addressLink": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "country": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-75>"
+                                        },
+                                        "nation": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-76>"
+                                        },
+                                        "city": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-77>"
+                                        },
+                                        "street": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-78>"
+                                        },
+                                        "postalCode": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-79>"
+                                        },
+                                        "houseNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-80>"
+                                        }
+                                      },
+                                      "required": [
+                                        "nation",
+                                        "city",
+                                        "street",
+                                        "houseNumber",
+                                        "postalCode",
+                                        "country"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-74>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-73>"
+                                },
+                                "addressNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-81>"
+                                },
+                                "dateFrom": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-82>"
+                                }
+                              },
+                              "required": [
+                                "dateFrom",
+                                "addressNumber",
+                                "address"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-72>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-71>"
+                        },
+                        "partnerId": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-83>"
+                        },
+                        "businessPartnerType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-84>"
+                        }
+                      },
+                      "required": [
+                        "partnerId",
+                        "firstName",
+                        "lastName",
+                        "businessPartnerType",
+                        "adressLink"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-68>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-67>"
+                }
+              },
+              "$id": "https://sap.com/BusinessPartnerV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/BusinessPartnerV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Business Partner Change Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Business_Partner_Change_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Business Partner Schema"
+    },
+    "Business_Partner_Create_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/businesspartner/create/V1/{businessPartnerType}/{partnerId}",
+          "topicParameters": {
+            "partnerId": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "partnerId"
+              },
+              "x-ep-parameter-name": "partnerId"
+            },
+            "businessPartnerType": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "businessPartnerType"
+              },
+              "x-ep-parameter-name": "businessPartnerType"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "avrg1yarf6v",
+            "x-ep-event-version-displayname": "",
+            "description": "A BusinessPartnerCreateEvent occurs when a new business partner object has been created in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "jr91814p6zi",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "irt8nw0y8yn",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Business Partner Schema",
+              "title": "BusinessPartnerV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "businessPartner"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "4zasq8kkpre",
+              "properties": {
+                "businessPartner": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "firstName": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-69>"
+                        },
+                        "lastName": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-70>"
+                        },
+                        "addressLink": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "address": {
+                                  "type": "array",
+                                  "items": [
+                                    {
+                                      "type": "object",
+                                      "properties": {
+                                        "country": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-75>"
+                                        },
+                                        "nation": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-76>"
+                                        },
+                                        "city": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-77>"
+                                        },
+                                        "street": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-78>"
+                                        },
+                                        "postalCode": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-79>"
+                                        },
+                                        "houseNumber": {
+                                          "type": "string",
+                                          "x-parser-schema-id": "<anonymous-schema-80>"
+                                        }
+                                      },
+                                      "required": [
+                                        "nation",
+                                        "city",
+                                        "street",
+                                        "houseNumber",
+                                        "postalCode",
+                                        "country"
+                                      ],
+                                      "x-parser-schema-id": "<anonymous-schema-74>"
+                                    }
+                                  ],
+                                  "x-parser-schema-id": "<anonymous-schema-73>"
+                                },
+                                "addressNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-81>"
+                                },
+                                "dateFrom": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-82>"
+                                }
+                              },
+                              "required": [
+                                "dateFrom",
+                                "addressNumber",
+                                "address"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-72>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-71>"
+                        },
+                        "partnerId": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-83>"
+                        },
+                        "businessPartnerType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-84>"
+                        }
+                      },
+                      "required": [
+                        "partnerId",
+                        "firstName",
+                        "lastName",
+                        "businessPartnerType",
+                        "adressLink"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-68>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-67>"
+                }
+              },
+              "$id": "https://sap.com/BusinessPartnerV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/BusinessPartnerV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Business Partner Create Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Business_Partner_Create_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Business Partner Schema"
+    },
+    "Chart_Of_Accounts_Change_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/chartofaccounts/change/V1/{chartOfAccounts}/{accountNumber}",
+          "topicParameters": {
+            "chartOfAccounts": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "chartOfAccounts"
+              },
+              "x-ep-parameter-name": "chartOfAccounts"
+            },
+            "accountNumber": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "accountNumber"
+              },
+              "x-ep-parameter-name": "accountNumber"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "cdlbqmzc2ee",
+            "x-ep-event-version-displayname": "",
+            "description": "A ChartOfAccountsChangeEvent occurs when an existing chart of accounts object has been updated in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "drheamg811h",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "bebvljuxa2l",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Chart Of Accounts Schema",
+              "title": "ChartOfAccountsV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "accountHeader"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "lthei056imv",
+              "properties": {
+                "accountHeader": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "creator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-87>"
+                        },
+                        "chartOfAccounts": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-88>"
+                        },
+                        "companyCodeData": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "companyCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-91>"
+                                },
+                                "fieldStatusGroup": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-92>"
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-93>"
+                                },
+                                "taxCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-94>"
+                                },
+                                "financialBudgetItem": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-95>"
+                                }
+                              },
+                              "required": [
+                                "companyCode",
+                                "financialBudgetItem",
+                                "fieldStatusGroup",
+                                "taxCode",
+                                "currency"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-90>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-89>"
+                        },
+                        "accountNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-96>"
+                        }
+                      },
+                      "required": [
+                        "chartOfAccounts",
+                        "accountNumber",
+                        "creator",
+                        "companyCodeData"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-86>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-85>"
+                }
+              },
+              "$id": "https://sap.com/ChartOfAccountsV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/ChartOfAccountsV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Chart Of Accounts Change Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Chart_Of_Accounts_Change_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Chart Of Accounts Schema"
+    },
+    "Chart_Of_Accounts_Create_Event": {
+      "send": [
+        {
+          "topicName": "sap.com/chartofaccounts/create/V1/{chartOfAccounts}/{accountNumber}",
+          "topicParameters": {
+            "chartOfAccounts": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "chartOfAccounts"
+              },
+              "x-ep-parameter-name": "chartOfAccounts"
+            },
+            "accountNumber": {
+              "schema": {
+                "type": "string",
+                "x-parser-schema-id": "accountNumber"
+              },
+              "x-ep-parameter-name": "accountNumber"
+            }
+          },
+          "message": {
+            "x-ep-event-id": "kc6tv2906aq",
+            "x-ep-event-version-displayname": "",
+            "description": "A ChartOfAccountsCreateEvent occurs when a new chart of accounts object has been created in the ERP system.",
+            "x-ep-application-domain-id": "y8vvgugfck1",
+            "schemaFormat": "application/vnd.aai.asyncapi+json;version=2.0.0",
+            "x-ep-event-state-name": "DRAFT",
+            "x-ep-shared": "false",
+            "x-ep-application-domain-name": "BTP AEM Demo",
+            "x-ep-event-version-id": "6adsgke2b8h",
+            "payload": {
+              "x-ep-schema-version": "1.0.0",
+              "x-ep-schema-version-id": "bebvljuxa2l",
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "x-ep-schema-state-name": "DRAFT",
+              "x-ep-schema-name": "Chart Of Accounts Schema",
+              "title": "ChartOfAccountsV1",
+              "type": "object",
+              "x-ep-application-domain-id": "y8vvgugfck1",
+              "required": [
+                "accountHeader"
+              ],
+              "x-ep-schema-version-displayname": "",
+              "x-ep-shared": "false",
+              "x-ep-application-domain-name": "BTP AEM Demo",
+              "x-ep-schema-state-id": "1",
+              "x-ep-schema-id": "lthei056imv",
+              "properties": {
+                "accountHeader": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "creator": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-87>"
+                        },
+                        "chartOfAccounts": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-88>"
+                        },
+                        "companyCodeData": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "companyCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-91>"
+                                },
+                                "fieldStatusGroup": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-92>"
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-93>"
+                                },
+                                "taxCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-94>"
+                                },
+                                "financialBudgetItem": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-95>"
+                                }
+                              },
+                              "required": [
+                                "companyCode",
+                                "financialBudgetItem",
+                                "fieldStatusGroup",
+                                "taxCode",
+                                "currency"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-90>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-89>"
+                        },
+                        "accountNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-96>"
+                        }
+                      },
+                      "required": [
+                        "chartOfAccounts",
+                        "accountNumber",
+                        "creator",
+                        "companyCodeData"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-86>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-85>"
+                }
+              },
+              "$id": "https://sap.com/ChartOfAccountsV1.schema.json",
+              "x-parser-schema-id": "https://sap.com/ChartOfAccountsV1.schema.json"
+            },
+            "x-ep-event-version": "1.0.0",
+            "x-ep-event-name": "Chart Of Accounts Create Event",
+            "contentType": "application/json",
+            "x-ep-event-state-id": "1",
+            "x-parser-message-name": "Chart_Of_Accounts_Create_Event"
+          },
+          "servers": {},
+          "bindings": {}
+        }
+      ],
+      "receive": [],
+      "hasPayload": true,
+      "schema": "Chart Of Accounts Schema"
+    }
+  },
+  "schemas": {
+    "Business Partner Schema": {
+      "x-ep-schema-version": "1.0.0",
+      "x-ep-schema-version-id": "irt8nw0y8yn",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "x-ep-schema-state-name": "DRAFT",
+      "x-ep-schema-name": "Business Partner Schema",
+      "title": "BusinessPartnerV1",
+      "type": "object",
+      "x-ep-application-domain-id": "y8vvgugfck1",
+      "required": [
+        "businessPartner"
+      ],
+      "x-ep-schema-version-displayname": "",
+      "x-ep-shared": "false",
+      "x-ep-application-domain-name": "BTP AEM Demo",
+      "x-ep-schema-state-id": "1",
+      "x-ep-schema-id": "4zasq8kkpre",
+      "properties": {
+        "businessPartner": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-69>"
+                },
+                "lastName": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-70>"
+                },
+                "addressLink": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "country": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-75>"
+                                },
+                                "nation": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-76>"
+                                },
+                                "city": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-77>"
+                                },
+                                "street": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-78>"
+                                },
+                                "postalCode": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-79>"
+                                },
+                                "houseNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-80>"
+                                }
+                              },
+                              "required": [
+                                "nation",
+                                "city",
+                                "street",
+                                "houseNumber",
+                                "postalCode",
+                                "country"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-74>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-73>"
+                        },
+                        "addressNumber": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-81>"
+                        },
+                        "dateFrom": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-82>"
+                        }
+                      },
+                      "required": [
+                        "dateFrom",
+                        "addressNumber",
+                        "address"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-72>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-71>"
+                },
+                "partnerId": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-83>"
+                },
+                "businessPartnerType": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-84>"
+                }
+              },
+              "required": [
+                "partnerId",
+                "firstName",
+                "lastName",
+                "businessPartnerType",
+                "adressLink"
+              ],
+              "x-parser-schema-id": "<anonymous-schema-68>"
+            }
+          ],
+          "x-parser-schema-id": "<anonymous-schema-67>"
+        }
+      },
+      "$id": "https://sap.com/BusinessPartnerV1.schema.json",
+      "x-parser-schema-id": "https://sap.com/BusinessPartnerV1.schema.json"
+    },
+    "Material Schema": {
+      "x-ep-schema-version": "1.0.0",
+      "x-ep-schema-version-id": "pj1dea4u7ae",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "x-ep-schema-state-name": "DRAFT",
+      "x-ep-schema-name": "Material Schema",
+      "title": "MaterialV1",
+      "type": "object",
+      "x-ep-application-domain-id": "y8vvgugfck1",
+      "required": [
+        "material"
+      ],
+      "x-ep-schema-version-displayname": "",
+      "x-ep-shared": "false",
+      "x-ep-application-domain-name": "BTP AEM Demo",
+      "x-ep-schema-state-id": "1",
+      "x-ep-schema-id": "jf4n0zs09hj",
+      "properties": {
+        "material": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "materialClass": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-3>"
+                },
+                "industrySector": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-4>"
+                },
+                "materialType": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-5>"
+                },
+                "maintenanceStatusGroup": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-6>"
+                },
+                "maintenanceStatusMaterial": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-7>"
+                },
+                "units": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "uOM": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-10>"
+                        },
+                        "ean11": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-11>"
+                        }
+                      },
+                      "required": [
+                        "uOM",
+                        "ean11"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-9>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-8>"
+                },
+                "creationDate": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-12>"
+                },
+                "changerUser": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-13>"
+                },
+                "deletionIndicator": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-14>"
+                },
+                "baseUnit": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-15>"
+                },
+                "materialNumber": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-16>"
+                },
+                "creatorUser": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-17>"
+                },
+                "lastChange": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-18>"
+                }
+              },
+              "required": [
+                "materialNumber",
+                "creationDate",
+                "creatorUser",
+                "changerUser",
+                "maintenanceStatusGroup",
+                "maintenanceStatusMaterial",
+                "deletionIndicator",
+                "materialType",
+                "industrySector",
+                "materialClass",
+                "baseUnit",
+                "units"
+              ],
+              "x-parser-schema-id": "<anonymous-schema-2>"
+            }
+          ],
+          "x-parser-schema-id": "<anonymous-schema-1>"
+        }
+      },
+      "$id": "https://sap.com/MaterialV1.schema.json",
+      "x-parser-schema-id": "https://sap.com/MaterialV1.schema.json"
+    },
+    "Chart Of Accounts Schema": {
+      "x-ep-schema-version": "1.0.0",
+      "x-ep-schema-version-id": "bebvljuxa2l",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "x-ep-schema-state-name": "DRAFT",
+      "x-ep-schema-name": "Chart Of Accounts Schema",
+      "title": "ChartOfAccountsV1",
+      "type": "object",
+      "x-ep-application-domain-id": "y8vvgugfck1",
+      "required": [
+        "accountHeader"
+      ],
+      "x-ep-schema-version-displayname": "",
+      "x-ep-shared": "false",
+      "x-ep-application-domain-name": "BTP AEM Demo",
+      "x-ep-schema-state-id": "1",
+      "x-ep-schema-id": "lthei056imv",
+      "properties": {
+        "accountHeader": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "creator": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-87>"
+                },
+                "chartOfAccounts": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-88>"
+                },
+                "companyCodeData": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "companyCode": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-91>"
+                        },
+                        "fieldStatusGroup": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-92>"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-93>"
+                        },
+                        "taxCode": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-94>"
+                        },
+                        "financialBudgetItem": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-95>"
+                        }
+                      },
+                      "required": [
+                        "companyCode",
+                        "financialBudgetItem",
+                        "fieldStatusGroup",
+                        "taxCode",
+                        "currency"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-90>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-89>"
+                },
+                "accountNumber": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-96>"
+                }
+              },
+              "required": [
+                "chartOfAccounts",
+                "accountNumber",
+                "creator",
+                "companyCodeData"
+              ],
+              "x-parser-schema-id": "<anonymous-schema-86>"
+            }
+          ],
+          "x-parser-schema-id": "<anonymous-schema-85>"
+        }
+      },
+      "$id": "https://sap.com/ChartOfAccountsV1.schema.json",
+      "x-parser-schema-id": "https://sap.com/ChartOfAccountsV1.schema.json"
+    },
+    "Notification Schema": {
+      "x-ep-schema-version": "1.0.0",
+      "x-ep-schema-state-id": "1",
+      "x-ep-schema-version-id": "b1bvdmdl5s8",
+      "x-ep-schema-id": "i6x29hj9ijj",
+      "x-ep-schema-state-name": "DRAFT",
+      "x-ep-schema-name": "Notification Schema",
+      "x-ep-application-domain-id": "y8vvgugfck1",
+      "x-ep-schema-version-displayname": "",
+      "x-ep-shared": "false",
+      "x-ep-application-domain-name": "BTP AEM Demo",
+      "x-parser-schema-id": "Notification_Schema"
+    },
+    "Sales Order Schema": {
+      "x-ep-schema-version": "1.0.0",
+      "x-ep-schema-version-id": "gr4t761w3va",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "x-ep-schema-state-name": "DRAFT",
+      "x-ep-schema-name": "Sales Order Schema",
+      "title": "SalesOrderV1",
+      "type": "object",
+      "x-ep-application-domain-id": "y8vvgugfck1",
+      "required": [
+        "orderHeader"
+      ],
+      "x-ep-schema-version-displayname": "",
+      "x-ep-shared": "false",
+      "x-ep-application-domain-name": "BTP AEM Demo",
+      "x-ep-schema-state-id": "1",
+      "x-ep-schema-id": "iw385o406g0",
+      "properties": {
+        "orderHeader": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-21>"
+                },
+                "salesType": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-22>"
+                },
+                "division": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-23>"
+                },
+                "creator": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-24>"
+                },
+                "orderItem": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "orderSchedule": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "uom": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-29>"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "x-parser-schema-id": "<anonymous-schema-30>"
+                                },
+                                "scheduleNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-31>"
+                                }
+                              },
+                              "required": [
+                                "scheduleNumber",
+                                "quantity",
+                                "uom"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-28>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-27>"
+                        },
+                        "item": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-32>"
+                        },
+                        "itemType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-33>"
+                        },
+                        "material": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-34>"
+                        },
+                        "materialType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-35>"
+                        }
+                      },
+                      "required": [
+                        "item",
+                        "material",
+                        "materialType",
+                        "itemType",
+                        "orderSchedule"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-26>"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "orderSchedule": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "uom": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-39>"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "x-parser-schema-id": "<anonymous-schema-40>"
+                                },
+                                "scheduleNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-41>"
+                                }
+                              },
+                              "required": [
+                                "scheduleNumber",
+                                "quantity",
+                                "uom"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-38>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-37>"
+                        },
+                        "item": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-42>"
+                        },
+                        "itemType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-43>"
+                        },
+                        "material": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-44>"
+                        },
+                        "materialType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-45>"
+                        }
+                      },
+                      "required": [
+                        "item",
+                        "material",
+                        "materialType",
+                        "itemType",
+                        "orderSchedule"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-36>"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "orderSchedule": {
+                          "type": "array",
+                          "items": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "uom": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-49>"
+                                },
+                                "quantity": {
+                                  "type": "number",
+                                  "x-parser-schema-id": "<anonymous-schema-50>"
+                                },
+                                "scheduleNumber": {
+                                  "type": "string",
+                                  "x-parser-schema-id": "<anonymous-schema-51>"
+                                }
+                              },
+                              "required": [
+                                "scheduleNumber",
+                                "quantity",
+                                "uom"
+                              ],
+                              "x-parser-schema-id": "<anonymous-schema-48>"
+                            }
+                          ],
+                          "x-parser-schema-id": "<anonymous-schema-47>"
+                        },
+                        "item": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-52>"
+                        },
+                        "itemType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-53>"
+                        },
+                        "material": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-54>"
+                        },
+                        "materialType": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-55>"
+                        }
+                      },
+                      "required": [
+                        "item",
+                        "material",
+                        "materialType",
+                        "itemType",
+                        "orderSchedule"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-46>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-25>"
+                },
+                "salesOrg": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-56>"
+                },
+                "salesOrderNumber": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-57>"
+                },
+                "distributionChannel": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-58>"
+                },
+                "ordertype": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-59>"
+                },
+                "customer": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "zipCode": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-62>"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-63>"
+                        },
+                        "street": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-64>"
+                        },
+                        "customerId": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-65>"
+                        },
+                        "customerName": {
+                          "type": "string",
+                          "x-parser-schema-id": "<anonymous-schema-66>"
+                        }
+                      },
+                      "required": [
+                        "customerId",
+                        "customerName",
+                        "zipCode",
+                        "street",
+                        "phone"
+                      ],
+                      "x-parser-schema-id": "<anonymous-schema-61>"
+                    }
+                  ],
+                  "x-parser-schema-id": "<anonymous-schema-60>"
+                }
+              },
+              "required": [
+                "salesOrderNumber",
+                "creator",
+                "date",
+                "salesType",
+                "ordertype",
+                "salesOrg",
+                "distributionChannel",
+                "division",
+                "customer",
+                "orderItem"
+              ],
+              "x-parser-schema-id": "<anonymous-schema-20>"
+            }
+          ],
+          "x-parser-schema-id": "<anonymous-schema-19>"
+        }
+      },
+      "$id": "https://sap.com/SalesOrderV1.schema.json",
+      "x-parser-schema-id": "https://sap.com/SalesOrderV1.schema.json"
+    }
+  },
+  "servers": {},
+  "info": {
+    "x-ep-application-version": "1.0.0",
+    "x-ep-application-version-id": "8jtnai4cgfc",
+    "x-ep-application-id": "jxkaolop4bb",
+    "description": "This is a Java Springboot based CAPM application deployed on CloudFoundry.\nIt simulates an ERP system which produces create and change events for the following data objects : \n1. Sales Order\n2. Business Partner\n3. Material Master\n4. Chart of Accounts\n5. Notifications",
+    "x-ep-state-name": "DRAFT",
+    "title": "ERP System",
+    "x-ep-application-domain-id": "y8vvgugfck1",
+    "version": "1.0.0",
+    "x-ep-state-id": "1",
+    "x-ep-application-domain-name": "BTP AEM Demo"
+  },
+  "version": "2.5.0",
+  "fileName": "ERPSystem-1.0.0.json"
+}

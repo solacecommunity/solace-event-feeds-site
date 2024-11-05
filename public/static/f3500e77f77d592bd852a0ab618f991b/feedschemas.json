@@ -1,0 +1,128 @@
+[
+  {
+    "topic": "acmebank/solace/core/payment/creditCard/paid/v1/{currency}/{amount}/{transactionID}",
+    "eventName": "Credit Card Paid",
+    "eventVersion": "0.1.1",
+    "messageName": "Credit_Card_Paid",
+    "topicParameters": {
+      "amount": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "currency": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "transactionID": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "transactionType": {
+        "description": "The transaction type.",
+        "type": "string"
+      },
+      "amount": {
+        "description": "The transaction amount.",
+        "type": "number"
+      },
+      "transactionNum": {
+        "description": "The unique identifier of the transaction.",
+        "type": "integer"
+      },
+      "accountNum": {
+        "description": "The unique identifer of an account.",
+        "type": "integer"
+      },
+      "currency": {
+        "description": "The currency of the transaction.",
+        "type": "string"
+      },
+      "timestamp": {
+        "description": "The time stamp of the event.",
+        "type": "string"
+      }
+    },
+    "consumers": [
+      {
+        "name": "acmebank.core.payment.creditcard",
+        "topicSubscriptions": [
+          "acmebank/solace/core/payment/creditCard/paid/v1/*/*/*"
+        ]
+      },
+      {
+        "name": "acmebank.core.payment.loan",
+        "topicSubscriptions": [
+          "acmebank/solace/core/payment/loan/paid/v1/*/*/*"
+        ]
+      }
+    ]
+  },
+  {
+    "topic": "acmebank/solace/core/payment/loan/paid/v1/{currency}/{amount}/{transactionID}",
+    "eventName": "Loan Paid",
+    "eventVersion": "0.1.1",
+    "messageName": "Loan_Paid",
+    "topicParameters": {
+      "amount": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "currency": {
+        "schema": {
+          "type": "string"
+        }
+      },
+      "transactionID": {
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "payload": {
+      "transactionType": {
+        "description": "The transaction type.",
+        "type": "string"
+      },
+      "amount": {
+        "description": "The transaction amount.",
+        "type": "number"
+      },
+      "transactionNum": {
+        "description": "The unique identifier of the transaction.",
+        "type": "integer"
+      },
+      "accountNum": {
+        "description": "The unique identifer of an account.",
+        "type": "integer"
+      },
+      "currency": {
+        "description": "The currency of the transaction.",
+        "type": "string"
+      },
+      "timestamp": {
+        "description": "The time stamp of the event.",
+        "type": "string"
+      }
+    },
+    "consumers": [
+      {
+        "name": "acmebank.core.payment.creditcard",
+        "topicSubscriptions": [
+          "acmebank/solace/core/payment/creditCard/paid/v1/*/*/*"
+        ]
+      },
+      {
+        "name": "acmebank.core.payment.loan",
+        "topicSubscriptions": [
+          "acmebank/solace/core/payment/loan/paid/v1/*/*/*"
+        ]
+      }
+    ]
+  }
+]

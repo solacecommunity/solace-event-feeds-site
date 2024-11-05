@@ -1,0 +1,145 @@
+[
+  {
+    "topic": "coffeeshop/order/status/v1/completed/{source}/{country}/{storeId}/{orderId}",
+    "eventName": "BS-Order Completed",
+    "eventVersion": "0.1.0",
+    "messageName": "BS-Order_Completed",
+    "topicParameters": {
+      "country": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "country",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "orderId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "orderId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "source": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "source",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "storeId": {
+        "schema": {
+          "type": "string"
+        },
+        "rule": {
+          "name": "storeId",
+          "type": "string",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "payload": {
+      "country": {
+        "type": "string",
+        "rule": {
+          "type": "string",
+          "name": "country",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "orderId": {
+        "type": "number",
+        "rule": {
+          "type": "number",
+          "name": "orderId",
+          "group": "NumberRules",
+          "rule": "float",
+          "minimum": 0,
+          "maximum": 1000,
+          "fractionDigits": 2
+        }
+      },
+      "requestId": {
+        "type": "number",
+        "rule": {
+          "type": "number",
+          "name": "requestId",
+          "group": "NumberRules",
+          "rule": "float",
+          "minimum": 0,
+          "maximum": 1000,
+          "fractionDigits": 2
+        }
+      },
+      "source": {
+        "type": "string",
+        "rule": {
+          "type": "string",
+          "name": "source",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      },
+      "storeId": {
+        "type": "number",
+        "rule": {
+          "type": "number",
+          "name": "storeId",
+          "group": "NumberRules",
+          "rule": "float",
+          "minimum": 0,
+          "maximum": 1000,
+          "fractionDigits": 2
+        }
+      },
+      "status": {
+        "type": "string",
+        "rule": {
+          "type": "string",
+          "name": "status",
+          "group": "StringRules",
+          "rule": "alpha",
+          "casing": "mixed",
+          "minLength": 10,
+          "maxLength": 10
+        }
+      }
+    },
+    "publishSettings": {
+      "count": 20,
+      "interval": 1,
+      "delay": 0
+    }
+  }
+]
