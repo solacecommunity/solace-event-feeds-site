@@ -11,7 +11,7 @@
     "EventDriven"
   ],
   "scripts": {
-    "develop": "gatsby develop",
+    "develop": "concurrently -k \"node localFeedsServer.js\" \"gatsby develop -p 3377\"",
     "start": "concurrently -k \"node localFeedsServer.js\" \"gatsby develop -p 3377\"",
     "build": "gatsby build",
     "serve": "gatsby serve",
