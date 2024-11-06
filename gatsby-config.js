@@ -1,10 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
-const feedsPath = process.env.STM_HOME
-  ? path.resolve(process.env.STM_HOME)
-  : path.resolve(process.env.HOME, '.stm/feeds');
-
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
@@ -38,22 +31,5 @@ module.exports = {
         icon: `static/favicon.ico`, // This path is relative to the root of the site.
       },
     },
-    ...(fs.existsSync(feedsPath)
-      ? [
-          {
-            resolve: 'gatsby-source-filesystem',
-            options: {
-              name: `feeds`,
-              path: path.resolve(feedsPath),
-            },
-          },
-          {
-            resolve: `gatsby-transformer-json`,
-            options: {
-              typeName: `FeedsJson`,
-            },
-          },
-        ]
-      : []),
   ],
 };

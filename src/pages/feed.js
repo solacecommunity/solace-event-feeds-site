@@ -8,7 +8,6 @@ import PublishEvents from '../components/publishEvents';
 import Stream from '../components/stream';
 import { Container, Row, Col } from 'react-bootstrap';
 import { SolaceSession } from '../util/helpers/solaceSession';
-import useGetFilesQuery from '../util/helpers/useGetFilesQuery';
 import { TestFeedMetadata } from '../util/helpers/testFeeds';
 
 const feedMetadata = {
@@ -53,11 +52,6 @@ const FeedPage = ({ location }) => {
     type: params.get('type') || '',
   };
 
-  let localFeedFiles = null;
-  if (feed.isLocal == 'true') {
-    localFeedFiles = useGetFilesQuery(feed.name);
-  }
-
   useEffect(() => {
     const fetchGithubFeedInfo = async () => {
       // Query all the feed metadata
@@ -95,27 +89,12 @@ const FeedPage = ({ location }) => {
     };
 
     const fetchLocalFeedInfo = async () => {
-      let feedRulesFile = localFeedFiles.find(
-        (file) => file.name === 'feedrules'
-      );
-      var feedRules = feedRulesFile
-        ? await axios.get(feedRulesFile.publicURL)
-        : null;
-      dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
+      const feeds = await axios.get('http://127.0.0.1:8081/feeds');
+      let feedDetails = feeds.data.find((f) => f.directory === feed.name);
 
-      let feedInfoFile = localFeedFiles.find(
-        (file) => file.name === 'feedinfo'
-      );
-      var feedInfo = feedInfoFile
-        ? await axios.get(feedInfoFile.publicURL)
-        : null;
-      dispatch({ type: 'SET_FEED_INFO', payload: feedInfo.data });
-
-      let feedAPIFile = localFeedFiles.find((file) => file.name === 'feedapi');
-      var feedAPI = feedAPIFile ? await axios.get(feedAPIFile.publicURL) : null;
-      feedAPI
-        ? dispatch({ type: 'SET_FEED_API', payload: feedAPI.data })
-        : null;
+      dispatch({ type: 'SET_FEED_RULES', payload: feedDetails['feedrules'] });
+      dispatch({ type: 'SET_FEED_INFO', payload: feedDetails['feedinfo'] });
+      dispatch({ type: 'SET_FEED_API', payload: feedDetails['feedapi'] });
     };
 
     feed.isLocal == 'true' ? fetchLocalFeedInfo() : fetchGithubFeedInfo();

@@ -7,7 +7,6 @@ import FeedCard from '../components/feedCard';
 import Loading from '../components/loading';
 import Contribution from '../components/contribution';
 import ContributionSteps from '../components/contributionSteps';
-import { useStaticQuery, graphql } from 'gatsby';
 import { TestCommunityFeeds, TestLocalFeeds } from '../util/helpers/testFeeds';
 import { ClearOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
@@ -48,37 +47,6 @@ const IndexPage = () => {
     state.hostname.startsWith('192.168.') ||
     state.hostname.startsWith('10.');
 
-  let localFeedsInfoFiles = [];
-  if (isLocal) {
-    // Query all the local feedinfo.json files
-    const data = useStaticQuery(graphql`
-      query {
-        allFile(
-          filter: {
-            relativePath: { regex: "/feedinfo\\.json$/" }
-          }
-        ) {
-          edges {
-            node {
-              childFeedsJson {
-                name
-                description
-                img
-                type
-                contributor
-                github
-                domain
-                tags
-                lastUpdated
-              }
-            }
-          }
-        }
-      }
-    `);
-    localFeedsInfoFiles = data.allFile.edges;
-  }
-
   useEffect(() => {
     const fetchFeeds = async () => {
       var feedsData = await axios.get(
@@ -97,10 +65,22 @@ const IndexPage = () => {
 
       if (isLocal) {
         console.log('Running local UI');
-        const localFeeds = localFeedsInfoFiles.map(
-          (file) => file.node.childFeedsJson
-        );
-        dispatch({ type: 'SET_LOCAL_FEEDS', payload: localFeeds });
+        try {
+          const feeds = await axios.get('http://127.0.0.1:8081/feeds');
+          let localFeeds = [];
+
+          feeds.data.forEach((localFeed) => {
+            localFeeds.push(localFeed.feedinfo);
+          });
+          localFeeds = localFeeds.filter(
+            (feed) => feed.type !== 'restapi_feed'
+          );
+
+          dispatch({ type: 'SET_LOCAL_FEEDS', payload: localFeeds });
+        } catch (error) {
+          console.error('Failed to fetch local feeds:', error);
+          dispatch({ type: 'SET_LOCAL', payload: [''] });
+        }
         // dispatch({ type: 'SET_LOCAL_FEEDS', payload: TestLocalFeeds });
       }
       dispatch({ type: 'SET_LOADING', payload: false });
