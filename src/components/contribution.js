@@ -1,6 +1,8 @@
 import React from 'react';
 import CodeBlock from './codeBlock';
 import '../css/carousel.css';
+import DownloadSpec from '../images/download.png';
+import EPDesign from '../images/epDesign.png';
 
 const Contribution = () => {
   return (
@@ -11,8 +13,28 @@ const Contribution = () => {
         Have applications, publishing events, and schemas associated to every
         event
       </p>
+      <img
+        src={EPDesign}
+        alt="Download AsyncAPI Spec"
+        style={{
+          width: '50%',
+          height: 'auto',
+          display: 'block',
+          margin: '0 auto',
+        }}
+      />
       <h2>2. Download the AsyncAPI Spec file for the target application</h2>
-      <h2>3. Download STM</h2>
+      <img
+        src={DownloadSpec}
+        alt="Download AsyncAPI Spec"
+        style={{
+          width: '50%',
+          height: 'auto',
+          display: 'block',
+          margin: '0 auto',
+        }}
+      />
+      <h2>3. Download the Solace TryMe cli tool (STM)</h2>
       <p>MacOS</p>
       <CodeBlock
         language="bash"
@@ -40,7 +62,7 @@ const Contribution = () => {
       <h2>5. Configure your own feed</h2>
       <CodeBlock language="bash" value={`stm feed configure`} />
       <h2>6. Run the feed locally</h2>
-      <CodeBlock language="bash" value={`stm feed run`} />
+      <CodeBlock language="bash" value={`stm feed run -ui`} />
       <h2>7. Contribute the feed</h2>
       <CodeBlock language="bash" value={`stm feed contribute`} />
       <p>
