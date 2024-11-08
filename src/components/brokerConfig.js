@@ -209,12 +209,20 @@ const BrokerConfig = () => {
           <Col span={1}></Col>
           <Col span={3}>
             <Form.Item>
-              <LinkOutlined
-                style={{
-                  padding: '10px',
-                  color: isConnected ? 'green' : 'red',
-                }}
-              />
+              <Tooltip
+                title={
+                  isConnected
+                    ? 'Connected to Broker'
+                    : 'Disconnected from Broker'
+                }
+              >
+                <LinkOutlined
+                  style={{
+                    padding: '10px',
+                    color: isConnected ? 'green' : 'red',
+                  }}
+                />
+              </Tooltip>
               <Button
                 type="primary"
                 shape="round"
