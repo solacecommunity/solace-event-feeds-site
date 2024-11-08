@@ -62,14 +62,13 @@ const PublishEvents = (props) => {
 
   const toggleControl = (item, e) => {
     // Skip toggling the control if the user is interacting with an input or select element
-    const skipToggleClassNames = ['input', 'select'];
+    const skipToggleClassNames = ['input', 'select', 'description'];
     let skip =
       typeof e.target.className == 'string'
         ? skipToggleClassNames.some((className) =>
             e.target.className.includes(className)
           )
         : null;
-    console.log(e.target.dataset.icon);
     if (e.target.dataset.icon == 'up' || e.target.dataset.icon == 'down')
       skip = true;
 
