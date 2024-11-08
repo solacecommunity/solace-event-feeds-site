@@ -147,162 +147,184 @@ const BrokerConfig = () => {
     URL.revokeObjectURL(url);
   };
   const ConnectionForm = (
-    <Form
-      layout="vertical"
-      form={form}
-      name="basic"
-      disabled={disableForm}
-      initialValues={record}
-      onValuesChange={onRecordChange}
-    >
-      <Row gutter={20}>
-        <Col span={6}>
-          <Form.Item
-            label="URL"
-            name="url"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the URL',
-              },
-              {
-                type: 'url',
-                message: 'Please enter a valid URL',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="VPN" name="vpn">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Username" name="username">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Password" name="password">
-            <Input.Password />
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Quality of Service" name="qos">
-            <Radio.Group>
-              <Radio value="direct">Direct</Radio>
-              <Radio value="guaranteed">Guaranteed</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </Col>
-        <Col span={6}>
-          <Form.Item label="Message Format" name="msgformat">
-            <Radio.Group>
-              <Radio value="text">Text Message</Radio>
-              <Radio value="byte">Bytes Message</Radio>
-            </Radio.Group>
-          </Form.Item>
-        </Col>
-        <Col span={1}></Col>
-        <Col span={3}>
-          <Form.Item>
-            <LinkOutlined
-              style={{ padding: '10px', color: isConnected ? 'green' : 'red' }}
-            />
-            <Button
-              type="primary"
-              shape="round"
-              onClick={handleConnect}
-              disabled={isConnected}
+    <>
+      <Form
+        layout="vertical"
+        form={form}
+        name="basic"
+        disabled={disableForm}
+        initialValues={record}
+        onValuesChange={onRecordChange}
+      >
+        <Row gutter={20}>
+          <Col span={6}>
+            <Form.Item
+              label="URL"
+              name="url"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the URL',
+                },
+                {
+                  type: 'url',
+                  message: 'Please enter a valid URL',
+                },
+              ]}
             >
-              {connecting
-                ? 'Connecting...'
-                : isConnected
-                  ? 'Connected'
-                  : 'Connect'}
-            </Button>
-          </Form.Item>
-        </Col>
-        <Col span={4}>
-          <Form.Item>
-            <Button
-              color="danger"
-              variant="solid"
-              shape="round"
-              onClick={handleDisconnect}
-              disabled={!isConnected || isAnyEventRunning}
-            >
-              Disconnect
-            </Button>
-          </Form.Item>
-        </Col>
-        <Col span={1}>
-          <Form.Item>
-            <Tooltip title="Upload config">
-              <Button
-                type="primary"
-                shape="round"
-                icon={<UploadOutlined />}
-                style={{ padding: '10px' }}
-                onClick={() => document.getElementById('fileInput').click()}
-              ></Button>
-            </Tooltip>
-            <input
-              type="file"
-              id="fileInput"
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                  try {
-                    const config = JSON.parse(event.target.result);
-                    if (
-                      typeof config !== 'object' ||
-                      !config.url ||
-                      !config.vpn ||
-                      !config.username ||
-                      !config.password
-                    ) {
-                      throw new Error('Invalid configuration file format.');
-                    }
-                    setRecord(config);
-                    form.setFieldsValue(config);
-                  } catch (error) {
-                    let errorString = 'Error parsing config file: ' + error;
-                    setErrorString(errorString);
-                  }
-                };
-                reader.readAsText(file);
-              }}
-            />
-          </Form.Item>
-        </Col>
-        <Form.Item>
-          <Col span={2}>
-            <Tooltip title="Download config">
-              <Button
-                type="primary"
-                shape="round"
-                icon={<DownloadOutlined />}
-                onClick={handleDownload}
-                style={{ padding: '10px' }}
-                disabled={false}
-              ></Button>
-            </Tooltip>
-          </Col>
-        </Form.Item>
-        {errorConnection && (
-          <Col span={24}>
-            <Form.Item>
-              <div style={{ color: 'red' }}>{errorConnection}</div>
+              <Input />
             </Form.Item>
           </Col>
-        )}
+          <Col span={6}>
+            <Form.Item label="VPN" name="vpn">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Username" name="username">
+              <Input />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Password" name="password">
+              <Input.Password />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Quality of Service" name="qos">
+              <Radio.Group>
+                <Radio value="direct">Direct</Radio>
+                <Radio value="guaranteed">Guaranteed</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="Message Format" name="msgformat">
+              <Radio.Group>
+                <Radio value="text">Text Message</Radio>
+                <Radio value="byte">Bytes Message</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+          <Col span={1}></Col>
+          <Col span={3}>
+            <Form.Item>
+              <LinkOutlined
+                style={{
+                  padding: '10px',
+                  color: isConnected ? 'green' : 'red',
+                }}
+              />
+              <Button
+                type="primary"
+                shape="round"
+                onClick={handleConnect}
+                disabled={isConnected}
+              >
+                {connecting
+                  ? 'Connecting...'
+                  : isConnected
+                    ? 'Connected'
+                    : 'Connect'}
+              </Button>
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item>
+              <Button
+                color="danger"
+                variant="solid"
+                shape="round"
+                onClick={handleDisconnect}
+                disabled={!isConnected || isAnyEventRunning}
+              >
+                Disconnect
+              </Button>
+            </Form.Item>
+          </Col>
+          <Col span={1}>
+            <Form.Item>
+              <Tooltip title="Upload config">
+                <Button
+                  type="primary"
+                  shape="round"
+                  icon={<UploadOutlined />}
+                  style={{ padding: '10px' }}
+                  onClick={() => document.getElementById('fileInput').click()}
+                ></Button>
+              </Tooltip>
+              <input
+                type="file"
+                id="fileInput"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    try {
+                      const config = JSON.parse(event.target.result);
+                      if (
+                        typeof config !== 'object' ||
+                        !config.url ||
+                        !config.vpn ||
+                        !config.username ||
+                        !config.password
+                      ) {
+                        throw new Error('Invalid configuration file format.');
+                      }
+                      setRecord(config);
+                      form.setFieldsValue(config);
+                    } catch (error) {
+                      let errorString = 'Error parsing config file: ' + error;
+                      setErrorString(errorString);
+                    }
+                  };
+                  reader.readAsText(file);
+                }}
+              />
+            </Form.Item>
+          </Col>
+          <Form.Item>
+            <Col span={2}>
+              <Tooltip title="Download config">
+                <Button
+                  type="primary"
+                  shape="round"
+                  icon={<DownloadOutlined />}
+                  onClick={handleDownload}
+                  style={{ padding: '10px' }}
+                  disabled={false}
+                ></Button>
+              </Tooltip>
+            </Col>
+          </Form.Item>
+          {errorConnection && (
+            <Col span={24}>
+              <Form.Item>
+                <div style={{ color: 'red' }}>{errorConnection}</div>
+              </Form.Item>
+            </Col>
+          )}
+        </Row>
+      </Form>
+      <Row>
+        <Col span={24}>
+          <Form.Item>
+            <div>
+              To get started with creating a solace PubSub+ event broker follow
+              the instructions on{' '}
+              <a
+                href="https://docs.solace.com/Get-Started/Getting-Started-Try-Broker.htm"
+                target="_blank"
+              >
+                Try PubSub+ Event Brokers
+              </a>{' '}
+              page.
+            </div>
+          </Form.Item>
+        </Col>
       </Row>
-    </Form>
+    </>
   );
 
   return (
