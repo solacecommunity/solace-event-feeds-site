@@ -209,20 +209,6 @@ const BrokerConfig = () => {
           <Col span={1}></Col>
           <Col span={3}>
             <Form.Item>
-              <Tooltip
-                title={
-                  isConnected
-                    ? 'Connected to Broker'
-                    : 'Disconnected from Broker'
-                }
-              >
-                <LinkOutlined
-                  style={{
-                    padding: '10px',
-                    color: isConnected ? 'green' : 'red',
-                  }}
-                />
-              </Tooltip>
               <Button
                 type="primary"
                 shape="round"
@@ -335,13 +321,29 @@ const BrokerConfig = () => {
     </>
   );
 
+  const Label = (
+    <>
+      <Tooltip
+        title={isConnected ? 'Connected to Broker' : 'Disconnected to Broker'}
+      >
+        <LinkOutlined
+          style={{
+            padding: '10px',
+            color: isConnected ? 'green' : 'red',
+          }}
+        />
+      </Tooltip>
+      Configure Broker
+    </>
+  );
+
   return (
     <div>
       <Collapse
         items={[
           {
             key: 'config',
-            label: 'Configure Broker',
+            label: Label,
             children: ConnectionForm,
           },
         ]}
