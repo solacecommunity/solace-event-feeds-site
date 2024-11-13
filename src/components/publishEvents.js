@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, List, InputNumber, Select, Collapse } from 'antd';
+import {
+  Button,
+  List,
+  InputNumber,
+  Select,
+  Collapse,
+  Tooltip,
+  message,
+} from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
 import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -7,6 +15,7 @@ import {
   ControlOutlined,
   LinkOutlined,
   CaretRightOutlined,
+  CopyOutlined,
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 
@@ -76,6 +85,22 @@ const PublishEvents = (props) => {
     setActiveFeedConfig((prev) =>
       prev === item.eventName ? null : item.eventName
     );
+  };
+
+  const handleCopySub = (item) => {
+    // Generate topic subscription string
+    const matches = item.topic.match(/{[^}]*}/g);
+    if (!matches) return item.topic;
+
+    // Replace all occurrences except the last one with '*'
+    const topicSub = item.topic.replace(/{[^}]*}/g, (match, index) => {
+      return index === item.topic.lastIndexOf(matches[matches.length - 1])
+        ? '>'
+        : '*';
+    });
+
+    navigator.clipboard.writeText(topicSub);
+    message.success(`${topicSub} Copied!`);
   };
 
   useEffect(() => {
@@ -290,6 +315,39 @@ const PublishEvents = (props) => {
     }
   };
 
+  const CopySubIcon = (item) => {
+    return (
+      <Tooltip title="Copy Subscription">
+        <Button
+          style={{
+            color: '#00ad93',
+            background: 'none',
+            border: 'none',
+          }}
+          icon={<CopyOutlined />}
+          onClick={(e) => handleCopySub(item, e)}
+        />
+      </Tooltip>
+    );
+  };
+
+  const ConfigureEvent = (item) => {
+    return (
+      <Tooltip title="Open configuration window">
+        <Button
+          style={{
+            color: activeFeedConfig === item.eventName ? '#00ad93' : 'black',
+            background: 'none',
+            border: 'none',
+          }}
+          variant="link"
+          icon={<ControlOutlined />}
+          onClick={(e) => toggleControl(item, e)}
+        />
+      </Tooltip>
+    );
+  };
+
   const Events = (
     <div>
       <div
@@ -367,6 +425,8 @@ const PublishEvents = (props) => {
               <List.Item
                 key={item.eventName}
                 actions={[
+                  ConfigureEvent(item),
+                  CopySubIcon(item),
                   <Button
                     color="primary"
                     variant="filled"
@@ -389,20 +449,6 @@ const PublishEvents = (props) => {
                     {' '}
                     Stop{' '}
                   </Button>,
-                  <Button
-                    className="TEST"
-                    style={{
-                      color:
-                        activeFeedConfig === item.eventName
-                          ? '#00ad93'
-                          : 'black',
-                      background: 'none',
-                      border: 'none',
-                    }}
-                    variant="link"
-                    icon={<ControlOutlined />}
-                    onClick={(e) => toggleControl(item, e)}
-                  />,
                 ]}
               >
                 <List.Item.Meta
