@@ -100,7 +100,14 @@ const PublishEvents = (props) => {
     });
 
     navigator.clipboard.writeText(topicSub);
-    message.success(`${topicSub} Copied!`);
+    // message.success(`${topicSub} Copied!`);
+    message.success({
+      content: `${topicSub} Copied!`,
+      style: {
+        marginTop: '50vh',
+      },
+      duration: 2,
+    });
   };
 
   useEffect(() => {
