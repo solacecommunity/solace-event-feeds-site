@@ -64,6 +64,8 @@ const PublishEvents = (props) => {
       countSend: 0,
       tagColor: tagColors[Math.floor(Math.random() * tagColors.length)],
       maxMsgCount: parseInt(item.publishSettings.count, 10) || MAX_MSG_COUNT,
+      dmqEligible: true,
+      ttl: 0,
     };
   });
   const [activeEvents, setActiveEvents] = useState(events); // Track the active event
@@ -139,6 +141,8 @@ const PublishEvents = (props) => {
       ? message.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT)
       : message.setDeliveryMode(solace.MessageDeliveryModeType.PERSISTENT);
 
+    message.setDMQEligible(activeEvents[item.eventName]?.dmqEligible || false);
+    message.setTimeToLive(activeEvents[item.eventName]?.ttl || 0);
     const delay = activeEvents[item.eventName]?.delay || 0; // Get delay, default to 0 if undefined
     let freq;
     switch (activeEvents[item.eventName]?.freq) {
@@ -297,6 +301,16 @@ const PublishEvents = (props) => {
       [item.eventName]: {
         ...prevState[item.eventName], // Keep all the other values
         maxMsgCount: maxMsgCount,
+      },
+    }));
+  };
+
+  const updateTTL = (item, ttl) => {
+    setActiveEvents((prevState) => ({
+      ...prevState,
+      [item.eventName]: {
+        ...prevState[item.eventName], // Keep all the other values
+        ttl: ttl,
       },
     }));
   };
@@ -542,6 +556,31 @@ const PublishEvents = (props) => {
                             }
                           />
                         </div>
+                        <Tooltip
+                          placement="bottomLeft"
+                          title="Queue must respect TTL!"
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              marginTop: '8px',
+                              textDecoration: 'underline',
+                            }}
+                          >
+                            <span>
+                              **Time to live, in milliseconds (0 for infinite)
+                            </span>
+                            <InputNumber
+                              defaultValue={activeEvents[item.eventName]?.ttl}
+                              min={0}
+                              max={31536000009}
+                              step="1"
+                              onChange={(ttl) => updateTTL(item, ttl)}
+                            />
+                          </div>
+                        </Tooltip>
                       </div>
                     ) : (
                       `${item.topic}`
