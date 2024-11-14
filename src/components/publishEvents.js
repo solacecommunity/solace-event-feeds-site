@@ -340,7 +340,7 @@ const PublishEvents = (props) => {
 
   const ConfigureEvent = (item) => {
     return (
-      <Tooltip title="Open configuration window">
+      <Tooltip title="Configure Stream">
         <Button
           style={{
             color: activeFeedConfig === item.eventName ? '#00ad93' : 'black',
