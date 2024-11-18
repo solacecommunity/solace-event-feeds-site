@@ -43,8 +43,8 @@ const IndexPage = () => {
   const isLocal =
     state.hostname === 'localhost' ||
     state.hostname === '127.0.0.1' ||
-    state.hostname === '' ||
     state.hostname.startsWith('192.168.') ||
+    state.hostname.startsWith('localhost') ||
     state.hostname.startsWith('10.');
 
   useEffect(() => {
