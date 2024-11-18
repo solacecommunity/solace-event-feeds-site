@@ -55,7 +55,7 @@ const Contribution = () => {
         >
           Solace TryMe CLI GitHub page
         </a>{' '}
-        for more infomraiton.
+        for more information.
       </p>
       <h2>4. Generate your own feed</h2>
       <CodeBlock language="bash" value={`stm feed generate`} />
