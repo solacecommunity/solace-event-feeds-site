@@ -14,10 +14,14 @@ class Faker {
         if (value.type === 'object') {
           result[key] = processObject(value.properties || {});
         } else if (value.type === 'array') {
-          result[key] = Array.from({ length: 3 }, () =>
-            value.items
-              ? processObject(value.items[0]?.properties || {})
-              : processObject(value.properties || {})
+          var arrayLength = value.rule?.count || 2;
+          result[key] = Array.from({ length: arrayLength }, () =>
+            // 2. Check the subtype here
+            //    a. if its object --> process object
+            //    b. if its non object --> generate content
+            value.subType === 'object'
+              ? processObject(value.properties || {})
+              : generateContent(value)
           );
         } else {
           value.rule
