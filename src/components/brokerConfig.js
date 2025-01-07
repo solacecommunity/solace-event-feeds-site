@@ -236,6 +236,21 @@ const BrokerConfig = () => {
               </Button>
             </Form.Item>
           </Col>
+
+          <Form.Item>
+            <Col span={2}>
+              <Tooltip title="Download config">
+                <Button
+                  type="primary"
+                  shape="round"
+                  icon={<DownloadOutlined />}
+                  onClick={handleDownload}
+                  style={{ padding: '10px' }}
+                  disabled={false}
+                ></Button>
+              </Tooltip>
+            </Col>
+          </Form.Item>
           <Col span={1}>
             <Form.Item>
               <Tooltip title="Upload config">
@@ -278,20 +293,6 @@ const BrokerConfig = () => {
               />
             </Form.Item>
           </Col>
-          <Form.Item>
-            <Col span={2}>
-              <Tooltip title="Download config">
-                <Button
-                  type="primary"
-                  shape="round"
-                  icon={<DownloadOutlined />}
-                  onClick={handleDownload}
-                  style={{ padding: '10px' }}
-                  disabled={false}
-                ></Button>
-              </Tooltip>
-            </Col>
-          </Form.Item>
           {errorConnection && (
             <Col span={24}>
               <Form.Item>
