@@ -10,12 +10,12 @@ import {
   ClearOutlined,
 } from '@ant-design/icons';
 
-const MAX_RENDERED_MESSAGES = 100;
+const MAX_RENDERED_EVENTS = 100;
 
 const Stream = () => {
   const { streamedEvents, setStreamedEvents, session } =
     useContext(SessionContext);
-  const [showAllPayload, setShowAllPayload] = useState(false);
+  const [showAllPayloads, setShowAllPayloads] = useState(false);
   const [showPayload, setShowPayload] = useState(null);
   const scrollableDivRef = useRef(null);
   const [search, setSearch] = useState('');
@@ -31,8 +31,8 @@ const Stream = () => {
         scrollableDivRef.current.scrollHeight;
     }
 
-    if (streamedEvents.length > MAX_RENDERED_MESSAGES) {
-      setStreamedEvents(streamedEvents.slice(MAX_RENDERED_MESSAGES));
+    if (streamedEvents.length > MAX_RENDERED_EVENTS) {
+      setStreamedEvents(streamedEvents.slice(MAX_RENDERED_EVENTS));
     }
   }, [streamedEvents]);
 
@@ -45,21 +45,21 @@ const Stream = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Filter published streams on event name, payload, and topics"
+                placeholder="Filter published stream on event name, payload, and topics"
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value.toLowerCase());
                   console.log(search.length);
                   search.length == 1
-                    ? setShowAllPayload(false)
-                    : setShowAllPayload(true);
+                    ? setShowAllPayloads(false)
+                    : setShowAllPayloads(true);
                 }}
               />
               <Tooltip title="Clear search">
                 <ClearOutlined
                   onClick={(e) => {
                     setSearch('');
-                    setShowAllPayload(false);
+                    setShowAllPayloads(false);
                   }}
                   style={{ padding: '0 0 0 10px' }}
                 ></ClearOutlined>
@@ -78,15 +78,14 @@ const Stream = () => {
                 key={'streams options'}
                 actions={[
                   <Tag>
-                    Displaying the last {MAX_RENDERED_MESSAGES} published
-                    messages
+                    Displaying the last {MAX_RENDERED_EVENTS} published events
                   </Tag>,
                   <Button
                     color="primary"
                     variant="outlined"
                     onClick={() => setStreamedEvents([])}
                   >
-                    Clear All Messages
+                    Clear All Events
                   </Button>,
                   <Tooltip
                     title="Click on event to show single payload"
@@ -96,9 +95,11 @@ const Stream = () => {
                     <Button
                       color="primary"
                       variant="outlined"
-                      onClick={() => setShowAllPayload(!showAllPayload)}
+                      onClick={() => setShowAllPayloads(!showAllPayloads)}
                     >
-                      {showAllPayload ? 'Hide All Payload' : 'Show All Payload'}
+                      {showAllPayloads
+                        ? 'Hide All Payloads'
+                        : 'Show All Payloads'}
                     </Button>
                   </Tooltip>,
                 ]}
@@ -164,7 +165,7 @@ const Stream = () => {
                         />
                       }
                       description={
-                        showAllPayload || showPayload == event ? (
+                        showAllPayloads || showPayload == event ? (
                           <pre
                             style={{
                               whiteSpace: 'pre-wrap',
@@ -214,7 +215,7 @@ const Stream = () => {
         items={[
           {
             key: 'streams',
-            label: 'Publishing Streams',
+            label: 'Publishing Stream',
             children: Streams,
           },
         ]}

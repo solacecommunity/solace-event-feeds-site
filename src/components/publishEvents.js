@@ -602,7 +602,7 @@ const PublishEvents = (props) => {
         items={[
           {
             key: 'events',
-            label: 'Choose Stream(s)',
+            label: 'Choose Event(s) in your Stream',
             children: Events,
           },
         ]}

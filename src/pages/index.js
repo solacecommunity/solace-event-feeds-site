@@ -102,8 +102,8 @@ const IndexPage = () => {
             <Col>
               <h1>Solace Event Feeds</h1>
               <p>
-                This site provides a curated set of feeds that make it easy to
-                start publishing events to a{' '}
+                The Solace Event Feeds site provides a curated set of feeds that
+                make it easy to start publishing streams of events to a{' '}
                 <a
                   href="https://solace.com/products/event-broker/"
                   target="_blank"
@@ -111,7 +111,7 @@ const IndexPage = () => {
                 >
                   Solace PubSub+ Event Broker
                 </a>
-                . Each feed contains a simplified set of events representing a
+                . Each feed contains an example set of events representing a
                 domain or use case, and many were generated directly from a
                 design in{' '}
                 <a
@@ -121,7 +121,7 @@ const IndexPage = () => {
                 >
                   PubSub+ Event Portal
                 </a>{' '}
-                using the app’s AsyncAPI doc.
+                using the AsyncAPI doc.
               </p>
             </Col>
           </Row>
