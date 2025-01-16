@@ -53,6 +53,9 @@ const IndexPage = () => {
         'https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/EVENT_FEEDS.json'
       );
       feedsData = feedsData.data.filter((feed) => feed.type !== 'restapi_feed');
+      console.log('feedsData:', feedsData);
+      // sort FeedsData by feedsData.name
+      feedsData.sort((a, b) => a.name.localeCompare(b.name));
 
       // for local testing only //
       // await new Promise((resolve) => setTimeout(resolve, 1000));
