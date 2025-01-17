@@ -9,7 +9,6 @@ import {
   message,
 } from 'antd';
 import { SessionContext } from '../util/helpers/solaceSession';
-import Faker from '../util/helpers/faker';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   ControlOutlined,
@@ -18,6 +17,10 @@ import {
   CopyOutlined,
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
+import {
+  generateRandomPayload,
+  generateRandomTopic,
+} from '@solace-labs/solace-data-generator';
 
 const MAX_START_DELAY = 10;
 const MAX_RATE = 10;
@@ -69,7 +72,6 @@ const PublishEvents = (props) => {
     };
   });
   const [activeEvents, setActiveEvents] = useState(events); // Track the active event
-  const faker = new Faker(); // For fake data generation
 
   const toggleControl = (item, e) => {
     // Skip toggling the control if the user is interacting with an input or select element
@@ -134,6 +136,7 @@ const PublishEvents = (props) => {
   };
 
   const startFeed = (item) => {
+    console.log(item);
     if (activeEvents[item.eventName]?.active) return; // Don't start if already active
 
     const message = SolclientFactory.createMessage();
@@ -175,8 +178,8 @@ const PublishEvents = (props) => {
     const timeoutId = setTimeout(() => {
       // Set up the interval after the delay
       const intervalId = setInterval(() => {
-        const payload = faker.generateRandomPayload(item.payload);
-        const topic = faker.generateRandomTopic(item, payload);
+        const payload = generateRandomPayload(item.payload);
+        const topic = generateRandomTopic(item, payload);
         sessionProperties.msgformat === 'text'
           ? message.setSdtContainer(
               solace.SDTField.create(
