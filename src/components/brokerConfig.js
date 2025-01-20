@@ -28,6 +28,7 @@ const BrokerConfig = () => {
     vpn: 'default',
     username: 'default',
     password: 'default',
+    clientname: `stm_feed_web_${Math.random().toString(16).substring(2, 10)}`,
     qos: 'direct',
     msgformat: 'text',
     compression: false,
@@ -41,7 +42,7 @@ const BrokerConfig = () => {
 
   const handleConnect = (e) => {
     console.log('Connecting to the solace broker...');
-    const { url, vpn, username, password, compression } = record;
+    const { url, vpn, username, password, compression, clientname } = record;
 
     let sessionProperties;
     try {
@@ -51,6 +52,7 @@ const BrokerConfig = () => {
         vpnName: vpn,
         userName: username,
         password: password,
+        clientName: clientname,
         connectRetries: 0,
         reconnectRetries: 3,
         payloadCompressionLevel: compression ? 9 : 0,
