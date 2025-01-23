@@ -17,10 +17,7 @@ import {
   CopyOutlined,
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
-import {
-  generateRandomPayload,
-  generateRandomTopic,
-} from '@solace-labs/solace-data-generator';
+import { generateEvent } from '@solace-labs/solace-data-generator';
 
 const MAX_START_DELAY = 10;
 const MAX_RATE = 10;
@@ -178,8 +175,7 @@ const PublishEvents = (props) => {
     const timeoutId = setTimeout(() => {
       // Set up the interval after the delay
       const intervalId = setInterval(() => {
-        const payload = generateRandomPayload(item.payload);
-        const topic = generateRandomTopic(item, payload);
+        const { payload, topic } = generateEvent(item);
         sessionProperties.msgformat === 'text'
           ? message.setSdtContainer(
               solace.SDTField.create(
