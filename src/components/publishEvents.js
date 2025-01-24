@@ -15,6 +15,7 @@ import {
   LinkOutlined,
   CaretRightOutlined,
   CopyOutlined,
+  FileSearchOutlined,
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 import { generateEvent } from '@solace-labs/solace-data-generator';
@@ -88,6 +89,17 @@ const PublishEvents = (props) => {
     );
   };
 
+  const handleSampleCopy = (sampleEvent) => {
+    navigator.clipboard.writeText(JSON.stringify(sampleEvent, null, 2));
+    message.success({
+      content: `Sample event Copied!`,
+      style: {
+        marginTop: '50vh',
+      },
+      duration: 2,
+    });
+  };
+
   const handleCopySub = (item) => {
     // Generate topic subscription string
     const matches = item.topic.match(/{[^}]*}/g);
@@ -133,7 +145,6 @@ const PublishEvents = (props) => {
   };
 
   const startFeed = (item) => {
-    console.log(item);
     if (activeEvents[item.eventName]?.active) return; // Don't start if already active
 
     const message = SolclientFactory.createMessage();
@@ -351,6 +362,33 @@ const PublishEvents = (props) => {
     );
   };
 
+  const SampleEvent = (item) => {
+    let { topic, payload } = generateEvent(item);
+    let sampleEvent = {
+      topic: topic,
+      payload: payload,
+    };
+    return (
+      <Tooltip
+        title={
+          <pre style={{ textAlign: 'left', margin: 0 }}>
+            {JSON.stringify(sampleEvent, null, 2)}
+          </pre>
+        }
+      >
+        <Button
+          style={{
+            color: '#00ad93',
+            background: 'none',
+            border: 'none',
+          }}
+          icon={<FileSearchOutlined />}
+          onClick={(e) => handleSampleCopy(sampleEvent, e)}
+        />
+      </Tooltip>
+    );
+  };
+
   const ConfigureEvent = (item) => {
     return (
       <Tooltip title="Configure Stream">
@@ -447,6 +485,7 @@ const PublishEvents = (props) => {
                 actions={[
                   ConfigureEvent(item),
                   CopySubIcon(item),
+                  SampleEvent(item),
                   <Button
                     color="primary"
                     variant="filled"
