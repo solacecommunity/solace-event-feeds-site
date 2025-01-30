@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 import { generateEvent } from '@solace-labs/solace-data-generator';
+import asyncApiLogo from '../images/asyncapi-logo.png';
 
 const MAX_START_DELAY = 10;
 const MAX_RATE = 10;
@@ -51,6 +52,7 @@ const PublishEvents = (props) => {
   ];
 
   const feedRules = props.feedRules;
+  const specFile = props.specFile;
   const events = {};
   feedRules.map((item) => {
     // To set the initial active state of all the events to false
@@ -406,6 +408,20 @@ const PublishEvents = (props) => {
     );
   };
 
+  const downloadSpecFile = () => {
+    const blob = new Blob([JSON.stringify(specFile, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = specFile.info.title.replace(/ /g, '_') + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const Events = (
     <div>
       <div
@@ -447,6 +463,26 @@ const PublishEvents = (props) => {
           <List>
             <List.Item
               actions={[
+                <Tooltip title="Download AsyncAPI Spec">
+                  <Button
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 20,
+                    }}
+                    onClick={() => downloadSpecFile()}
+                  >
+                    <img
+                      src={asyncApiLogo}
+                      alt="AsyncAPI Logo"
+                      style={{
+                        height: '30px',
+                        position: 'absolute',
+                        'margin-top': '-8px',
+                      }}
+                    />
+                  </Button>
+                </Tooltip>,
                 <Button
                   color="primary"
                   variant="outlined"

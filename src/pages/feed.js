@@ -17,6 +17,7 @@ const feedMetadata = {
   // For AsyncAPI feeds
   analysis: [],
   feedSchemas: [],
+  specFile: [],
   // For REST API feeds
   feedAPI: [],
 };
@@ -25,6 +26,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_FAKER_RULES':
       return { ...state, fakerRules: action.payload };
+    case 'SET_SPEC_FILE':
+      return { ...state, specFile: action.payload };
     case 'SET_FEED_INFO':
       return { ...state, feedInfo: action.payload };
     case 'SET_FEED_RULES':
@@ -60,6 +63,13 @@ const FeedPage = ({ location }) => {
       //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`
       // );
       // dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
+
+      var githubFiles = await axios.get(
+        `https://api.github.com/repos/solacecommunity/solace-event-feeds/contents/${encodeURIComponent(feed.name)}`
+      );
+
+      var specFile = await axios.get(githubFiles.data[0].download_url);
+      dispatch({ type: 'SET_SPEC_FILE', payload: specFile.data });
 
       var feedInfo = await axios.get(
         `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedinfo.json`
@@ -129,7 +139,10 @@ const FeedPage = ({ location }) => {
               <Loading section="Events" />
             ) : (
               <Row className="mt3">
-                <PublishEvents feedRules={state.feedRules} />
+                <PublishEvents
+                  feedRules={state.feedRules}
+                  specFile={state.specFile}
+                />
               </Row>
             )
           ) : feed.type === 'restapi_feed' ? (
