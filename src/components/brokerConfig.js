@@ -13,7 +13,7 @@ import { SessionContext } from '../util/helpers/solaceSession';
 const factoryProps = new solace.SolclientFactoryProperties();
 factoryProps.profile = solace.SolclientFactoryProfiles.version10_5;
 SolclientFactory.init(factoryProps);
-SolclientFactory.setLogLevel(solace.LogLevel.INFO);
+SolclientFactory.setLogLevel(solace.LogLevel.DEBUG);
 
 const BrokerConfig = () => {
   const { session, setSession, setSessionProperties, isAnyEventRunning } =
