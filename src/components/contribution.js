@@ -34,7 +34,7 @@ const Contribution = () => {
           margin: '0 auto',
         }}
       />
-      <h2>3. Download the Solace TryMe cli tool (STM)</h2>
+      <h2>3. Install the Solace TryMe cli tool (STM)</h2>
       <p>MacOS</p>
       <CodeBlock
         language="bash"
