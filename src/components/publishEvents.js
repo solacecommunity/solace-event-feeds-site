@@ -16,6 +16,7 @@ import {
   CaretRightOutlined,
   CopyOutlined,
   FileSearchOutlined,
+  DownloadOutlined,
 } from '@ant-design/icons';
 import solace, { SolclientFactory } from 'solclientjs';
 import { generateEvent } from '@solace-labs/solace-data-generator';
@@ -58,6 +59,7 @@ const PublishEvents = (props) => {
 
   const feedRules = props.feedRules;
   const specFile = props.specFile;
+  const specFileURL = props.specFileURL;
   const events = {};
   feedRules.map((item) => {
     // To set the initial active state of all the events to false
@@ -496,14 +498,19 @@ const PublishEvents = (props) => {
                       />
                     </Button>
                   </Tooltip>,
-                  <Tooltip title="Download AsyncAPI Spec">
+                  <Tooltip title="Open in AsyncAPI Studio">
                     <Button
                       style={{
                         background: 'none',
                         border: 'none',
                         padding: 20,
                       }}
-                      onClick={() => downloadSpecFile()}
+                      onClick={() =>
+                        window.open(
+                          `https://studio.solace.dev/?specURL=${specFileURL}`,
+                          '_blank'
+                        )
+                      }
                     >
                       <img
                         src={asyncApiLogo}
@@ -515,6 +522,14 @@ const PublishEvents = (props) => {
                         }}
                       />
                     </Button>
+                  </Tooltip>,
+                  <Tooltip title="Download AsyncAPI Spec">
+                    <Button
+                      shape="round"
+                      icon={<DownloadOutlined />}
+                      onClick={downloadSpecFile}
+                      disabled={false}
+                    ></Button>
                   </Tooltip>,
                   <Button
                     color="primary"

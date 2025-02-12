@@ -20,6 +20,7 @@ const feedMetadata = {
   specFile: [],
   // For REST API feeds
   feedAPI: [],
+  specFileURL: '',
 };
 
 const reducer = (state, action) => {
@@ -28,6 +29,8 @@ const reducer = (state, action) => {
       return { ...state, fakerRules: action.payload };
     case 'SET_SPEC_FILE':
       return { ...state, specFile: action.payload };
+    case 'SET_SPEC_FILE_URL':
+      return { ...state, specFileURL: action.payload };
     case 'SET_FEED_INFO':
       return { ...state, feedInfo: action.payload };
     case 'SET_FEED_RULES':
@@ -68,6 +71,10 @@ const FeedPage = ({ location }) => {
         `https://api.github.com/repos/solacecommunity/solace-event-feeds/contents/${encodeURIComponent(feed.name)}`
       );
 
+      dispatch({
+        type: 'SET_SPEC_FILE_URL',
+        payload: githubFiles.data[0].download_url,
+      });
       var specFile = await axios.get(githubFiles.data[0].download_url);
       dispatch({ type: 'SET_SPEC_FILE', payload: specFile.data });
 
@@ -142,6 +149,7 @@ const FeedPage = ({ location }) => {
                 <PublishEvents
                   feedRules={state.feedRules}
                   specFile={state.specFile}
+                  specFileURL={state.specFileURL}
                 />
               </Row>
             )
