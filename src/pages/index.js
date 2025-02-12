@@ -8,8 +8,11 @@ import Loading from '../components/loading';
 import Contribution from '../components/contribution';
 import ContributionSteps from '../components/contributionSteps';
 import { TestCommunityFeeds, TestLocalFeeds } from '../util/helpers/testFeeds';
-import { ClearOutlined } from '@ant-design/icons';
+import { ClearOutlined, SettingOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import SettingsModal from '../modals/settings';
+import { Toaster } from 'react-hot-toast';
 
 const initialState = {
   isLoading: true,
@@ -39,6 +42,7 @@ const reducer = (state, action) => {
 const IndexPage = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [search, setSearch] = useState('');
+  const modal = useModal(SettingsModal);
 
   const isLocal =
     state.hostname === 'localhost' ||
@@ -46,6 +50,10 @@ const IndexPage = () => {
     state.hostname.startsWith('192.168.') ||
     state.hostname.startsWith('localhost') ||
     state.hostname.startsWith('10.');
+
+  const launchSettings = () => {
+    modal.show();
+  };
 
   useEffect(() => {
     const fetchFeeds = async () => {
@@ -96,150 +104,161 @@ const IndexPage = () => {
   }, [state.hostname]);
 
   return (
-    <Layout>
-      <SEO title="Solace Event Feeds" />
-      <section id="intro">
-        <Container className="pt6 pb5">
-          <Row className="tc">
-            <Col>
-              <h1>Solace Event Feeds</h1>
-              <p>
-                The Solace Event Feeds site provides a curated set of feeds that
-                make it easy to start publishing streams of events to a{' '}
-                <a
-                  href="https://solace.com/products/event-broker/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Solace PubSub+ Event Broker
-                </a>
-                . Each feed contains an example set of events representing a
-                domain or use case, and many were generated directly from a
-                design in{' '}
-                <a
-                  href="https://solace.com/products/portal/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  PubSub+ Event Portal
-                </a>{' '}
-                using the AsyncAPI doc.
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <section id="feeds-section">
-        {state.isLoading ? (
-          <Loading section="Community feeds" />
-        ) : (
-          <Container className="pb5">
-            <Row className="mt3">
-              <Col
-                xs={5}
-                sm={5}
-                md={5}
-                lg={5}
-                xl={5}
-                xxl={5}
-                className="mt3 mb3"
-              >
-                <InputGroup className="mt3 mb3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search Community Feeds..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                  <Tooltip title="Clear search">
-                    <ClearOutlined
-                      onClick={(e) => setSearch('')}
-                      style={{ padding: '0 0 0 10px' }}
-                    ></ClearOutlined>
-                  </Tooltip>
-                </InputGroup>
+    <NiceModal.Provider>
+      <Toaster position="bottom-center" reverseOrder={false} />
+      <Layout>
+        <SEO title="Solace Event Feeds" />
+        <section id="intro">
+          <Container className="pt6 pb5">
+            <Row className="tc">
+              <Col>
+                <h1>Solace Event Feeds</h1>
+                <p>
+                  The Solace Event Feeds site provides a curated set of feeds
+                  that make it easy to start publishing streams of events to a{' '}
+                  <a
+                    href="https://solace.com/products/event-broker/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Solace PubSub+ Event Broker
+                  </a>
+                  . Each feed contains an example set of events representing a
+                  domain or use case, and many were generated directly from a
+                  design in{' '}
+                  <a
+                    href="https://solace.com/products/portal/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    PubSub+ Event Portal
+                  </a>{' '}
+                  using the AsyncAPI doc.
+                </p>
               </Col>
             </Row>
-            <h2 className="mt4">Community Feeds</h2>
-            <Row className="mt3">
-              {state.communityFeeds
-                .filter((item) => {
-                  if (search.toLowerCase() === '') {
-                    return item;
-                  } else {
-                    return (
-                      item.name.toLowerCase().includes(search.toLowerCase()) ||
-                      item.domain.toLowerCase().includes(search.toLowerCase())
-                    );
-                  }
-                })
-                .map((feed, index) => (
-                  <Col
-                    key={index}
-                    xs={12}
-                    sm={12}
-                    md={4}
-                    lg={4}
-                    xl={4}
-                    xxl={3}
-                    className="mt3 mb3"
-                  >
-                    <FeedCard feed={feed} index={index} isLocal={false} />
-                  </Col>
-                ))}
-            </Row>
           </Container>
-        )}
+        </section>
 
-        {state.isLocal && (
-          <Container className="pb5">
-            <h2 className="mt4">Local Feeds</h2>
-            {state.localFeeds.length > 0 ? (
-              <Row>
-                {state.localFeeds.map((feed, index) => (
-                  <Col
-                    key={index}
-                    xs={12}
-                    sm={12}
-                    md={4}
-                    lg={4}
-                    xl={4}
-                    xxl={3}
-                    className="mt3 mb3"
-                  >
-                    <FeedCard feed={feed} index={index} isLocal={true} />
-                  </Col>
-                ))}
+        <section id="feeds-section">
+          {state.isLoading ? (
+            <Loading section="Community feeds" />
+          ) : (
+            <Container className="pb5">
+              <Row className="mt3">
+                <Col
+                  xs={5}
+                  sm={5}
+                  md={5}
+                  lg={5}
+                  xl={5}
+                  xxl={5}
+                  className="mt3 mb3"
+                >
+                  <InputGroup className="mt3 mb3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search Community Feeds..."
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <Tooltip title="Clear search">
+                      <ClearOutlined
+                        onClick={(e) => setSearch('')}
+                        style={{ padding: '0 0 0 10px' }}
+                      ></ClearOutlined>
+                    </Tooltip>
+                    <Tooltip title="Settings">
+                      <SettingOutlined
+                        onClick={(e) => launchSettings()}
+                        style={{ padding: '0 0 0 10px' }}
+                      ></SettingOutlined>
+                    </Tooltip>
+                  </InputGroup>
+                </Col>
               </Row>
-            ) : (
-              <div>
-                No local feeds found. Generate a local feed using the steps
-                below
-              </div>
-            )}
-          </Container>
-        )}
-      </section>
+              <h2 className="mt4">Community Feeds</h2>
+              <Row className="mt3">
+                {state.communityFeeds
+                  .filter((item) => {
+                    if (search.toLowerCase() === '') {
+                      return item;
+                    } else {
+                      return (
+                        item.name
+                          .toLowerCase()
+                          .includes(search.toLowerCase()) ||
+                        item.domain.toLowerCase().includes(search.toLowerCase())
+                      );
+                    }
+                  })
+                  .map((feed, index) => (
+                    <Col
+                      key={index}
+                      xs={12}
+                      sm={12}
+                      md={4}
+                      lg={4}
+                      xl={4}
+                      xxl={3}
+                      className="mt3 mb3"
+                    >
+                      <FeedCard feed={feed} index={index} isLocal={false} />
+                    </Col>
+                  ))}
+              </Row>
+            </Container>
+          )}
 
-      <section id="contribute">
-        <Container className="pt6 pb5">
-          <h1>How to Contribute</h1>
-          <br />
-          <br />
-          <br />
-          <Row>
-            {/* <Col>
+          {state.isLocal && (
+            <Container className="pb5">
+              <h2 className="mt4">Local Feeds</h2>
+              {state.localFeeds.length > 0 ? (
+                <Row>
+                  {state.localFeeds.map((feed, index) => (
+                    <Col
+                      key={index}
+                      xs={12}
+                      sm={12}
+                      md={4}
+                      lg={4}
+                      xl={4}
+                      xxl={3}
+                      className="mt3 mb3"
+                    >
+                      <FeedCard feed={feed} index={index} isLocal={true} />
+                    </Col>
+                  ))}
+                </Row>
+              ) : (
+                <div>
+                  No local feeds found. Generate a local feed using the steps
+                  below
+                </div>
+              )}
+            </Container>
+          )}
+        </section>
+
+        <section id="contribute">
+          <Container className="pt6 pb5">
+            <h1>How to Contribute</h1>
+            <br />
+            <br />
+            <br />
+            <Row>
+              {/* <Col>
               <ContributionSteps />
             </Col> */}
-            <Col>
-              <Contribution />
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </Layout>
+              <Col>
+                <Contribution />
+              </Col>
+            </Row>
+          </Container>
+        </section>
+      </Layout>
+    </NiceModal.Provider>
   );
 };
 

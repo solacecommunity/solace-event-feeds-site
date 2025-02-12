@@ -20,6 +20,10 @@ import {
 import solace, { SolclientFactory } from 'solclientjs';
 import { generateEvent } from '@solace-labs/solace-data-generator';
 import asyncApiLogo from '../images/asyncapi-logo.png';
+import solaceEPLogo from '../images/solace-ep.png';
+import ExportEPModal from '../modals/export';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { Toaster } from 'react-hot-toast';
 
 const MAX_START_DELAY = 10;
 const MAX_RATE = 10;
@@ -37,6 +41,7 @@ const PublishEvents = (props) => {
   const [isConnected, setIsConnected] = useState(false);
   const [errorConnection, setErrorString] = useState(undefined);
   const [activeFeedConfig, setActiveFeedConfig] = useState(null); // Track the active Control button
+  const modal = useModal(ExportEPModal);
   const tagColors = [
     'magenta',
     'red',
@@ -422,252 +427,285 @@ const PublishEvents = (props) => {
     URL.revokeObjectURL(url);
   };
 
-  const Events = (
-    <div>
-      <div
-        style={{
-          marginBottom: '16px',
-          display: 'flex',
-          flexDirection: 'row',
-          gap: '8px',
-          paddingLeft: '10px',
-        }}
-      >
-        <Button
-          color="danger"
-          variant="filled"
-          shape="round"
-          onClick={handleDisconnect}
-          disabled={!isConnected || isAnyEventRunning}
-        >
-          {' '}
-          Disconnect Broker{' '}
-        </Button>
-      </div>
-      {errorConnection && (
-        <div style={{ color: 'red', fontSize: '15px' }}>{errorConnection}</div>
-      )}
+  const openExportModal = () => {
+    modal.show({ specFile });
+  };
 
-      {/* List of events  */}
-      <div
-        id="scrollableDiv"
-        style={{ height: 400, overflow: 'auto', padding: '0 16px' }}
-      >
+  const Events = (
+    <NiceModal.Provider>
+      <Toaster position="bottom-center" reverseOrder={false} />
+      <div>
         <div
           style={{
+            marginBottom: '16px',
             display: 'flex',
-            justifyContent: 'flex-end',
-            padding: '0 30px 0 0',
+            flexDirection: 'row',
+            gap: '8px',
+            paddingLeft: '10px',
           }}
         >
-          <List>
-            <List.Item
-              actions={[
-                <Tooltip title="Download AsyncAPI Spec">
-                  <Button
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      padding: 20,
-                    }}
-                    onClick={() => downloadSpecFile()}
-                  >
-                    <img
-                      src={asyncApiLogo}
-                      alt="AsyncAPI Logo"
-                      style={{
-                        height: '30px',
-                        position: 'absolute',
-                        'margin-top': '-8px',
-                      }}
-                    />
-                  </Button>
-                </Tooltip>,
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  onClick={startAllFeed}
-                  disabled={
-                    !isConnected ||
-                    !Object.values(activeEvents).some((event) => !event.active)
-                  }
-                >
-                  Start All
-                </Button>,
-                <Button
-                  color="danger"
-                  variant="outlined"
-                  onClick={stopAllFeed}
-                  disabled={!isConnected || !isAnyEventRunning}
-                >
-                  Stop All
-                </Button>,
-              ]}
-            >
-              <List.Item.Meta title=" " description=" " />
-            </List.Item>
-          </List>
+          <Button
+            color="danger"
+            variant="filled"
+            shape="round"
+            onClick={handleDisconnect}
+            disabled={!isConnected || isAnyEventRunning}
+          >
+            {' '}
+            Disconnect Broker{' '}
+          </Button>
         </div>
-        <InfiniteScroll
-          dataLength={feedRules.length}
-          scrollableTarget="scrollableDiv"
-          style={{ display: 'flex', flexDirection: 'column-reverse' }}
+        {errorConnection && (
+          <div style={{ color: 'red', fontSize: '15px' }}>
+            {errorConnection}
+          </div>
+        )}
+
+        {/* List of events  */}
+        <div
+          id="scrollableDiv"
+          style={{ height: 400, overflow: 'auto', padding: '0 16px' }}
         >
-          <List
-            dataSource={feedRules}
-            renderItem={(item) => (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              padding: '0 30px 0 0',
+            }}
+          >
+            <List>
               <List.Item
-                key={item.eventName}
                 actions={[
-                  ConfigureEvent(item),
-                  CopySubIcon(item),
-                  SampleEvent(item),
+                  <Tooltip title="Export to Solace Event Portal">
+                    <Button
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 20,
+                      }}
+                      onClick={() => openExportModal()}
+                    >
+                      <img
+                        src={solaceEPLogo}
+                        alt="Solace PS+ Event Portal Logo"
+                        style={{
+                          height: '30px',
+                          position: 'absolute',
+                          top: '1px',
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>,
+                  <Tooltip title="Download AsyncAPI Spec">
+                    <Button
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 20,
+                      }}
+                      onClick={() => downloadSpecFile()}
+                    >
+                      <img
+                        src={asyncApiLogo}
+                        alt="AsyncAPI Logo"
+                        style={{
+                          height: '30px',
+                          position: 'absolute',
+                          top: '1px',
+                        }}
+                      />
+                    </Button>
+                  </Tooltip>,
                   <Button
                     color="primary"
-                    variant="filled"
-                    shape="round"
-                    onClick={() => startFeed(item)}
+                    variant="outlined"
+                    onClick={startAllFeed}
                     disabled={
-                      !isConnected || activeEvents[item.eventName].active
+                      !isConnected ||
+                      !Object.values(activeEvents).some(
+                        (event) => !event.active
+                      )
                     }
                   >
-                    {' '}
-                    Start{' '}
+                    Start All
                   </Button>,
                   <Button
                     color="danger"
-                    variant="filled"
-                    shape="round"
-                    onClick={() => stopFeed(item)}
-                    disabled={!activeEvents[item.eventName].active}
+                    variant="outlined"
+                    onClick={stopAllFeed}
+                    disabled={!isConnected || !isAnyEventRunning}
                   >
-                    {' '}
-                    Stop{' '}
+                    Stop All
                   </Button>,
                 ]}
               >
-                <List.Item.Meta
-                  avatar={
-                    <div style={{ padding: '10px 0 0 0' }}>
-                      <LinkOutlined
-                        style={{
-                          fontSize: '15px',
-                          color: activeEvents[item.eventName].timeoutId
-                            ? '#00ad93'
-                            : 'black',
-                        }}
-                      />
-                    </div>
-                  }
-                  title={`${item.eventName} v${item.eventVersion}`}
-                  description={
-                    activeFeedConfig === item.eventName ? (
-                      <div style={{ marginTop: '10px' }}>
-                        <div
+                <List.Item.Meta title=" " description=" " />
+              </List.Item>
+            </List>
+          </div>
+          <InfiniteScroll
+            dataLength={feedRules.length}
+            scrollableTarget="scrollableDiv"
+            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+          >
+            <List
+              dataSource={feedRules}
+              renderItem={(item) => (
+                <List.Item
+                  key={item.eventName}
+                  actions={[
+                    ConfigureEvent(item),
+                    CopySubIcon(item),
+                    SampleEvent(item),
+                    <Button
+                      color="primary"
+                      variant="filled"
+                      shape="round"
+                      onClick={() => startFeed(item)}
+                      disabled={
+                        !isConnected || activeEvents[item.eventName].active
+                      }
+                    >
+                      {' '}
+                      Start{' '}
+                    </Button>,
+                    <Button
+                      color="danger"
+                      variant="filled"
+                      shape="round"
+                      onClick={() => stopFeed(item)}
+                      disabled={!activeEvents[item.eventName].active}
+                    >
+                      {' '}
+                      Stop{' '}
+                    </Button>,
+                  ]}
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <div style={{ padding: '10px 0 0 0' }}>
+                        <LinkOutlined
                           style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
+                            fontSize: '15px',
+                            color: activeEvents[item.eventName].timeoutId
+                              ? '#00ad93'
+                              : 'black',
                           }}
-                        >
-                          <span>Message rate:</span>
-                          <InputNumber
-                            defaultValue={activeEvents[item.eventName]?.rate}
-                            min={0.5}
-                            max={MAX_RATE}
-                            step="0.5"
-                            onChange={(rate) => updateRate(item, rate)}
-                            stringMode
-                          />
-                          <Select
-                            defaultValue="msg/s"
-                            onChange={(freq) => setFrequency(item, freq)}
-                            options={[
-                              { value: 'msg/s', label: 'msg/s' },
-                              { value: 'msg/m', label: 'msg/m' },
-                              { value: 'msg/h', label: 'msg/h' },
-                            ]}
-                          />
-                        </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            marginTop: '8px',
-                          }}
-                        >
-                          <span>
-                            Start Delay ({activeEvents[item.eventName]?.delay}{' '}
-                            s)
-                          </span>
-                          <InputNumber
-                            defaultValue={activeEvents[item.eventName]?.delay}
-                            min={0}
-                            max={MAX_START_DELAY}
-                            step="1"
-                            onChange={(delay) => updateDelay(item, delay)}
-                          />
-                        </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            marginTop: '8px',
-                          }}
-                        >
-                          <span>Max number of messages (-1 for infinite)</span>
-                          <InputNumber
-                            defaultValue={
-                              activeEvents[item.eventName]?.maxMsgCount
-                            }
-                            min={-1}
-                            max={MAX_MSG_COUNT}
-                            step="1"
-                            onChange={(maxMsgCount) =>
-                              updateMaxMsgCount(item, maxMsgCount)
-                            }
-                          />
-                        </div>
-                        <Tooltip
-                          placement="bottomLeft"
-                          title="Queue must respect TTL!"
-                        >
+                        />
+                      </div>
+                    }
+                    title={`${item.eventName} v${item.eventVersion}`}
+                    description={
+                      activeFeedConfig === item.eventName ? (
+                        <div style={{ marginTop: '10px' }}>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                            }}
+                          >
+                            <span>Message rate:</span>
+                            <InputNumber
+                              defaultValue={activeEvents[item.eventName]?.rate}
+                              min={0.5}
+                              max={MAX_RATE}
+                              step="0.5"
+                              onChange={(rate) => updateRate(item, rate)}
+                              stringMode
+                            />
+                            <Select
+                              defaultValue="msg/s"
+                              onChange={(freq) => setFrequency(item, freq)}
+                              options={[
+                                { value: 'msg/s', label: 'msg/s' },
+                                { value: 'msg/m', label: 'msg/m' },
+                                { value: 'msg/h', label: 'msg/h' },
+                              ]}
+                            />
+                          </div>
                           <div
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               gap: '8px',
                               marginTop: '8px',
-                              textDecoration: 'underline',
                             }}
                           >
                             <span>
-                              **Time to live, in milliseconds (0 for infinite)
+                              Start Delay ({activeEvents[item.eventName]?.delay}{' '}
+                              s)
                             </span>
                             <InputNumber
-                              defaultValue={activeEvents[item.eventName]?.ttl}
+                              defaultValue={activeEvents[item.eventName]?.delay}
                               min={0}
-                              max={31536000009}
+                              max={MAX_START_DELAY}
                               step="1"
-                              onChange={(ttl) => updateTTL(item, ttl)}
+                              onChange={(delay) => updateDelay(item, delay)}
                             />
                           </div>
-                        </Tooltip>
-                      </div>
-                    ) : (
-                      `${item.topic}`
-                    )
-                  }
-                  onClick={(e) => toggleControl(item, e)}
-                />
-              </List.Item>
-            )}
-          />
-        </InfiniteScroll>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              marginTop: '8px',
+                            }}
+                          >
+                            <span>
+                              Max number of messages (-1 for infinite)
+                            </span>
+                            <InputNumber
+                              defaultValue={
+                                activeEvents[item.eventName]?.maxMsgCount
+                              }
+                              min={-1}
+                              max={MAX_MSG_COUNT}
+                              step="1"
+                              onChange={(maxMsgCount) =>
+                                updateMaxMsgCount(item, maxMsgCount)
+                              }
+                            />
+                          </div>
+                          <Tooltip
+                            placement="bottomLeft"
+                            title="Queue must respect TTL!"
+                          >
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                marginTop: '8px',
+                                textDecoration: 'underline',
+                              }}
+                            >
+                              <span>
+                                **Time to live, in milliseconds (0 for infinite)
+                              </span>
+                              <InputNumber
+                                defaultValue={activeEvents[item.eventName]?.ttl}
+                                min={0}
+                                max={31536000009}
+                                step="1"
+                                onChange={(ttl) => updateTTL(item, ttl)}
+                              />
+                            </div>
+                          </Tooltip>
+                        </div>
+                      ) : (
+                        `${item.topic}`
+                      )
+                    }
+                    onClick={(e) => toggleControl(item, e)}
+                  />
+                </List.Item>
+              )}
+            />
+          </InfiniteScroll>
+        </div>
       </div>
-    </div>
+    </NiceModal.Provider>
   );
 
   return (
