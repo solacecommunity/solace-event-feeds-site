@@ -159,60 +159,64 @@ const FeedPage = ({ location }) => {
               </Col>
             </Row>
           </Container>
-          <Tooltip title="Export to Solace Event Portal">
-            <Button
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: '0 30px 0 0',
-              }}
-              onClick={() => openExportModal()}
-            >
-              <img
-                src={solaceEPLogo}
-                alt="Solace PS+ Event Portal Logo"
-                style={{
-                  height: '30px',
-                  position: 'absolute',
-                }}
-              />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Open in AsyncAPI Studio">
-            <Button
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: '0 40px 0 30px',
-              }}
-              onClick={() =>
-                window.open(
-                  `https://studio.solace.dev/?specURL=${state.specFileURL}`,
-                  '_blank'
-                )
-              }
-            >
-              <img
-                src={asyncApiLogo}
-                alt="AsyncAPI Logo"
-                style={{
-                  height: '30px',
-                  position: 'absolute',
-                }}
-              />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Download AsyncAPI Spec">
-            <Button
-              shape="round"
-              icon={<DownloadOutlined />}
-              style={{
-                height: '30px',
-                position: 'absolute',
-              }}
-              onClick={downloadSpecFile}
-            ></Button>
-          </Tooltip>
+          {state.feedInfo.length !== 0 && (
+            <>
+              <Tooltip title="Export to Solace Event Portal">
+                <Button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: '0 30px 0 0',
+                  }}
+                  onClick={() => openExportModal()}
+                >
+                  <img
+                    src={solaceEPLogo}
+                    alt="Solace PS+ Event Portal Logo"
+                    style={{
+                      height: '30px',
+                      position: 'absolute',
+                    }}
+                  />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Open in AsyncAPI Studio">
+                <Button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: '0 40px 0 30px',
+                  }}
+                  onClick={() =>
+                    window.open(
+                      `https://studio.solace.dev/?specURL=${state.specFileURL}`,
+                      '_blank'
+                    )
+                  }
+                >
+                  <img
+                    src={asyncApiLogo}
+                    alt="AsyncAPI Logo"
+                    style={{
+                      height: '30px',
+                      position: 'absolute',
+                    }}
+                  />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Download AsyncAPI Spec">
+                <Button
+                  shape="round"
+                  icon={<DownloadOutlined />}
+                  style={{
+                    height: '30px',
+                    position: 'absolute',
+                  }}
+                  onClick={downloadSpecFile}
+                ></Button>
+              </Tooltip>
+            </>
+          )}
         </section>
         <SolaceSession>
           <Container className="pb5">
