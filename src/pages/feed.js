@@ -9,6 +9,13 @@ import Stream from '../components/stream';
 import { Container, Row, Col } from 'react-bootstrap';
 import { SolaceSession } from '../util/helpers/solaceSession';
 import { TestFeedMetadata } from '../util/helpers/testFeeds';
+import { Button, Tooltip } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import asyncApiLogo from '../images/asyncapi-logo.png';
+import solaceEPLogo from '../images/solace-ep.png';
+import ExportEPModal from '../modals/export';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import { Toaster } from 'react-hot-toast';
 
 const feedMetadata = {
   fakerRules: [],
@@ -56,6 +63,23 @@ const FeedPage = ({ location }) => {
     name: params.get('name') || '',
     isLocal: params.get('isLocal') || false,
     type: params.get('type') || '',
+  };
+  const modal = useModal(ExportEPModal);
+  const openExportModal = () => {
+    modal.show({ specFile: state.specFile });
+  };
+  const downloadSpecFile = () => {
+    const blob = new Blob([JSON.stringify(state.specFile, null, 2)], {
+      type: 'application/json',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = state.specFile.info.title.replace(/ /g, '_') + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   useEffect(() => {
@@ -118,59 +142,115 @@ const FeedPage = ({ location }) => {
   }, []);
 
   return (
-    <Layout>
-      <SEO title={`${feed.name} Stream`} />
-      <section id="intro">
-        <Container className="pt6 pb5">
-          <Row className="tc">
-            <Col>
-              <h1>{feed.name.replace(/_/g, ' ')}</h1>
-              {state.feedInfo.length === 0 ? (
-                <Loading section="Description" />
+    <NiceModal.Provider>
+      <Toaster position="bottom-center" reverseOrder={false} />
+      <Layout>
+        <SEO title={`${feed.name} Stream`} />
+        <section id="feedBanner">
+          <Container className="pt6 pb3">
+            <Row className="tc">
+              <Col>
+                <h1>{feed.name.replace(/_/g, ' ')}</h1>
+                {state.feedInfo.length === 0 ? (
+                  <Loading section="Description" />
+                ) : (
+                  <div>{state.feedInfo.description}</div>
+                )}
+              </Col>
+            </Row>
+          </Container>
+          <Tooltip title="Export to Solace Event Portal">
+            <Button
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: '0 30px 0 0',
+              }}
+              onClick={() => openExportModal()}
+            >
+              <img
+                src={solaceEPLogo}
+                alt="Solace PS+ Event Portal Logo"
+                style={{
+                  height: '30px',
+                  position: 'absolute',
+                }}
+              />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Open in AsyncAPI Studio">
+            <Button
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: '0 40px 0 30px',
+              }}
+              onClick={() =>
+                window.open(
+                  `https://studio.solace.dev/?specURL=${state.specFileURL}`,
+                  '_blank'
+                )
+              }
+            >
+              <img
+                src={asyncApiLogo}
+                alt="AsyncAPI Logo"
+                style={{
+                  height: '30px',
+                  position: 'absolute',
+                }}
+              />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Download AsyncAPI Spec">
+            <Button
+              shape="round"
+              icon={<DownloadOutlined />}
+              style={{
+                height: '30px',
+                position: 'absolute',
+              }}
+              onClick={downloadSpecFile}
+            ></Button>
+          </Tooltip>
+        </section>
+        <SolaceSession>
+          <Container className="pb5">
+            <Row className="mt3">
+              <BrokerConfig />
+            </Row>
+
+            {feed.type === 'asyncapi_feed' ? (
+              state.feedRules.length === 0 ? (
+                <Loading section="Events" />
               ) : (
-                <div>{state.feedInfo.description}</div>
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      <SolaceSession>
-        <Container className="pb5">
-          <Row className="mt3">
-            <BrokerConfig />
-          </Row>
-
-          {feed.type === 'asyncapi_feed' ? (
-            state.feedRules.length === 0 ? (
-              <Loading section="Events" />
-            ) : (
-              <Row className="mt3">
-                <PublishEvents
-                  feedRules={state.feedRules}
-                  specFile={state.specFile}
-                  specFileURL={state.specFileURL}
-                />
-              </Row>
-            )
-          ) : feed.type === 'restapi_feed' ? (
-            state.feedAPI.length === 0 ? (
-              <Loading section="Events" />
-            ) : (
-              <Row className="mt3">
-                <p> REST APIs Not yet supported</p>
-              </Row>
-            )
-          ) : null}
-          <Row className="mt3">
-            <Stream />
-          </Row>
-          {/* <Row className="mt3">
+                <Row className="mt3">
+                  <PublishEvents
+                    feedRules={state.feedRules}
+                    specFile={state.specFile}
+                    specFileURL={state.specFileURL}
+                  />
+                </Row>
+              )
+            ) : feed.type === 'restapi_feed' ? (
+              state.feedAPI.length === 0 ? (
+                <Loading section="Events" />
+              ) : (
+                <Row className="mt3">
+                  <p> REST APIs Not yet supported</p>
+                </Row>
+              )
+            ) : null}
+            <Row className="mt3">
+              <Stream />
+            </Row>
+            {/* <Row className="mt3">
             <TopicTester testData={}/>
           </Row> */}
-        </Container>
-      </SolaceSession>
-    </Layout>
+          </Container>
+        </SolaceSession>
+      </Layout>
+    </NiceModal.Provider>
   );
 };
 
