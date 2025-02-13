@@ -51,8 +51,6 @@ const PublishEvents = (props) => {
   ];
 
   const feedRules = props.feedRules;
-  const specFile = props.specFile;
-  const specFileURL = props.specFileURL;
   const events = {};
   feedRules.map((item) => {
     // To set the initial active state of all the events to false

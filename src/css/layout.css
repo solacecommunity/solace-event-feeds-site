@@ -85,21 +85,6 @@ main {
 }
 
 #intro {
-  background: linear-gradient(-45deg, #20262a, #000000, #009193, #00ad93);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-  text-align: center;
-  color: #fff !important;
-  border-bottom: 1px solid #eceeef;
-}
-
-#intro p {
-  color: #fff !important;
-  font-size: 17px;
-  line-height: 2.2rem;
-}
-
-#feedBanner {
   background: linear-gradient(-45deg, #20262a, #000000, #009193);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
@@ -108,7 +93,7 @@ main {
   border-bottom: 1px solid #eceeef;
 }
 
-#feedBanner p {
+#intro p {
   color: #fff !important;
   font-size: 17px;
   line-height: 2.2rem;

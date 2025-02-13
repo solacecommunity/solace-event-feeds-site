@@ -146,7 +146,7 @@ const FeedPage = ({ location }) => {
       <Toaster position="bottom-center" reverseOrder={false} />
       <Layout>
         <SEO title={`${feed.name} Stream`} />
-        <section id="feedBanner">
+        <section id="intro">
           <Container className="pt6 pb3">
             <Row className="tc">
               <Col>
