@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Flex } from 'antd';
 import toast from 'react-hot-toast';
 import useSettingsStore from '../util/helpers/localStorage';
 
@@ -55,7 +55,9 @@ const SettingsModal = NiceModal.create(() => {
           </select>
         </div>
         <div>
-          <label htmlFor="epToken">Input your Solace Event Portal Token:</label>
+          <label htmlFor="epToken">
+            Input your Solace Event Portal Token*:
+          </label>
           <input
             type="text"
             id="epToken"
@@ -67,44 +69,48 @@ const SettingsModal = NiceModal.create(() => {
             onChange={handleTokenChange}
             value={maskedToken}
           />
+          <p style={{ fontSize: 'small', color: 'grey' }}>
+            *Token is stored in local storage
+          </p>
         </div>
-        <Button
-          color="cyan"
-          variant="solid"
-          className="mt-4 font-bold px-4 rounded p-2"
-          onClick={() => {
-            toast.promise(
-              (async () => {
-                const response = await fetch(
-                  `${IMPORTER_URL}/validate-token?urlRegion=${epRegion}`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      epToken: btoa(epToken),
-                    }),
+        <Flex gap="small" wrap>
+          <Button
+            color="cyan"
+            variant="solid"
+            onClick={() => {
+              toast.promise(
+                (async () => {
+                  const response = await fetch(
+                    `${IMPORTER_URL}/validate-token?urlRegion=${epRegion}`,
+                    {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        epToken: btoa(epToken),
+                      }),
+                    }
+                  );
+                  const result = await response.json();
+                  if (result.msgs[0] !== 'SUCCESS') {
+                    throw new Error('Token verification failed');
                   }
-                );
-                const result = await response.json();
-                if (result.msgs[0] !== 'SUCCESS') {
-                  throw new Error('Token verification failed');
+                })(),
+                {
+                  loading: 'Verifying token...',
+                  success: 'Token verified!',
+                  error: 'Token verification failed',
                 }
-              })(),
-              {
-                loading: 'Verifying token...',
-                success: 'Token verified!',
-                error: 'Token verification failed',
-              }
-            );
-          }}
-        >
-          Verify Token
-        </Button>
-        <Button color="volcano" variant="solid" onClick={handleClearStorage}>
-          Clear Storage
-        </Button>
+              );
+            }}
+          >
+            Verify Token
+          </Button>
+          <Button color="volcano" variant="solid" onClick={handleClearStorage}>
+            Clear Storage
+          </Button>
+        </Flex>
       </div>
     </Modal>
   );

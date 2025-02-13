@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import SettingsModal from './settings';
 import { Modal, Row, Col, Select, Switch, Button } from 'antd';
 import toast from 'react-hot-toast';
 import useSettingsStore from '../util/helpers/localStorage';
+import './modal.css';
 
 const ExportEPModal = NiceModal.create(({ specFile }) => {
   const [importDomain, setImportDomain] = useState('');
@@ -12,6 +14,7 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
   const [showLogs, setShowLogs] = useState(false);
   const [apiLogs, setApiLogs] = useState('');
   const modal = useModal();
+  const settingsModal = useModal(SettingsModal);
   const { epToken, epRegion } = useSettingsStore();
   const [epAppDomains, setEpAppDomain] = useState([]);
   const IMPORTER_URL =
@@ -101,8 +104,10 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
   };
 
   useEffect(() => {
-    isEPTokenSet() ? getApplicationDomains() : null;
-  }, []);
+    if (!settingsModal.visible) {
+      isEPTokenSet() ? getApplicationDomains() : setEpAppDomain([]);
+    }
+  }, [settingsModal.visible]);
 
   return (
     <Modal
@@ -114,14 +119,27 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
       okText="Export"
       maskClosable={true}
       closable={true}
-      width={650}
+      width={700}
       okButtonProps={{ disabled: !isEPTokenSet() || importDomain === '' }}
     >
       <Row>
-        {!isEPTokenSet() && (
-          <p style={{ color: 'red' }}>
-            EP Token is not set. Please set it in the settings.
-          </p>
+        {!isEPTokenSet() ? (
+          <Button
+            className="pulsing-border"
+            variant="dashed"
+            color="red"
+            onClick={() => settingsModal.show()}
+          >
+            EP Token is not set. Click to set.
+          </Button>
+        ) : (
+          <Button
+            variant="dashed"
+            color="green"
+            onClick={() => settingsModal.show()}
+          >
+            Event Portal Token Set
+          </Button>
         )}
       </Row>
       <Row style={{ padding: '20px 0 0 0' }}>
@@ -129,9 +147,10 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
           <p>Target Application Domain*</p>
         </Col>
         <Col>
-          <div style={{ padding: '0 0 0 130px' }}>
+          <div style={{ padding: '0 0 0 300px' }}>
             <Select
               placeholder="Select a domain"
+              // value={importDomain || undefined}
               onChange={(value) => setImportDomain(value)}
               options={epAppDomains.map((domain) => ({
                 value: domain.name,
@@ -146,7 +165,7 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
           <p>Increment version strategy</p>
         </Col>
         <Col>
-          <div style={{ padding: '0 0 0 130px' }}>
+          <div style={{ padding: '0 0 0 300px' }}>
             <Select
               placeholder="Select Version Increment Strategy"
               defaultValue="Major"
