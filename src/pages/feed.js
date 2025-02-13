@@ -225,11 +225,7 @@ const FeedPage = ({ location }) => {
                 <Loading section="Events" />
               ) : (
                 <Row className="mt3">
-                  <PublishEvents
-                    feedRules={state.feedRules}
-                    specFile={state.specFile}
-                    specFileURL={state.specFileURL}
-                  />
+                  <PublishEvents feedRules={state.feedRules} />
                 </Row>
               )
             ) : feed.type === 'restapi_feed' ? (
