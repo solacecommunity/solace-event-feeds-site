@@ -161,7 +161,7 @@ const FeedPage = ({ location }) => {
           </Container>
           {state.feedInfo.length !== 0 && (
             <>
-              <Tooltip title="Export to Solace Event Portal">
+              <Tooltip title="Export to Solace Event Portal" color="#00ad94">
                 <Button
                   style={{
                     background: 'none',
@@ -180,7 +180,7 @@ const FeedPage = ({ location }) => {
                   />
                 </Button>
               </Tooltip>
-              <Tooltip title="Open in AsyncAPI Studio">
+              <Tooltip title="Open in AsyncAPI Studio" color="#00ad94">
                 <Button
                   style={{
                     background: 'none',
@@ -204,7 +204,7 @@ const FeedPage = ({ location }) => {
                   />
                 </Button>
               </Tooltip>
-              <Tooltip title="Download AsyncAPI Spec">
+              <Tooltip title="Download AsyncAPI Spec" color="#00ad94">
                 <Button
                   shape="round"
                   icon={<DownloadOutlined />}
