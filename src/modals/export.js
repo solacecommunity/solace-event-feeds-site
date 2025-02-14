@@ -150,8 +150,8 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
           <div style={{ padding: '0 0 0 300px' }}>
             <Select
               placeholder="Select a domain"
-              // value={importDomain || undefined}
               onChange={(value) => setImportDomain(value)}
+              popupMatchSelectWidth={false}
               options={epAppDomains.map((domain) => ({
                 value: domain.name,
                 label: domain.name,
