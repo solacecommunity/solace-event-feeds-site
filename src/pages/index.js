@@ -9,7 +9,7 @@ import Contribution from '../components/contribution';
 import ContributionSteps from '../components/contributionSteps';
 import { TestCommunityFeeds, TestLocalFeeds } from '../util/helpers/testFeeds';
 import { ClearOutlined, SettingOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import { Tooltip, Button } from 'antd';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import SettingsModal from '../modals/settings';
 import { Toaster } from 'react-hot-toast';
@@ -164,16 +164,26 @@ const IndexPage = () => {
                       onChange={(e) => setSearch(e.target.value)}
                     />
                     <Tooltip title="Clear search">
-                      <ClearOutlined
+                      <Button
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          fontSize: '20px',
+                        }}
                         onClick={(e) => setSearch('')}
-                        style={{ padding: '0 0 0 10px' }}
-                      ></ClearOutlined>
+                        icon={<ClearOutlined />}
+                      />
                     </Tooltip>
                     <Tooltip title="Settings">
-                      <SettingOutlined
+                      <Button
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          fontSize: '20px',
+                        }}
                         onClick={(e) => launchSettings()}
-                        style={{ padding: '0 0 0 10px' }}
-                      ></SettingOutlined>
+                        icon={<SettingOutlined />}
+                      />
                     </Tooltip>
                   </InputGroup>
                 </Col>
