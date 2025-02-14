@@ -147,7 +147,7 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
           <p>Target Application Domain*</p>
         </Col>
         <Col>
-          <div style={{ padding: '0 0 0 300px' }}>
+          <div style={{ padding: '0 0 0 200px' }}>
             <Select
               placeholder="Select a domain"
               onChange={(value) => setImportDomain(value)}
@@ -165,7 +165,7 @@ const ExportEPModal = NiceModal.create(({ specFile }) => {
           <p>Increment version strategy</p>
         </Col>
         <Col>
-          <div style={{ padding: '0 0 0 300px' }}>
+          <div style={{ padding: '0 0 0 200px' }}>
             <Select
               placeholder="Select Version Increment Strategy"
               defaultValue="Major"
