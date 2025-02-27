@@ -24,7 +24,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "6.6.0",
     "@fortawesome/react-fontawesome": "0.2.2",
-    "@solace-labs/solace-data-generator": "^1.0.10",
+    "@solace-labs/solace-data-generator": "^1.0.15",
     "antd": "^5.23.1",
     "bootstrap": "^5.3.3",
     "bufferutil": "^4.0.8",
