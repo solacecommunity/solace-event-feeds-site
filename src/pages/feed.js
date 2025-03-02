@@ -86,21 +86,9 @@ const FeedPage = ({ location }) => {
     const fetchGithubFeedInfo = async () => {
       // Query all the feed metadata
 
-      // var feedFakerRules = await axios.get(
-      //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/fakerrules.json`
-      // );
-      // dispatch({ type: 'SET_FAKER_RULES', payload: feedFakerRules.data });
-
       var githubFiles = await axios.get(
         `https://api.github.com/repos/solacecommunity/solace-event-feeds/contents/${encodeURIComponent(feed.name)}`
       );
-
-      dispatch({
-        type: 'SET_SPEC_FILE_URL',
-        payload: githubFiles.data[0].download_url,
-      });
-      var specFile = await axios.get(githubFiles.data[0].download_url);
-      dispatch({ type: 'SET_SPEC_FILE', payload: specFile.data });
 
       var feedInfo = await axios.get(
         `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedinfo.json`
@@ -113,14 +101,20 @@ const FeedPage = ({ location }) => {
       dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
 
       if (feed.type === 'asyncapi_feed') {
-        // var analysis = await axios.get(
-        //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
-        // );
-        // dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
-        // var feedSchemas = await axios.get(
-        //   `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedschemas.json`
-        // );
-        // dispatch({ type: 'SET_FEED_SCHEMAS', payload: feedSchemas.data });
+        var analysis = await axios.get(
+          `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
+        );
+        dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
+        var specFile = githubFiles.data.find(
+          (file) => file.name === analysis.data.fileName
+        );
+        dispatch({
+          type: 'SET_SPEC_FILE_URL',
+          payload: specFile.download_url,
+        });
+
+        var specFile = await axios.get(specFile.download_url);
+        dispatch({ type: 'SET_SPEC_FILE', payload: specFile.data });
       } else if (feed.type === 'restapi_feed') {
         var feedAPI = await axios.get(
           `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedapi.json`
@@ -132,10 +126,11 @@ const FeedPage = ({ location }) => {
     const fetchLocalFeedInfo = async () => {
       const feeds = await axios.get('http://127.0.0.1:8081/feeds');
       let feedDetails = feeds.data.find((f) => f.directory === feed.name);
-
       dispatch({ type: 'SET_FEED_RULES', payload: feedDetails['feedrules'] });
       dispatch({ type: 'SET_FEED_INFO', payload: feedDetails['feedinfo'] });
       dispatch({ type: 'SET_FEED_API', payload: feedDetails['feedapi'] });
+      dispatch({ type: 'SET_ANALYSIS', payload: feedDetails['analysis'] });
+      dispatch({ type: 'SET_SPEC_FILE', payload: feedDetails['specFile'] });
     };
 
     feed.isLocal == 'true' ? fetchLocalFeedInfo() : fetchGithubFeedInfo();
@@ -189,7 +184,9 @@ const FeedPage = ({ location }) => {
                   }}
                   onClick={() =>
                     window.open(
-                      `https://studio.solace.dev/?specURL=${state.specFileURL}`,
+                      feed.isLocal == 'true'
+                        ? 'https://studio.solace.dev'
+                        : `https://studio.solace.dev/?specURL=${state.specFileURL}`,
                       '_blank'
                     )
                   }
