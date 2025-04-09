@@ -86,7 +86,9 @@ const BrokerConfig = () => {
         console.log(
           'Connection failed to the message router: ' + sessionEvent.infoStr
         );
-        setErrorString(sessionEvent.infoStr);
+        setErrorString(
+          `${sessionEvent.infoStr}: Check broker connection details. Also, if using Brave/Safari, take "shields" down to allow connection.`
+        );
         setIsConnected(false);
         setConnecting(false);
         setdisableForm(false);
