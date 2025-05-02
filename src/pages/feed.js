@@ -23,6 +23,7 @@ const feedMetadata = {
   feedRules: [],
   // For AsyncAPI feeds
   analysis: [],
+  feedSession: [],
   feedSchemas: [],
   specFile: [],
   // For REST API feeds
@@ -31,7 +32,7 @@ const feedMetadata = {
 };
 
 const reducer = (state, action) => {
-  switch (action.type) {
+  switch(action.type) {
     case 'SET_FAKER_RULES':
       return { ...state, fakerRules: action.payload };
     case 'SET_SPEC_FILE':
@@ -44,6 +45,8 @@ const reducer = (state, action) => {
       return { ...state, feedRules: action.payload };
     case 'SET_ANALYSIS':
       return { ...state, analysis: action.payload };
+    case 'SET_FEED_SESSION':
+      return { ...state, feedSession: action.payload };
     case 'SET_FEED_SCHEMAS':
       return { ...state, feedSchemas: action.payload };
     case 'SET_FEED_API':
@@ -100,11 +103,25 @@ const FeedPage = ({ location }) => {
       );
       dispatch({ type: 'SET_FEED_RULES', payload: feedRules.data });
 
-      if (feed.type === 'asyncapi_feed') {
+      if(feed.type === 'asyncapi_feed') {
         var analysis = await axios.get(
           `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/analysis.json`
         );
         dispatch({ type: 'SET_ANALYSIS', payload: analysis.data });
+
+        var feedSession = null;
+        try {
+          feedSession = await axios.get(
+            `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedsession.json`
+          );
+        } catch(error) {
+          // old feed, no feedsession.json - ignore error
+        }
+
+        if(feedSession && feedSession.data) {
+          dispatch({ type: 'SET_FEED_SESSION', payload: feedSession.data });
+        }
+
         var specFile = githubFiles.data.find(
           (file) => file.name === analysis.data.fileName
         );
@@ -115,7 +132,7 @@ const FeedPage = ({ location }) => {
 
         var specFile = await axios.get(specFile.download_url);
         dispatch({ type: 'SET_SPEC_FILE', payload: specFile.data });
-      } else if (feed.type === 'restapi_feed') {
+      } else if(feed.type === 'restapi_feed') {
         var feedAPI = await axios.get(
           `https://raw.githubusercontent.com/solacecommunity/solace-event-feeds/main/${encodeURIComponent(feed.name)}/feedapi.json`
         );
@@ -130,6 +147,7 @@ const FeedPage = ({ location }) => {
       dispatch({ type: 'SET_FEED_INFO', payload: feedDetails['feedinfo'] });
       dispatch({ type: 'SET_FEED_API', payload: feedDetails['feedapi'] });
       dispatch({ type: 'SET_ANALYSIS', payload: feedDetails['analysis'] });
+      dispatch({ type: 'SET_FEED_SESSION', payload: feedDetails['feedsession'] });
       dispatch({ type: 'SET_SPEC_FILE', payload: feedDetails['specFile'] });
     };
 
@@ -218,7 +236,7 @@ const FeedPage = ({ location }) => {
         <SolaceSession>
           <Container className="pb5">
             <Row className="mt3">
-              <BrokerConfig />
+              <BrokerConfig feedSession={state.feedSession} />
             </Row>
 
             {feed.type === 'asyncapi_feed' ? (

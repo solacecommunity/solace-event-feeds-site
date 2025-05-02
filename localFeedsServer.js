@@ -17,7 +17,7 @@ app.use(cors()); // Enable CORS
 
 app.get('/feeds', (req, res) => {
   fs.readdir(feedsPath, { withFileTypes: true }, (err, entries) => {
-    if (err) {
+    if(err) {
       res.status(500).json({ error: 'Failed to read directory' });
       return;
     }
@@ -27,20 +27,18 @@ app.get('/feeds', (req, res) => {
       .map((dir) => {
         const feedInfoPath = path.join(feedsPath, dir.name, 'feedinfo.json');
         const feedRulesPath = path.join(feedsPath, dir.name, 'feedrules.json');
-        const feedAnalysisPath = path.join(
-          feedsPath,
-          dir.name,
-          'analysis.json'
-        );
+        const feedSessionPath = path.join(feedsPath, dir.name, 'feedsession.json');
+        const feedAnalysisPath = path.join(feedsPath, dir.name, 'analysis.json');
 
         return new Promise((resolve) => {
-          // Read feedinfo.json, feedrules.json, and analysis.json in parallel
+          // Read feedinfo.json, feedrules.json, analysis.json and feedsession.json in parallel
           Promise.all([
             fs.promises.readFile(feedInfoPath, 'utf8').catch(() => null),
             fs.promises.readFile(feedRulesPath, 'utf8').catch(() => null),
             fs.promises.readFile(feedAnalysisPath, 'utf8').catch(() => null),
-          ]).then(([feedInfoData, feedRulesData, feedAnalysisData]) => {
-            if (feedInfoData || feedRulesData || feedAnalysisData) {
+            fs.promises.readFile(feedSessionPath, 'utf8').catch(() => null),
+          ]).then(([feedInfoData, feedRulesData, feedAnalysisData, feedSessionData]) => {
+            if(feedInfoData || feedRulesData || feedAnalysisData || feedSessionData) {
               try {
                 const feedInfo = feedInfoData ? JSON.parse(feedInfoData) : null;
                 const feedRules = feedRulesData
@@ -48,6 +46,9 @@ app.get('/feeds', (req, res) => {
                   : null;
                 const feedAnalysis = feedAnalysisData
                   ? JSON.parse(feedAnalysisData)
+                  : null;
+                const feedSession = feedSessionData
+                  ? JSON.parse(feedSessionData)
                   : null;
                 const specFilePath = path.join(
                   feedsPath,
@@ -60,10 +61,10 @@ app.get('/feeds', (req, res) => {
                     let specFile = null;
                     try {
                       specFile = JSON.parse(specFileData);
-                    } catch (jsonParseError) {
+                    } catch(jsonParseError) {
                       try {
                         specFile = yaml.load(specFileData);
-                      } catch (yamlParseError) {
+                      } catch(yamlParseError) {
                         specFile = null;
                       }
                     }
@@ -72,6 +73,7 @@ app.get('/feeds', (req, res) => {
                       feedinfo: feedInfo,
                       feedrules: feedRules,
                       analysis: feedAnalysis,
+                      feedsession: feedSession,
                       specFile: specFile,
                     });
                   })
@@ -80,11 +82,12 @@ app.get('/feeds', (req, res) => {
                       directory: dir.name,
                       feedinfo: feedInfo,
                       feedrules: feedRules,
+                      feedsession: feedSession,
                       analysis: feedAnalysis,
                       specFile: null,
                     });
                   });
-              } catch (parseError) {
+              } catch(parseError) {
                 resolve(null); // Ignore parsing errors
               }
             } else {
