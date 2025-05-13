@@ -66,7 +66,7 @@ const PublishEvents = (props) => {
       countSend: 0,
       tagColor: tagColors[Math.floor(Math.random() * tagColors.length)],
       maxMsgCount: parseInt(item.publishSettings.count, 10) || MAX_MSG_COUNT,
-      dmqEligible: item?.messageSettings?.dmqEligible === 'true' || false,
+      dmqEligible: item?.messageSettings?.dmqEligible === 'true' || true,
       ttl: parseInt(item?.messageSettings?.timeToLive || 0),
       appMessageId: item?.messageSettings?.appMessageId || null,
       userProperties: item?.messageSettings?.userProperties || null,
@@ -81,13 +81,13 @@ const PublishEvents = (props) => {
     let skip =
       typeof e.target.className == 'string'
         ? skipToggleClassNames.some((className) =>
-          e.target.className.includes(className)
-        )
+            e.target.className.includes(className)
+          )
         : null;
-    if(e.target.dataset.icon == 'up' || e.target.dataset.icon == 'down')
+    if (e.target.dataset.icon == 'up' || e.target.dataset.icon == 'down')
       skip = true;
 
-    if(skip) return;
+    if (skip) return;
     setActiveFeedConfig((prev) =>
       prev === item.eventName ? null : item.eventName
     );
@@ -107,7 +107,7 @@ const PublishEvents = (props) => {
   const handleCopySub = (item) => {
     // Generate topic subscription string
     const matches = item.topic.match(/{[^}]*}/g);
-    if(!matches) return item.topic;
+    if (!matches) return item.topic;
 
     // Replace all occurrences except the last one with '*'
     const topicSub = item.topic.replace(/{[^}]*}/g, (match, index) => {
@@ -157,55 +157,62 @@ const PublishEvents = (props) => {
     var props = result.split(' ');
     var propsMap = {};
     props.forEach((prop) => {
-      const [key, val] = prop.split(':')
-      if(key && val) {
+      const [key, val] = prop.split(':');
+      if (key && val) {
         var _key = key.trim().replace(/\$/g, ' ');
         _key = _key.replace(/^['"]|['"]$/g, '');
         var _val = val.trim().replace(/\$/g, ' ');
         _val = _val.replace(/^['"]|['"]$/g, '');
         propsMap[_key] = _val;
       }
-    })
+    });
 
-    return propsMap
-  }
+    return propsMap;
+  };
 
   // get field value from the payload
   const getSourceFieldValue = (obj, path) => {
-    if(path.indexOf('.') < 0)
-      return obj[path];
+    if (path.indexOf('.') < 0) return obj[path];
 
     let field = path.substring(0, path.indexOf('.'));
     let fieldName = field.replaceAll('[0]', '');
     var remaining = path.substring(path.indexOf('.') + 1);
-    return getSourceFieldValue(field.includes('[0]') ? obj[fieldName][0] : obj[field], remaining);
-  }
+    return getSourceFieldValue(
+      field.includes('[0]') ? obj[fieldName][0] : obj[field],
+      remaining
+    );
+  };
 
   const startFeed = (item) => {
-    if(activeEvents[item.eventName]?.active) return; // Don't start if already active
+    if (activeEvents[item.eventName]?.active) return; // Don't start if already active
 
     const message = SolclientFactory.createMessage();
     sessionProperties.qos == 'direct'
       ? message.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT)
       : message.setDeliveryMode(solace.MessageDeliveryModeType.PERSISTENT);
 
-    message.setDMQEligible(activeEvents[item.eventName]?.dmqEligible || false);
+    message.setDMQEligible(activeEvents[item.eventName]?.dmqEligible || true);
     message.setTimeToLive(activeEvents[item.eventName]?.ttl || 0);
-    if(activeEvents[item.eventName]?.appMessageId === 'uuid')
+    if (activeEvents[item.eventName]?.appMessageId === 'uuid')
       message.setApplicationMessageId(faker.string.uuid());
 
-    if(activeEvents[item.eventName]?.userProperties) {
-      var userProperties = prepareUserPropertiesFromSettings(activeEvents[item.eventName]?.userProperties);
+    if (activeEvents[item.eventName]?.userProperties) {
+      var userProperties = prepareUserPropertiesFromSettings(
+        activeEvents[item.eventName]?.userProperties
+      );
       let propertyMap = new solace.SDTMapContainer();
       Object.entries(userProperties).forEach((entry) => {
-        propertyMap.addField(entry[0], solace.SDTField.create(solace.SDTFieldType.STRING, entry[1]));
+        propertyMap.addField(
+          entry[0],
+          solace.SDTField.create(solace.SDTFieldType.STRING, entry[1])
+        );
       });
       message.setUserPropertyMap(propertyMap);
     }
 
     const delay = activeEvents[item.eventName]?.delay || 0; // Get delay, default to 0 if undefined
     let freq;
-    switch(activeEvents[item.eventName]?.freq) {
+    switch (activeEvents[item.eventName]?.freq) {
       case 'msg/s':
         freq = 1000;
         break;
@@ -236,42 +243,47 @@ const PublishEvents = (props) => {
       // Set up the interval after the delay
       const intervalId = setInterval(() => {
         const { payload, topic } = generateEvent(item);
-        if(activeEvents[item.eventName]?.partitionKeys) {
+        if (activeEvents[item.eventName]?.partitionKeys) {
           var partitionKeys = activeEvents[item.eventName]?.partitionKeys;
-          if(Array.isArray(partitionKeys) && !partitionKeys.length) {
+          if (Array.isArray(partitionKeys) && !partitionKeys.length) {
             partitionKeys = '';
           }
 
           var fields = partitionKeys.split('|').map((field) => field.trim());
-          if(fields.length) {
+          if (fields.length) {
             let propertyMap = message.getUserPropertyMap();
-            if(!propertyMap) propertyMap = new solace.SDTMapContainer();
+            if (!propertyMap) propertyMap = new solace.SDTMapContainer();
 
             var values = [];
             fields.forEach((field) => {
               try {
                 let val = getSourceFieldValue(payload, field);
                 values.push(val);
-              } catch(error) {
-                Logger.logWarn(`failed to get field value for ${field} - ${error.toString()}`)
+              } catch (error) {
+                Logger.logWarn(
+                  `failed to get field value for ${field} - ${error.toString()}`
+                );
               }
             });
             var pKey1 = values.join('-');
-            propertyMap.addField("JMSXGroupID", solace.SDTField.create(solace.SDTFieldType.STRING, pKey1));
+            propertyMap.addField(
+              'JMSXGroupID',
+              solace.SDTField.create(solace.SDTFieldType.STRING, pKey1)
+            );
             message.setUserPropertyMap(propertyMap);
           }
         }
 
         sessionProperties.msgformat === 'text'
           ? message.setSdtContainer(
-            solace.SDTField.create(
-              solace.SDTFieldType.STRING,
-              JSON.stringify(payload)
+              solace.SDTField.create(
+                solace.SDTFieldType.STRING,
+                JSON.stringify(payload)
+              )
             )
-          )
           : message.setBinaryAttachment(
-            typeof payload === 'object' ? JSON.stringify(payload) : payload
-          );
+              typeof payload === 'object' ? JSON.stringify(payload) : payload
+            );
         message.setDestination(SolclientFactory.createTopicDestination(topic));
 
         console.log(
@@ -291,9 +303,9 @@ const PublishEvents = (props) => {
             countSend: activeEvents[item.eventName].countSend,
           },
         ]);
-        if(
+        if (
           activeEvents[item.eventName]?.countSend >=
-          activeEvents[item.eventName]?.maxMsgCount &&
+            activeEvents[item.eventName]?.maxMsgCount &&
           activeEvents[item.eventName]?.maxMsgCount !== -1
         ) {
           clearInterval(intervalId); // Stop the interval
@@ -326,7 +338,7 @@ const PublishEvents = (props) => {
   const stopFeed = (item) => {
     const intervalId = activeEvents[item.eventName]?.intervalId;
     const timeoutId = activeEvents[item.eventName]?.timeoutId;
-    if(intervalId) {
+    if (intervalId) {
       console.log(`Stopping Feed:`, item.eventName);
       clearInterval(intervalId); // Stop the interval
       clearTimeout(timeoutId); // Stop the timeout
@@ -401,14 +413,14 @@ const PublishEvents = (props) => {
   };
 
   const handleDisconnect = () => {
-    if(session) {
+    if (session) {
       try {
         stopAllFeed();
         console.log('Disconnecting Solace session.');
         session.removeAllListeners();
         session.disconnect();
         console.log('Disconnected from Solace message router.');
-      } catch(error) {
+      } catch (error) {
         console.log(
           'Error disconnecting from Solace message router: ',
           error.toString()
