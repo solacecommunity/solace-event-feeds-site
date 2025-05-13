@@ -15,7 +15,7 @@ factoryProps.profile = solace.SolclientFactoryProfiles.version10_5;
 SolclientFactory.init(factoryProps);
 SolclientFactory.setLogLevel(solace.LogLevel.DEBUG);
 
-const BrokerConfig = () => {
+const BrokerConfig = (props) => {
   const { session, setSession, setSessionProperties, isAnyEventRunning } =
     useContext(SessionContext); // Use context
   const [isConnected, setIsConnected] = useState(session ? true : false);
@@ -34,7 +34,29 @@ const BrokerConfig = () => {
     compression: false,
   });
 
-  useEffect(() => {}, [session, record]);
+  useEffect(() => {
+    const feedSession = props.feedSession;
+    if(feedSession && Object.keys(feedSession).length > 0) {
+      setRecord((prevRecord) => ({
+        ...prevRecord,
+        clientname: feedSession.clientName?.value || prevRecord.clientname,
+        includeSenderId: feedSession.includeSenderId?.value === 'true' || prevRecord.includeSenderId,
+        applicationDescription: feedSession.applicationDescription?.value || prevRecord.applicationDescription,
+        generateSendTimestamps: feedSession.generateSendTimestamps?.value === 'true' || prevRecord.generateSendTimestamps,
+        compression: feedSession.compression?.value === 'true' || prevRecord.compression,
+        qos: (feedSession.deliveryMode?.value || prevRecord.qos).toLowerCase(),
+        msgformat: (feedSession.messageFormat?.value || prevRecord.msgformat).toLowerCase(),
+      }));
+
+      // Explicitly set the form values, as the initialValues prop is not reactive
+      form.setFieldsValue({
+        qos: (feedSession.deliveryMode?.value || prevRecord.qos).toLowerCase(),
+        msgformat: (feedSession.messageFormat?.value || prevRecord.msgformat).toLowerCase(),
+      });
+    }
+  }, [props.feedSession]);
+
+  useEffect(() => { }, [session, record]);
 
   const onRecordChange = (value) => {
     setRecord((prevRecord) => ({ ...prevRecord, ...value }));
@@ -42,7 +64,7 @@ const BrokerConfig = () => {
 
   const handleConnect = (e) => {
     console.log('Connecting to the solace broker...');
-    const { url, vpn, username, password, compression, clientname } = record;
+    const { url, vpn, username, password, compression, clientname, includeSenderId, generateSendTimestamps, applicationDescription, qos } = record;
 
     let sessionProperties;
     try {
@@ -53,11 +75,17 @@ const BrokerConfig = () => {
         userName: username,
         password: password,
         clientName: clientname,
+        applicationDescription: applicationDescription,
+        generateSendTimestamps: generateSendTimestamps,
+        includeSenderId: includeSenderId,
         connectRetries: 0,
         reconnectRetries: 3,
-        payloadCompressionLevel: compression ? 9 : 0,
+        compressionLevel: compression ? 9 : 0,
+        publisherProperties: {
+          enabled: qos === 'guaranteed' ? true : false
+        }
       };
-    } catch (error) {
+    } catch(error) {
       setErrorString('Invalid URL: ' + url);
       setConnecting(false);
       return;
@@ -77,6 +105,10 @@ const BrokerConfig = () => {
         qos: record.qos,
         msgformat: record.msgformat,
         compression: record.compression,
+        includeSenderId: record.includeSenderId,
+        applicationDescription: record.applicationDescription,
+        generateSendTimestamps: record.generateSendTimestamps,
+        clientname: record.clientname,
       });
     });
 
@@ -105,7 +137,7 @@ const BrokerConfig = () => {
 
     try {
       newSession.connect();
-    } catch (error) {
+    } catch(error) {
       setErrorString(
         'Error connecting to Solace message router: ',
         error.toString()
@@ -114,14 +146,14 @@ const BrokerConfig = () => {
   };
 
   const handleDisconnect = () => {
-    if (session) {
+    if(session) {
       try {
         console.log('Disconnecting Solace session.');
         session.removeAllListeners();
         session.disconnect();
         setIsConnected(false);
         setConnecting(false);
-      } catch (error) {
+      } catch(error) {
         setErrorString(
           'Error disconnecting from Solace message router: ',
           error.toString()
@@ -153,7 +185,7 @@ const BrokerConfig = () => {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+      if((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
         handleConnect();
       }
     };
@@ -163,7 +195,6 @@ const BrokerConfig = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [record]);
-
   const ConnectionForm = (
     <>
       <Form
@@ -212,7 +243,7 @@ const BrokerConfig = () => {
             <Form.Item label="Quality of Service" name="qos">
               <Radio.Group>
                 <Radio value="direct">Direct</Radio>
-                <Radio value="guaranteed">Guaranteed</Radio>
+                <Radio value="guaranteed" checked>Guaranteed</Radio>
               </Radio.Group>
             </Form.Item>
           </Col>
@@ -220,7 +251,7 @@ const BrokerConfig = () => {
             <Form.Item label="Message Format" name="msgformat">
               <Radio.Group>
                 <Radio value="text">Text Message</Radio>
-                <Radio value="byte">Bytes Message</Radio>
+                <Radio value="bytes">Bytes Message</Radio>
               </Radio.Group>
             </Form.Item>
           </Col>
@@ -290,7 +321,7 @@ const BrokerConfig = () => {
                   reader.onload = (event) => {
                     try {
                       const config = JSON.parse(event.target.result);
-                      if (
+                      if(
                         typeof config !== 'object' ||
                         !config.url ||
                         !config.vpn ||
@@ -301,7 +332,7 @@ const BrokerConfig = () => {
                       }
                       setRecord(config);
                       form.setFieldsValue(config);
-                    } catch (error) {
+                    } catch(error) {
                       let errorString = 'Error parsing config file: ' + error;
                       setErrorString(errorString);
                     }
