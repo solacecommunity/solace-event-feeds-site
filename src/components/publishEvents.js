@@ -66,7 +66,7 @@ const PublishEvents = (props) => {
       countSend: 0,
       tagColor: tagColors[Math.floor(Math.random() * tagColors.length)],
       maxMsgCount: parseInt(item.publishSettings.count, 10) || MAX_MSG_COUNT,
-      dmqEligible: item?.messageSettings?.dmqEligible === 'true' || false,
+      dmqEligible: item?.messageSettings?.dmqEligible === undefined ? true : item?.messageSettings?.dmqEligible === 'true',
       ttl: parseInt(item?.messageSettings?.timeToLive || 0),
       appMessageId: item?.messageSettings?.appMessageId || null,
       userProperties: item?.messageSettings?.userProperties || null,
@@ -189,7 +189,7 @@ const PublishEvents = (props) => {
       ? message.setDeliveryMode(solace.MessageDeliveryModeType.DIRECT)
       : message.setDeliveryMode(solace.MessageDeliveryModeType.PERSISTENT);
 
-    message.setDMQEligible(activeEvents[item.eventName]?.dmqEligible || false);
+    message.setDMQEligible(activeEvents[item.eventName]?.dmqEligible);
     message.setTimeToLive(activeEvents[item.eventName]?.ttl || 0);
     if(activeEvents[item.eventName]?.appMessageId === 'uuid')
       message.setApplicationMessageId(faker.string.uuid());
