@@ -50,8 +50,8 @@ const BrokerConfig = (props) => {
 
       // Explicitly set the form values, as the initialValues prop is not reactive
       form.setFieldsValue({
-        qos: (feedSession.deliveryMode?.value || prevRecord.qos).toLowerCase(),
-        msgformat: (feedSession.messageFormat?.value || prevRecord.msgformat).toLowerCase(),
+        qos: (feedSession.deliveryMode?.value || record.qos).toLowerCase(),
+        msgformat: (feedSession.messageFormat?.value || record.msgformat).toLowerCase(),
       });
     }
   }, [props.feedSession]);
