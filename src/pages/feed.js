@@ -142,7 +142,10 @@ const FeedPage = ({ location }) => {
 
     const fetchLocalFeedInfo = async () => {
       const feeds = await axios.get('http://127.0.0.1:8081/feeds');
-      let feedDetails = feeds.data.find((f) => f.directory === feed.name);
+      console.log(feeds);
+      let feedDetails = feeds.data.find(
+        (f) => f.directory.toLowerCase() === feed.name.toLowerCase()
+      );
       dispatch({ type: 'SET_FEED_RULES', payload: feedDetails['feedrules'] });
       dispatch({ type: 'SET_FEED_INFO', payload: feedDetails['feedinfo'] });
       dispatch({ type: 'SET_FEED_API', payload: feedDetails['feedapi'] });
