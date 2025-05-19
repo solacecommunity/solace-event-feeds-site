@@ -450,7 +450,8 @@ const PublishEvents = (props) => {
   };
 
   const SampleEvent = (item) => {
-    let { topic, payload } = generateEvent(item);
+    const sampleObject = JSON.parse(JSON.stringify(item)); // Deep clone the object
+    let { topic, payload } = generateEvent(sampleObject);
     let sampleEvent = {
       topic: topic,
       payload: payload,
