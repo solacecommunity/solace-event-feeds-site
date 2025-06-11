@@ -7,6 +7,17 @@ import EPDesign from '../images/epDesign.png';
 const Contribution = () => {
   return (
     <div>
+      <p style={{ backgroundColor: '#f2f2f2', padding: '10px', borderLeft: '3px solid #ccc' }}>
+        Visit the{' '}
+        <a
+          href="https://github.com/SolaceLabs/solace-tryme-cli/blob/main/documentation/CONTRIBUTION_GUIDELINES.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Event Feed Contribution Guidelines
+        </a>{' '}
+        for community feed contribution guidelines.
+      </p>
       <h2>1. Design your application on Event Portal</h2>
       <p>
         {' '}
@@ -76,7 +87,7 @@ const Contribution = () => {
         </a>{' '}
         for more discussions.
       </p>
-    </div>
+    </div >
   );
 };
 
