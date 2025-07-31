@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, Navbar, Nav } from "react-bootstrap"
-import solaceDevLogo from "../images/solace-feeds-logo-white.png"
+import solaceDevLogo from "../images/solace-developers-logo-white.svg"
 
 const Header = () => (
   <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -11,7 +11,7 @@ const Header = () => (
         <img
           src={solaceDevLogo}
           alt="Solace Developers Logo"
-          height="40px"
+          width="250px"
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
